@@ -1,12 +1,14 @@
 import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React, { FunctionComponent, useEffect } from 'react'
+import { ScrollView, StyleSheet } from 'react-native'
 
 import { img_ui_dark_add } from '../assets'
-import { Header, HeaderButton } from '../components'
-import { List } from '../components/databases'
-import { useDatabases } from '../hooks'
+import { Header, HeaderButton, Refresher } from '../components'
+import { Backups, Details } from '../components/databases'
+import { useDatabase } from '../hooks'
 import { DatabasesParamList } from '../navigators/databases'
+import { layout } from '../styles'
 
 interface Props {
   navigation: StackNavigationProp<DatabasesParamList, 'Database'>
@@ -14,9 +16,12 @@ interface Props {
 }
 
 export const Database: FunctionComponent<Props> = ({
-  navigation: { navigate, setOptions }
+  navigation: { navigate, setOptions },
+  route: {
+    params: { id }
+  }
 }) => {
-  const { databases, loading, refetch } = useDatabases()
+  const { backups, database, loading, refetch } = useDatabase(id)
 
   useEffect(() => {
     setOptions({
@@ -30,20 +35,28 @@ export const Database: FunctionComponent<Props> = ({
             />
           }
         />
-      )
+      ),
+      title: database?.name ?? 'Database'
     })
-  }, [navigate, setOptions])
+  }, [database?.name, navigate, setOptions])
 
   return (
-    <List
-      databases={databases}
-      loading={loading}
-      onItemPress={(id) =>
-        navigate('Database', {
-          id
-        })
-      }
-      refetch={refetch}
-    />
+    <ScrollView
+      contentContainerStyle={styles.content}
+      nestedScrollEnabled
+      refreshControl={<Refresher onRefresh={refetch} refreshing={loading} />}>
+      {database && (
+        <>
+          <Details database={database} />
+          <Backups backups={backups} />
+        </>
+      )}
+    </ScrollView>
   )
 }
+
+const styles = StyleSheet.create({
+  content: {
+    paddingVertical: layout.padding
+  }
+})

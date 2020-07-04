@@ -30,7 +30,7 @@ export const List: FunctionComponent<Props> = ({
     data={databases}
     refreshControl={<Refresher onRefresh={refetch} refreshing={loading} />}
     renderItem={({ item }) => (
-      <Card database={item} onPress={(id) => onItemPress('Database', id)} />
+      <Card database={item} onPress={(id) => onItemPress(id)} />
     )}
   />
 )

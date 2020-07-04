@@ -2,6 +2,14 @@ export const typography = {
   bold: {
     fontFamily: 'Inter-SemiBold'
   },
+  code: {
+    fontFamily: 'IBM Plex Mono',
+    fontSize: 16
+  },
+  codeSmall: {
+    fontFamily: 'IBM Plex Mono',
+    fontSize: 12
+  },
   medium: {
     fontFamily: 'Inter-Medium'
   },
