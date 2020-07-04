@@ -45,41 +45,6 @@ const SIGN_IN = gql`
   }
 `
 
-const VERIFY_OTP = gql`
-  mutation verifyOTP($userId: String!, $code: String!) {
-    verifyOTP(userId: $userId, code: $code) {
-      ...authResultFields
-      __typename
-    }
-  }
-
-  fragment authResultFields on AuthResult {
-    idToken
-    user {
-      ...userFields
-      __typename
-    }
-    __typename
-  }
-
-  fragment userFields on User {
-    id
-    active
-    canBill
-    createdAt
-    email
-    featureFlags
-    githubId
-    gitlabId
-    name
-    notifyOnFail
-    notifyOnPrUpdate
-    otpEnabled
-    passwordExists
-    __typename
-  }
-`
-
 export const useSignIn = () => {
   const [, { login }] = useAuth()
 
@@ -130,6 +95,41 @@ export const useSignIn = () => {
     signIn
   }
 }
+
+const VERIFY_OTP = gql`
+  mutation verifyOTP($userId: String!, $code: String!) {
+    verifyOTP(userId: $userId, code: $code) {
+      ...authResultFields
+      __typename
+    }
+  }
+
+  fragment authResultFields on AuthResult {
+    idToken
+    user {
+      ...userFields
+      __typename
+    }
+    __typename
+  }
+
+  fragment userFields on User {
+    id
+    active
+    canBill
+    createdAt
+    email
+    featureFlags
+    githubId
+    gitlabId
+    name
+    notifyOnFail
+    notifyOnPrUpdate
+    otpEnabled
+    passwordExists
+    __typename
+  }
+`
 
 export const useVerifyOtp = () => {
   const [, { login }] = useAuth()
