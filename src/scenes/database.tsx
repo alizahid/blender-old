@@ -9,11 +9,11 @@ import { useDatabases } from '../hooks'
 import { DatabasesParamList } from '../navigators/databases'
 
 interface Props {
-  navigation: StackNavigationProp<DatabasesParamList, 'Databases'>
-  route: RouteProp<DatabasesParamList, 'Databases'>
+  navigation: StackNavigationProp<DatabasesParamList, 'Database'>
+  route: RouteProp<DatabasesParamList, 'Database'>
 }
 
-export const Databases: FunctionComponent<Props> = ({
+export const Database: FunctionComponent<Props> = ({
   navigation: { navigate, setOptions }
 }) => {
   const { databases, loading, refetch } = useDatabases()

@@ -4,9 +4,5 @@ import { RefreshControl, RefreshControlProps } from 'react-native'
 import { colors } from '../styles'
 
 export const Refresher: FunctionComponent<RefreshControlProps> = (props) => (
-  <RefreshControl
-    {...props}
-    colors={[colors.foreground]}
-    tintColor={colors.foreground}
-  />
+  <RefreshControl {...props} tintColor={colors.primary} />
 )

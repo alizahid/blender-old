@@ -21,7 +21,7 @@
     "@typescript-eslint/explicit-module-boundary-types": [
       "error",
       {
-        "allowedNames": ["useSignIn", "useVerifyOtp"]
+        "allowedNames": ["useSignIn", "useVerifyOtp", "useDatabases"]
       }
     ],
     "@typescript-eslint/no-empty-function": [

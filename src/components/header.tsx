@@ -4,7 +4,7 @@ import { Animated, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import Image, { Source } from 'react-native-fast-image'
 import { useSafeArea } from 'react-native-safe-area-context'
 
-import { img_ui_back } from '../assets'
+import { img_ui_dark_back } from '../assets'
 import { colors, layout, typography } from '../styles'
 import { Touchable } from './touchable'
 
@@ -42,7 +42,7 @@ export const Header: FunctionComponent<Props & StackHeaderProps> = ({
       ]}>
       {previous && (
         <HeaderButton
-          icon={img_ui_back}
+          icon={img_ui_dark_back}
           onPress={() => goBack()}
           style={[styles.action, styles.back]}
         />
@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
   },
   main: {
     alignItems: 'center',
+    backgroundColor: colors.backgroundDark,
     flexDirection: 'row',
     justifyContent: 'center'
   },

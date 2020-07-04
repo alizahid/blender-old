@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { useSafeArea } from 'react-native-safe-area-context'
 
 import { Button, TextBox } from '../components'
-import { useSignIn } from '../hooks/auth'
+import { useSignIn } from '../hooks'
 import { colors, layout, typography } from '../styles'
 
 export const SignIn: FunctionComponent = () => {

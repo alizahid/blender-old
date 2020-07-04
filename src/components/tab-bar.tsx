@@ -15,7 +15,7 @@ import {
   img_nav_settings,
   img_nav_settings_active
 } from '../assets'
-import { layout } from '../styles'
+import { colors, layout } from '../styles'
 import { Touchable } from './touchable'
 
 const icons: Record<string, Source> = {
@@ -84,7 +84,7 @@ export const TabBar: FunctionComponent<BottomTabBarProps> = ({
             source={
               index === active ? iconsActive[route.name] : icons[route.name]
             }
-            style={[styles.icon, index === active && styles.active]}
+            style={styles.icon}
           />
         </Touchable>
       ))}
@@ -93,12 +93,8 @@ export const TabBar: FunctionComponent<BottomTabBarProps> = ({
 }
 
 const styles = StyleSheet.create({
-  active: {
-    opacity: 1
-  },
   icon: {
     height: layout.icon,
-    opacity: 0.25,
     width: layout.icon
   },
   link: {
@@ -108,6 +104,7 @@ const styles = StyleSheet.create({
     padding: layout.margin
   },
   main: {
+    backgroundColor: colors.backgroundDark,
     flexDirection: 'row'
   }
 })

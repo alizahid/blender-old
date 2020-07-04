@@ -1,7 +1,11 @@
 export { Landing } from './landing'
 export { SignIn } from './sign-in'
 
-export { Databases } from './databases'
-export { EnvGroups } from './env-groups'
 export { Services } from './services'
+
+export { Databases } from './databases'
+export { Database } from './database'
+
+export { EnvGroups } from './env-groups'
+
 export { Settings } from './settings'

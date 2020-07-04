@@ -47,7 +47,7 @@ const { height } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
   main: {
-    backgroundColor: colors.backgroundDark,
+    backgroundColor: colors.background,
     borderRadius: layout.radius,
     paddingVertical: layout.padding
   },
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   },
   textBox: {
     ...typography.regular,
-    backgroundColor: colors.backgroundDark,
+    backgroundColor: colors.background,
     borderRadius: layout.radius,
     color: colors.foreground,
     height: layout.textBox,
