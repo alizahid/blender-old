@@ -15,7 +15,7 @@ import {
   img_nav_settings,
   img_nav_settings_active
 } from '../assets'
-import { colors, layout } from '../styles'
+import { colors, layout, shadow } from '../styles'
 import { Touchable } from './touchable'
 
 const icons: Record<string, Source> = {
@@ -108,7 +108,8 @@ const styles = StyleSheet.create({
     padding: layout.margin
   },
   main: {
-    backgroundColor: colors.backgroundDark,
+    ...shadow,
+    backgroundColor: colors.background,
     flexDirection: 'row'
   }
 })
