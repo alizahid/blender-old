@@ -21,7 +21,7 @@
     "@typescript-eslint/explicit-module-boundary-types": [
       "error",
       {
-        "allowedNames": ["useThreads"]
+        "allowedNames": ["useSignIn", "useVerifyOtp"]
       }
     ],
     "@typescript-eslint/no-empty-function": [
