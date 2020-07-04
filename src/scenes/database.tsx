@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
     ...shadow,
     alignSelf: 'center',
     backgroundColor: colors.status.red,
-    marginBottom: layout.margin,
-    marginTop: layout.padding
+    marginVertical: layout.padding
   }
 })
