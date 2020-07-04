@@ -1,11 +1,17 @@
-import { useQuery } from '@apollo/react-hooks'
+import { useMutation, useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
+import update from 'immutability-helper'
+import { useCallback } from 'react'
 
 import {
   IDatabase,
+  IDatabaseInput,
+  IMutationCreateDatabaseArgs,
+  IPlanData,
   IQueryDatabaseArgs,
   IQueryDatabasesForOwnerArgs
 } from '../graphql/types'
+import { dialog } from '../lib'
 import { useAuth } from '../store'
 
 const DATABASES = gql`
@@ -62,6 +68,9 @@ const DATABASE = gql`
     isMaxPlan
     name
     plan
+    region {
+      description
+    }
     status
     type
     pendingMaintenanceBy
@@ -122,5 +131,187 @@ export const useDatabase = (id: string) => {
     database: database.data?.database,
     loading: database.loading || backups.loading,
     refetch
+  }
+}
+
+const CREATE_DATABASE = gql`
+  mutation createDatabase($database: DatabaseInput!) {
+    createDatabase(database: $database) {
+      ...databaseFields
+      __typename
+    }
+  }
+
+  fragment databaseFields on Database {
+    id
+    canBill
+    createdAt
+    databaseName
+    databaseUser
+    isMaxPlan
+    name
+    plan
+    status
+    type
+    pendingMaintenanceBy
+    maintenanceScheduledAt
+    __typename
+  }
+`
+
+export const useCreateDatabase = () => {
+  const [{ id }] = useAuth()
+
+  const [mutate, { loading }] = useMutation<
+    {
+      createDatabase: IDatabase
+    },
+    IMutationCreateDatabaseArgs
+  >(CREATE_DATABASE, {
+    update(proxy, response) {
+      if (!response.data) {
+        return
+      }
+
+      const options = {
+        query: DATABASES,
+        variables: {
+          ownerId: id
+        }
+      }
+
+      const data = proxy.readQuery<{
+        databasesForOwner: IDatabase[]
+      }>(options)
+
+      if (!data) {
+        return
+      }
+
+      proxy.writeQuery({
+        ...options,
+        data: update(data, {
+          databasesForOwner: {
+            $push: [response.data.createDatabase]
+          }
+        })
+      })
+    }
+  })
+
+  const create = useCallback(
+    (database: IDatabaseInput) =>
+      mutate({
+        variables: {
+          database
+        }
+      }),
+    [mutate]
+  )
+
+  return {
+    create,
+    loading
+  }
+}
+
+const DELETE_DATABASE = gql`
+  mutation deleteDatabase($id: String!) {
+    deleteDatabase(id: $id)
+  }
+`
+
+export const useDeleteDatabase = () => {
+  const [{ id: ownerId }] = useAuth()
+
+  const [mutate, { loading }] = useMutation<{
+    deleteDatabase: boolean
+  }>(DELETE_DATABASE)
+
+  const remove = useCallback(
+    async (id: string) => {
+      const yes = await dialog.confirm(
+        'Delete database',
+        'Are you sure you want to delete this database?'
+      )
+
+      if (yes) {
+        mutate({
+          update(proxy, response) {
+            if (!response.data) {
+              return
+            }
+
+            const options = {
+              query: DATABASES,
+              variables: {
+                ownerId
+              }
+            }
+
+            const data = proxy.readQuery<{
+              databasesForOwner: IDatabase[]
+            }>(options)
+
+            if (!data) {
+              return
+            }
+
+            const index = data.databasesForOwner.findIndex(
+              (database) => database.id === id
+            )
+
+            proxy.writeQuery({
+              ...options,
+              data: update(data, {
+                databasesForOwner: {
+                  $splice: [[index, 1]]
+                }
+              })
+            })
+          },
+          variables: {
+            id
+          }
+        })
+      }
+    },
+    [mutate, ownerId]
+  )
+
+  return {
+    loading,
+    remove
+  }
+}
+
+const PLANS = gql`
+  query databasePlans {
+    databasePlans {
+      ...planFields
+      __typename
+    }
+  }
+
+  fragment planFields on PlanData {
+    id
+    name
+    price
+    mem
+    cpu
+    size
+    needsPaymentInfo
+    __typename
+  }
+`
+
+export const useDatabasePlans = () => {
+  const { data, loading } = useQuery<{
+    databasePlans: IPlanData[]
+  }>(PLANS)
+
+  return {
+    loading,
+    plans: data?.databasePlans ?? []
   }
 }

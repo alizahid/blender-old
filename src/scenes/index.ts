@@ -5,6 +5,7 @@ export { Services } from './services'
 
 export { Databases } from './databases'
 export { Database } from './database'
+export { CreateDatabase } from './create-database'
 
 export { EnvGroups } from './env-groups'
 

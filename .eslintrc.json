@@ -25,7 +25,12 @@
           "useSignIn",
           "useVerifyOtp",
           "useDatabases",
-          "useDatabase"
+          "useDatabase",
+          "useNewPaidServiceAllowed",
+          "useAllRegions",
+          "useDatabasePlans",
+          "useCreateDatabase",
+          "useDeleteDatabase"
         ]
       }
     ],

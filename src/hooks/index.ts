@@ -1,3 +1,10 @@
 export { useSignIn, useVerifyOtp } from './auth'
+export { useAllRegions, useNewPaidServiceAllowed } from './profile'
 
-export { useDatabase, useDatabases } from './databases'
+export {
+  useCreateDatabase,
+  useDatabase,
+  useDatabasePlans,
+  useDatabases,
+  useDeleteDatabase
+} from './databases'

@@ -4,6 +4,7 @@ export const colors = {
   backgroundDarker: '#ecf0f1',
   foreground: '#000',
   foregroundLight: '#666',
+  modal: 'rgba(220, 220, 220, 0.75)',
   primary: '#0091ff',
   status: {
     green: '#4cd964',

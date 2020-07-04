@@ -3,12 +3,11 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import React, { FunctionComponent, useEffect } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
 
-import { img_ui_dark_add } from '../assets'
-import { Header, HeaderButton, Refresher } from '../components'
+import { Button, Refresher } from '../components'
 import { Backups, Details } from '../components/databases'
-import { useDatabase } from '../hooks'
+import { useDatabase, useDeleteDatabase } from '../hooks'
 import { DatabasesParamList } from '../navigators/databases'
-import { layout } from '../styles'
+import { colors, layout, shadow } from '../styles'
 
 interface Props {
   navigation: StackNavigationProp<DatabasesParamList, 'Database'>
@@ -16,29 +15,19 @@ interface Props {
 }
 
 export const Database: FunctionComponent<Props> = ({
-  navigation: { navigate, setOptions },
+  navigation: { pop, setOptions },
   route: {
     params: { id }
   }
 }) => {
   const { backups, database, loading, refetch } = useDatabase(id)
+  const { loading: removing, remove } = useDeleteDatabase()
 
   useEffect(() => {
     setOptions({
-      header: (props) => (
-        <Header
-          {...props}
-          right={
-            <HeaderButton
-              icon={img_ui_dark_add}
-              onPress={() => navigate('Create')}
-            />
-          }
-        />
-      ),
       title: database?.name ?? 'Database'
     })
-  }, [database?.name, navigate, setOptions])
+  }, [database?.name, setOptions])
 
   return (
     <ScrollView
@@ -49,6 +38,17 @@ export const Database: FunctionComponent<Props> = ({
         <>
           <Details database={database} />
           <Backups backups={backups} />
+          <Button
+            label="Delete database"
+            loading={removing}
+            onPress={async () => {
+              await remove(database?.id)
+
+              pop()
+            }}
+            small
+            style={styles.remove}
+          />
         </>
       )}
     </ScrollView>
@@ -58,5 +58,12 @@ export const Database: FunctionComponent<Props> = ({
 const styles = StyleSheet.create({
   content: {
     paddingVertical: layout.padding
+  },
+  remove: {
+    ...shadow,
+    alignSelf: 'center',
+    backgroundColor: colors.status.red,
+    marginBottom: layout.margin,
+    marginTop: layout.padding
   }
 })

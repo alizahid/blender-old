@@ -36,6 +36,11 @@ export const Details: FunctionComponent<Props> = ({ database }) => (
       <Image source={img_type_postgresql} style={styles.icon} />
     </View>
     <KeyValue label="Plan" style={styles.item} value={database.plan} />
+    <KeyValue
+      label="Region"
+      style={styles.item}
+      value={database.region.description}
+    />
     <KeyValue label="Host" style={styles.item} value={database.id} valueMono />
     <KeyValue label="Port" style={styles.item} value="5432" valueMono />
     <KeyValue

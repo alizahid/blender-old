@@ -16,6 +16,11 @@ interface Props {
 export const Backups: FunctionComponent<Props> = ({ backups }) => (
   <View style={styles.main}>
     <Text style={styles.title}>Backups</Text>
+    {backups.length === 0 && (
+      <Text style={styles.empty}>
+        There are no backups right now. Check back later.
+      </Text>
+    )}
     {backups.map(({ node }) => (
       <View key={node.id} style={styles.item}>
         <Text style={styles.time}>{moment(node.createdAt).format('LLL')}</Text>
@@ -41,6 +46,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     marginLeft: layout.margin
+  },
+  empty: {
+    ...typography.small,
+    color: colors.foregroundLight,
+    marginTop: layout.padding
   },
   icon: {
     height: layout.icon,

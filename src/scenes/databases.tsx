@@ -26,7 +26,7 @@ export const Databases: FunctionComponent<Props> = ({
           right={
             <HeaderButton
               icon={img_ui_dark_add}
-              onPress={() => navigate('Create')}
+              onPress={() => navigate('CreateDatabase')}
             />
           }
         />

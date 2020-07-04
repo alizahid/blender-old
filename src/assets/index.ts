@@ -3,7 +3,10 @@ export { default as img_render } from './img/render.png'
 
 export { default as img_ui_dark_add } from './img/ui/dark_add.png'
 export { default as img_ui_dark_back } from './img/ui/dark_back.png'
+export { default as img_ui_dark_check } from './img/ui/dark_check.png'
 export { default as img_ui_dark_copy } from './img/ui/dark_copy.png'
+
+export { default as img_ui_light_close } from './img/ui/light_close.png'
 
 export { default as img_nav_databases_active } from './img/nav/databases_active.png'
 export { default as img_nav_databases } from './img/nav/databases.png'
