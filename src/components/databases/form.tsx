@@ -37,7 +37,9 @@ export const Form: FunctionComponent<Props> = ({
   }, [database, name, onUpdate, region, user])
 
   return (
-    <ScrollView contentContainerStyle={styles.content}>
+    <ScrollView
+      contentContainerStyle={styles.content}
+      keyboardShouldPersistTaps="always">
       <View style={styles.main}>
         <Text style={styles.label}>Name</Text>
         <TextBox

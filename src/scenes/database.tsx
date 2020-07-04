@@ -32,6 +32,7 @@ export const Database: FunctionComponent<Props> = ({
   return (
     <ScrollView
       contentContainerStyle={styles.content}
+      keyboardShouldPersistTaps="always"
       nestedScrollEnabled
       refreshControl={<Refresher onRefresh={refetch} refreshing={loading} />}>
       {database && (

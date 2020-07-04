@@ -11,7 +11,11 @@ import {
 import Image from 'react-native-fast-image'
 import { useSafeArea } from 'react-native-safe-area-context'
 
-import { img_ui_light_close } from '../assets'
+import {
+  img_ui_dark_check,
+  img_ui_dark_expand,
+  img_ui_light_close
+} from '../assets'
 import { colors, layout, shadow, typography } from '../styles'
 import { Separator } from './separator'
 import { Touchable } from './touchable'
@@ -51,6 +55,7 @@ export const Picker: FunctionComponent<Props> = ({
           <Text style={[styles.label, !selected && styles.placeholder]}>
             {selected?.label ?? placeholder}
           </Text>
+          <Image source={img_ui_dark_expand} style={styles.icon} />
         </Touchable>
       </View>
       <Modal animationType="fade" transparent visible={visible}>
@@ -66,7 +71,10 @@ export const Picker: FunctionComponent<Props> = ({
             <View style={styles.header}>
               <Text style={styles.headerLabel}>{title}</Text>
               <Touchable onPress={() => setVisible(false)}>
-                <Image source={img_ui_light_close} />
+                <Image
+                  source={img_ui_light_close}
+                  style={[styles.icon, styles.close]}
+                />
               </Touchable>
             </View>
             <FlatList
@@ -81,7 +89,10 @@ export const Picker: FunctionComponent<Props> = ({
                     setVisible(false)
                   }}
                   style={styles.item}>
-                  <Text>{item.label}</Text>
+                  <Text style={styles.label}>{item.label}</Text>
+                  {selected?.value === item.value && (
+                    <Image source={img_ui_dark_check} style={styles.icon} />
+                  )}
                 </Touchable>
               )}
             />
@@ -93,6 +104,9 @@ export const Picker: FunctionComponent<Props> = ({
 }
 
 const styles = StyleSheet.create({
+  close: {
+    margin: layout.margin
+  },
   content: {
     ...shadow,
     backgroundColor: colors.background,
@@ -100,6 +114,7 @@ const styles = StyleSheet.create({
     margin: layout.margin * 2
   },
   header: {
+    alignItems: 'center',
     backgroundColor: colors.primary,
     borderTopLeftRadius: layout.radius,
     borderTopRightRadius: layout.radius,
@@ -109,22 +124,30 @@ const styles = StyleSheet.create({
     ...typography.subtitle,
     color: colors.background,
     flex: 1,
-    margin: layout.margin
+    marginHorizontal: layout.margin
+  },
+  icon: {
+    height: layout.icon,
+    width: layout.icon
   },
   input: {
+    alignItems: 'center',
     backgroundColor: colors.backgroundDark,
     borderRadius: layout.radius,
+    flexDirection: 'row',
     height: layout.textBox,
     justifyContent: 'center',
     marginTop: layout.padding,
     paddingHorizontal: layout.margin
   },
   item: {
+    flexDirection: 'row',
     padding: layout.margin
   },
   label: {
     ...typography.regular,
-    color: colors.foreground
+    color: colors.foreground,
+    flex: 1
   },
   modal: {
     backgroundColor: colors.modal,
