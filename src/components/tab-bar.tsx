@@ -84,7 +84,7 @@ export const TabBar: FunctionComponent<BottomTabBarProps> = ({
             source={
               index === active ? iconsActive[route.name] : icons[route.name]
             }
-            style={styles.icon}
+            style={[styles.icon, index === active && styles.active]}
           />
         </Touchable>
       ))}
@@ -93,8 +93,12 @@ export const TabBar: FunctionComponent<BottomTabBarProps> = ({
 }
 
 const styles = StyleSheet.create({
+  active: {
+    opacity: 1
+  },
   icon: {
     height: layout.icon,
+    opacity: 0.25,
     width: layout.icon
   },
   link: {
