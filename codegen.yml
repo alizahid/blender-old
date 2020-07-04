@@ -1,0 +1,11 @@
+schema: https://api.render.com/graphql
+overwrite: true
+generates:
+  src/graphql/schema.json:
+    plugins:
+      - fragment-matcher
+  src/graphql/types.ts:
+    plugins:
+      - typescript
+    config:
+      typesPrefix: I

@@ -1,0 +1,123 @@
+{
+  "__schema": {
+    "types": [
+      {
+        "kind": "INTERFACE",
+        "name": "ServiceEvent",
+        "possibleTypes": [
+          {
+            "name": "SuspenderAdded"
+          },
+          {
+            "name": "ServiceResumed"
+          },
+          {
+            "name": "PlanChanged"
+          },
+          {
+            "name": "CronJobRunStarted"
+          },
+          {
+            "name": "ExtraInstancesChanged"
+          },
+          {
+            "name": "DeployEnded"
+          },
+          {
+            "name": "ServiceSuspended"
+          },
+          {
+            "name": "SuspenderRemoved"
+          },
+          {
+            "name": "CronJobRunEnded"
+          },
+          {
+            "name": "DiskEvent"
+          },
+          {
+            "name": "BuildEnded"
+          },
+          {
+            "name": "DeployStarted"
+          },
+          {
+            "name": "ServerFailed"
+          },
+          {
+            "name": "ServerAvailable"
+          },
+          {
+            "name": "BranchDeleted"
+          },
+          {
+            "name": "BuildStarted"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "IACManagedResource",
+        "possibleTypes": [
+          {
+            "name": "Server"
+          },
+          {
+            "name": "CronJob"
+          },
+          {
+            "name": "Database"
+          },
+          {
+            "name": "EnvGroup"
+          }
+        ]
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "Toast",
+        "possibleTypes": [
+          {
+            "name": "TestToast"
+          },
+          {
+            "name": "OOMKillToast"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "Subject",
+        "possibleTypes": [
+          {
+            "name": "User"
+          }
+        ]
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "Service",
+        "possibleTypes": [
+          {
+            "name": "Server"
+          },
+          {
+            "name": "CronJob"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "Object",
+        "possibleTypes": [
+          {
+            "name": "Server"
+          },
+          {
+            "name": "CronJob"
+          }
+        ]
+      }
+    ]
+  }
+}
