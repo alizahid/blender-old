@@ -121,10 +121,10 @@ export const useDatabase = (id: string) => {
     }
   })
 
-  const refetch = () => {
+  const refetch = useCallback(() => {
     database.refetch()
     backups.refetch()
-  }
+  }, [backups, database])
 
   return {
     backups: backups.data?.database.backups?.edges ?? [],
