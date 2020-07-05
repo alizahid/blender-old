@@ -16,45 +16,43 @@ interface Props {
 
 export const Card: FunctionComponent<Props> = ({ database, onPress }) => (
   <Touchable onPress={() => onPress(database.id)} style={styles.main}>
-    <View style={styles.header}>
+    <View style={styles.content}>
       <Text style={styles.name}>{database.name}</Text>
-      <Image source={img_type_postgresql} style={styles.icon} />
+      <View style={styles.status}>
+        <View
+          style={[
+            styles.state,
+            {
+              backgroundColor:
+                database.status === IDatabaseStatus.Available
+                  ? colors.status.green
+                  : database.status === IDatabaseStatus.Unavailable
+                  ? colors.status.red
+                  : colors.status.yellow
+            }
+          ]}
+        />
+        <Text style={styles.statusLabel}>
+          {startCase(lowerCase(database.status))}
+        </Text>
+      </View>
     </View>
-    <View style={styles.footer}>
-      <View
-        style={[
-          styles.state,
-          {
-            backgroundColor:
-              database.status === IDatabaseStatus.Available
-                ? colors.status.green
-                : database.status === IDatabaseStatus.Unavailable
-                ? colors.status.red
-                : colors.status.yellow
-          }
-        ]}
-      />
-      <Text style={styles.status}>{startCase(lowerCase(database.status))}</Text>
-    </View>
+    <Image source={img_type_postgresql} style={styles.icon} />
   </Touchable>
 )
 
 const styles = StyleSheet.create({
-  footer: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    marginTop: layout.margin
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between'
+  content: {
+    flex: 1
   },
   icon: {
     height: layout.icon,
     width: layout.icon
   },
   main: {
+    alignItems: 'center',
     backgroundColor: colors.background,
+    flexDirection: 'row',
     padding: layout.margin
   },
   name: {
@@ -68,6 +66,11 @@ const styles = StyleSheet.create({
     width: layout.icon / 2
   },
   status: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginTop: layout.margin
+  },
+  statusLabel: {
     ...typography.small,
     color: colors.foregroundLight,
     marginLeft: layout.padding
