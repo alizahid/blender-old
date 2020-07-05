@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   title: {
-    ...typography.subtitle
+    ...typography.subtitle,
+    color: colors.foreground
   }
 })
