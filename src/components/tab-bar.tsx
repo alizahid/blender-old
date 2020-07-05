@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   main: {
     backgroundColor: colors.background,
     borderTopColor: colors.border,
-    borderTopWidth: layout.border,
+    borderTopWidth: layout.border * 2,
     flexDirection: 'row'
   }
 })

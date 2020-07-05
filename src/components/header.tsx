@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.background,
     borderBottomColor: colors.border,
-    borderBottomWidth: layout.border,
+    borderBottomWidth: layout.border * 2,
     flexDirection: 'row',
     justifyContent: 'center'
   },
@@ -108,7 +108,6 @@ const styles = StyleSheet.create({
   title: {
     ...typography.regular,
     ...typography.bold,
-    color: colors.foreground,
-    margin: layout.margin
+    color: colors.foreground
   }
 })
