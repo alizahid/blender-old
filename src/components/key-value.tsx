@@ -66,7 +66,8 @@ const styles = StyleSheet.create({
   },
   label: {
     ...typography.small,
-    ...typography.medium
+    ...typography.medium,
+    color: colors.foregroundLight
   },
   mono: {
     ...typography.code

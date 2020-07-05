@@ -1,37 +1,55 @@
 import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React, { FunctionComponent } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import Image from 'react-native-fast-image'
+import { ScrollView, StyleSheet } from 'react-native'
 
-import { img_blender } from '../assets'
-import { AppParamList } from '../navigators/app'
-import { layout, typography } from '../styles'
+import { Button, Refresher } from '../components'
+import { Payment, Profile, TwoFactor } from '../components/settings'
+import { useProfile } from '../hooks'
+import { SettingsParamList } from '../navigators/settings'
+import { useAuth } from '../store'
+import { colors, layout, shadow } from '../styles'
 
 interface Props {
-  navigation: StackNavigationProp<AppParamList, 'Settings'>
-  route: RouteProp<AppParamList, 'Settings'>
+  navigation: StackNavigationProp<SettingsParamList, 'Settings'>
+  route: RouteProp<SettingsParamList, 'Settings'>
 }
 
-export const Settings: FunctionComponent<Props> = () => (
-  <View style={styles.main}>
-    <Image source={img_blender} style={styles.logo} />
-    <Text style={styles.title}>Settings</Text>
-  </View>
-)
+export const Settings: FunctionComponent<Props> = () => {
+  const [, { logout }] = useAuth()
+
+  const { loading, profile, refetch } = useProfile()
+
+  return (
+    <ScrollView
+      contentContainerStyle={styles.content}
+      keyboardShouldPersistTaps="always"
+      refreshControl={<Refresher onRefresh={refetch} refreshing={loading} />}>
+      {profile && (
+        <>
+          <Profile user={profile} />
+          <Payment user={profile} />
+          <TwoFactor user={profile} />
+          <Button
+            label="Sign out"
+            onPress={() => logout()}
+            small
+            style={styles.signOut}
+          />
+        </>
+      )}
+    </ScrollView>
+  )
+}
 
 const styles = StyleSheet.create({
-  logo: {
-    height: layout.icon * 4,
-    width: layout.icon * 4
+  content: {
+    paddingVertical: layout.padding
   },
-  main: {
-    alignItems: 'center',
-    flex: 1,
-    justifyContent: 'center'
-  },
-  title: {
-    ...typography.title,
-    marginTop: layout.margin * 2
+  signOut: {
+    ...shadow,
+    alignSelf: 'center',
+    backgroundColor: colors.status.red,
+    marginVertical: layout.padding
   }
 })

@@ -30,7 +30,8 @@
           "useAllRegions",
           "useDatabasePlans",
           "useCreateDatabase",
-          "useDeleteDatabase"
+          "useDeleteDatabase",
+          "useProfile"
         ]
       }
     ],

@@ -2,8 +2,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React, { FunctionComponent } from 'react'
 
 import { TabBar } from '../components'
-import { EnvGroups, Services, Settings } from '../scenes'
+import { EnvGroups, Services } from '../scenes'
 import { DatabasesNavigator } from './databases'
+import { SettingsNavigator } from './settings'
 
 export type AppParamList = {
   Services: undefined
@@ -19,6 +20,6 @@ export const AppNavigator: FunctionComponent = () => (
     <Screen component={Services} name="Services" />
     <Screen component={DatabasesNavigator} name="Databases" />
     <Screen component={EnvGroups} name="EnvGroups" />
-    <Screen component={Settings} name="Settings" />
+    <Screen component={SettingsNavigator} name="Settings" />
   </Navigator>
 )

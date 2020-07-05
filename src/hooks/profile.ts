@@ -1,7 +1,12 @@
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
 
-import { IQueryNewPaidServiceAllowedArgs, IRegion } from '../graphql/types'
+import {
+  IQueryNewPaidServiceAllowedArgs,
+  IQueryUserArgs,
+  IRegion,
+  IUser
+} from '../graphql/types'
 import { useAuth } from '../store'
 
 const NEW_PAID_SERVICE_ALLOWED = gql`
@@ -48,5 +53,60 @@ export const useAllRegions = () => {
   return {
     loading,
     regions: data?.allRegions ?? []
+  }
+}
+
+const USER = gql`
+  query userBilling($email: String!) {
+    user(email: $email) {
+      ...userFields
+      ...userBillingFields
+      __typename
+    }
+  }
+
+  fragment userBillingFields on User {
+    cardBrand
+    cardLast4
+    balance
+    __typename
+  }
+
+  fragment userFields on User {
+    id
+    active
+    canBill
+    createdAt
+    email
+    featureFlags
+    githubId
+    gitlabId
+    name
+    notifyOnFail
+    notifyOnPrUpdate
+    otpEnabled
+    passwordExists
+    __typename
+  }
+`
+
+export const useProfile = () => {
+  const [{ email }] = useAuth()
+
+  const { data, loading, refetch } = useQuery<
+    {
+      user: IUser
+    },
+    IQueryUserArgs
+  >(USER, {
+    variables: {
+      email
+    }
+  })
+
+  return {
+    loading,
+    profile: data?.user,
+    refetch
   }
 }

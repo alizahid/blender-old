@@ -1,5 +1,5 @@
 export { useSignIn, useVerifyOtp } from './auth'
-export { useAllRegions, useNewPaidServiceAllowed } from './profile'
+export { useAllRegions, useNewPaidServiceAllowed, useProfile } from './profile'
 
 export {
   useCreateDatabase,

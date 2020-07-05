@@ -1,6 +1,8 @@
 import AsyncStorage from '@react-native-community/async-storage'
 import { createHook, createStore, StoreActionApi } from 'react-sweet-state'
 
+import { client } from '../graphql'
+
 type State = {
   loading: boolean
   loggedIn: boolean
@@ -52,6 +54,8 @@ const actions = {
   },
   logout: () => async ({ setState }: StoreApi) => {
     await AsyncStorage.multiRemove(['@token', '@email', '@id'])
+
+    await client.clearStore()
 
     setState({
       email: undefined,
