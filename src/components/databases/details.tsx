@@ -1,12 +1,12 @@
-import { lowerCase, startCase } from 'lodash'
 import React, { FunctionComponent } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import Image from 'react-native-fast-image'
 
 import { img_type_postgresql } from '../../assets'
-import { IDatabase, IDatabaseStatus } from '../../graphql/types'
-import { colors, layout, typography } from '../../styles'
+import { IDatabase } from '../../graphql/types'
+import { layout } from '../../styles'
 import { KeyValue } from '../key-value'
+import { Status } from './status'
 
 interface Props {
   database: IDatabase
@@ -15,24 +15,7 @@ interface Props {
 export const Details: FunctionComponent<Props> = ({ database }) => (
   <View style={styles.main}>
     <View style={styles.header}>
-      <View style={styles.status}>
-        <View
-          style={[
-            styles.state,
-            {
-              backgroundColor:
-                database.status === IDatabaseStatus.Available
-                  ? colors.status.green
-                  : database.status === IDatabaseStatus.Unavailable
-                  ? colors.status.red
-                  : colors.status.yellow
-            }
-          ]}
-        />
-        <Text style={styles.statusLabel}>
-          {startCase(lowerCase(database.status))}
-        </Text>
-      </View>
+      <Status status={database.status} />
       <Image source={img_type_postgresql} style={styles.icon} />
     </View>
     <KeyValue label="Plan" style={styles.item} value={database.plan} />
@@ -92,6 +75,7 @@ export const Details: FunctionComponent<Props> = ({ database }) => (
 
 const styles = StyleSheet.create({
   header: {
+    alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
@@ -104,19 +88,5 @@ const styles = StyleSheet.create({
   },
   main: {
     padding: layout.margin
-  },
-  state: {
-    borderRadius: layout.icon / 2,
-    height: layout.icon / 2,
-    width: layout.icon / 2
-  },
-  status: {
-    alignItems: 'center',
-    flexDirection: 'row'
-  },
-  statusLabel: {
-    ...typography.small,
-    color: colors.foregroundLight,
-    marginLeft: layout.padding
   }
 })
