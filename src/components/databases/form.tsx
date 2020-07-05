@@ -2,10 +2,11 @@ import React, { FunctionComponent, useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 
 import { IDatabaseInput, IPlanData, IRegion } from '../../graphql/types'
-import { colors, layout, shadow, typography } from '../../styles'
+import { colors, layout, typography } from '../../styles'
 import { Button } from '../button'
 import { Picker } from '../picker'
 import { DatabasePlan } from '../plans'
+import { Separator } from '../separator'
 import { TextBox } from '../text-box'
 
 interface Props {
@@ -37,9 +38,7 @@ export const Form: FunctionComponent<Props> = ({
   }, [database, name, onUpdate, region, user])
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.content}
-      keyboardShouldPersistTaps="always">
+    <ScrollView keyboardShouldPersistTaps="always">
       <View style={styles.main}>
         <Text style={styles.label}>Name</Text>
         <TextBox
@@ -88,7 +87,9 @@ export const Form: FunctionComponent<Props> = ({
           title="Region"
         />
       </View>
+      <Separator />
       <DatabasePlan plan={plan} />
+      <Separator />
       <Button
         label="Change plan"
         onPress={() => onChangePlan()}
@@ -101,14 +102,9 @@ export const Form: FunctionComponent<Props> = ({
 
 const styles = StyleSheet.create({
   change: {
-    ...shadow,
     alignSelf: 'center',
     backgroundColor: colors.status.orange,
-    marginBottom: layout.margin,
-    marginTop: layout.padding
-  },
-  content: {
-    paddingTop: layout.padding
+    marginVertical: layout.margin
   },
   input: {
     backgroundColor: colors.backgroundDark,
@@ -122,11 +118,6 @@ const styles = StyleSheet.create({
     ...typography.medium
   },
   main: {
-    ...shadow,
-    backgroundColor: colors.background,
-    borderRadius: layout.radius,
-    marginHorizontal: layout.margin,
-    marginVertical: layout.padding,
     padding: layout.margin
   }
 })

@@ -7,7 +7,7 @@ export const Separator: FunctionComponent = () => <View style={styles.main} />
 
 const styles = StyleSheet.create({
   main: {
-    backgroundColor: colors.backgroundDarker,
+    backgroundColor: colors.border,
     height: 1
   }
 })

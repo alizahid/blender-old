@@ -4,7 +4,8 @@ import { FlatList, StyleSheet, Text, View } from 'react-native'
 
 import { IPlanData } from '../../graphql/types'
 import { useDatabasePlans } from '../../hooks'
-import { colors, layout, shadow, typography } from '../../styles'
+import { colors, layout, typography } from '../../styles'
+import { Separator } from '../separator'
 import { Spinner } from '../spinner'
 import { Touchable } from '../touchable'
 
@@ -21,7 +22,7 @@ export const DatabasePlans: FunctionComponent<Props> = ({ onChange }) => {
 
   return (
     <FlatList
-      contentContainerStyle={styles.content}
+      ItemSeparatorComponent={Separator}
       data={orderBy(plans, 'price', 'asc')}
       renderItem={({ item }) => (
         <Touchable onPress={() => onChange(item)}>
@@ -60,15 +61,7 @@ export const DatabasePlan: FunctionComponent<DatabasePlanProps> = ({
 )
 
 const styles = StyleSheet.create({
-  content: {
-    paddingVertical: layout.padding
-  },
   item: {
-    ...shadow,
-    backgroundColor: colors.background,
-    borderRadius: layout.radius,
-    marginHorizontal: layout.margin,
-    marginVertical: layout.padding,
     padding: layout.margin
   },
   left: {
@@ -81,12 +74,14 @@ const styles = StyleSheet.create({
   },
   name: {
     ...typography.regular,
+    ...typography.medium,
     color: colors.primary,
     marginBottom: layout.padding,
     textAlign: 'center'
   },
   price: {
     ...typography.subtitle,
+    ...typography.bold,
     marginTop: layout.margin,
     textAlign: 'center'
   },

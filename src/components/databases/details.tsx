@@ -5,7 +5,7 @@ import Image from 'react-native-fast-image'
 
 import { img_type_postgresql } from '../../assets'
 import { IDatabase, IDatabaseStatus } from '../../graphql/types'
-import { colors, layout, shadow, typography } from '../../styles'
+import { colors, layout, typography } from '../../styles'
 import { KeyValue } from '../key-value'
 
 interface Props {
@@ -103,11 +103,6 @@ const styles = StyleSheet.create({
     marginTop: layout.margin
   },
   main: {
-    ...shadow,
-    backgroundColor: colors.background,
-    borderRadius: layout.radius,
-    marginHorizontal: layout.margin,
-    marginVertical: layout.padding,
     padding: layout.margin
   },
   state: {

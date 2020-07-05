@@ -6,7 +6,7 @@ import Image from 'react-native-fast-image'
 import { img_ui_dark_copy } from '../../assets'
 import { IBackupEdge } from '../../graphql/types'
 import { clipboard } from '../../lib'
-import { colors, layout, shadow, typography } from '../../styles'
+import { colors, layout, typography } from '../../styles'
 import { Touchable } from '../touchable'
 
 interface Props {
@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     height: layout.icon,
+    opacity: 0.5,
     width: layout.icon
   },
   item: {
@@ -67,11 +68,6 @@ const styles = StyleSheet.create({
     marginLeft: layout.padding / 2
   },
   main: {
-    ...shadow,
-    backgroundColor: colors.background,
-    borderRadius: layout.radius,
-    marginHorizontal: layout.margin,
-    marginVertical: layout.padding,
     padding: layout.margin
   },
   time: {

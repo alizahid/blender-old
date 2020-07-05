@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
 import { IUser } from '../../graphql/types'
-import { colors, layout, shadow, typography } from '../../styles'
+import { colors, layout, typography } from '../../styles'
 
 interface Props {
   user: IUser
@@ -21,17 +21,12 @@ export const TwoFactor: FunctionComponent<Props> = ({ user }) => (
 
 const styles = StyleSheet.create({
   main: {
-    ...shadow,
-    backgroundColor: colors.background,
-    borderRadius: layout.radius,
-    marginHorizontal: layout.margin,
-    marginVertical: layout.padding,
     padding: layout.margin
   },
   message: {
     ...typography.small,
     color: colors.foregroundLight,
-    marginTop: layout.margin
+    marginTop: layout.padding
   },
   title: {
     ...typography.subtitle,

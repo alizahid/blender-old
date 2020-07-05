@@ -6,6 +6,8 @@ export { default as img_ui_dark_back } from './img/ui/dark_back.png'
 export { default as img_ui_dark_check } from './img/ui/dark_check.png'
 export { default as img_ui_dark_copy } from './img/ui/dark_copy.png'
 export { default as img_ui_dark_expand } from './img/ui/dark_expand.png'
+export { default as img_ui_dark_invisible } from './img/ui/dark_invisible.png'
+export { default as img_ui_dark_visible } from './img/ui/dark_visible.png'
 
 export { default as img_ui_light_close } from './img/ui/light_close.png'
 

@@ -3,11 +3,11 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import React, { FunctionComponent, useEffect } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
 
-import { Button, Refresher } from '../components'
+import { Button, Refresher, Separator } from '../components'
 import { Backups, Details } from '../components/databases'
 import { useDatabase, useDeleteDatabase } from '../hooks'
 import { DatabasesParamList } from '../navigators/databases'
-import { colors, layout, shadow } from '../styles'
+import { colors, layout } from '../styles'
 
 interface Props {
   navigation: StackNavigationProp<DatabasesParamList, 'Database'>
@@ -31,14 +31,15 @@ export const Database: FunctionComponent<Props> = ({
 
   return (
     <ScrollView
-      contentContainerStyle={styles.content}
       keyboardShouldPersistTaps="always"
       nestedScrollEnabled
       refreshControl={<Refresher onRefresh={refetch} refreshing={loading} />}>
       {database && (
         <>
           <Details database={database} />
+          <Separator />
           <Backups backups={backups} />
+          <Separator />
           <Button
             label="Delete database"
             loading={removing}
@@ -57,13 +58,9 @@ export const Database: FunctionComponent<Props> = ({
 }
 
 const styles = StyleSheet.create({
-  content: {
-    paddingVertical: layout.padding
-  },
   remove: {
-    ...shadow,
     alignSelf: 'center',
     backgroundColor: colors.status.red,
-    marginVertical: layout.padding
+    marginVertical: layout.margin
   }
 })

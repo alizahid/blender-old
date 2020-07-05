@@ -16,7 +16,7 @@ import {
   img_ui_dark_expand,
   img_ui_light_close
 } from '../assets'
-import { colors, layout, shadow, typography } from '../styles'
+import { colors, layout, typography } from '../styles'
 import { Separator } from './separator'
 import { Touchable } from './touchable'
 
@@ -108,7 +108,6 @@ const styles = StyleSheet.create({
     margin: layout.margin
   },
   content: {
-    ...shadow,
     backgroundColor: colors.background,
     borderRadius: layout.radius,
     margin: layout.margin * 2

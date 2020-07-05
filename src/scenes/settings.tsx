@@ -3,12 +3,12 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import React, { FunctionComponent } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
 
-import { Button, Refresher } from '../components'
+import { Button, Refresher, Separator } from '../components'
 import { Payment, Profile, TwoFactor } from '../components/settings'
 import { useProfile } from '../hooks'
 import { SettingsParamList } from '../navigators/settings'
 import { useAuth } from '../store'
-import { colors, layout, shadow } from '../styles'
+import { colors, layout } from '../styles'
 
 interface Props {
   navigation: StackNavigationProp<SettingsParamList, 'Settings'>
@@ -22,14 +22,16 @@ export const Settings: FunctionComponent<Props> = () => {
 
   return (
     <ScrollView
-      contentContainerStyle={styles.content}
       keyboardShouldPersistTaps="always"
       refreshControl={<Refresher onRefresh={refetch} refreshing={loading} />}>
       {profile && (
         <>
           <Profile user={profile} />
+          <Separator />
           <Payment user={profile} />
+          <Separator />
           <TwoFactor user={profile} />
+          <Separator />
           <Button
             label="Sign out"
             onPress={() => logout()}
@@ -43,13 +45,9 @@ export const Settings: FunctionComponent<Props> = () => {
 }
 
 const styles = StyleSheet.create({
-  content: {
-    paddingVertical: layout.padding
-  },
   signOut: {
-    ...shadow,
     alignSelf: 'center',
     backgroundColor: colors.status.red,
-    marginVertical: layout.padding
+    marginVertical: layout.margin
   }
 })

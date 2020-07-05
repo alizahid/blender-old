@@ -3,7 +3,7 @@ import { FlatList, StyleSheet } from 'react-native'
 
 import { Empty, Refresher } from '..'
 import { IDatabase } from '../../graphql/types'
-import { layout } from '../../styles'
+import { Separator } from '../separator'
 import { Card } from './card'
 
 interface Props {
@@ -21,6 +21,7 @@ export const List: FunctionComponent<Props> = ({
   refetch
 }) => (
   <FlatList
+    ItemSeparatorComponent={Separator}
     ListEmptyComponent={
       loading ? null : (
         <Empty message="You haven't created any databases yet." />
@@ -37,7 +38,6 @@ export const List: FunctionComponent<Props> = ({
 
 const styles = StyleSheet.create({
   content: {
-    flexGrow: 1,
-    paddingVertical: layout.padding
+    flexGrow: 1
   }
 })

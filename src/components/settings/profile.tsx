@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
 import { IUser } from '../../graphql/types'
-import { colors, layout, shadow, typography } from '../../styles'
+import { colors, layout, typography } from '../../styles'
 import { KeyValue } from '../key-value'
 
 interface Props {
@@ -34,11 +34,6 @@ const styles = StyleSheet.create({
     marginTop: layout.margin
   },
   main: {
-    ...shadow,
-    backgroundColor: colors.background,
-    borderRadius: layout.radius,
-    marginHorizontal: layout.margin,
-    marginVertical: layout.padding,
     padding: layout.margin
   },
   title: {

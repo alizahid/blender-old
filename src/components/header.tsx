@@ -5,7 +5,7 @@ import Image, { Source } from 'react-native-fast-image'
 import { useSafeArea } from 'react-native-safe-area-context'
 
 import { img_ui_dark_back } from '../assets'
-import { colors, layout, shadow, typography } from '../styles'
+import { colors, layout, typography } from '../styles'
 import { Touchable } from './touchable'
 
 interface Props {
@@ -95,9 +95,10 @@ const styles = StyleSheet.create({
     width: layout.icon
   },
   main: {
-    ...shadow,
     alignItems: 'center',
     backgroundColor: colors.background,
+    borderBottomColor: colors.border,
+    borderBottomWidth: layout.border,
     flexDirection: 'row',
     justifyContent: 'center'
   },

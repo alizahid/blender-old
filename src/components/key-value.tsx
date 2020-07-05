@@ -7,7 +7,9 @@ import {
   View,
   ViewStyle
 } from 'react-native'
+import Image from 'react-native-fast-image'
 
+import { img_ui_dark_invisible, img_ui_dark_visible } from '../assets'
 import { colors, layout, typography } from '../styles'
 import { Touchable } from './touchable'
 
@@ -31,43 +33,56 @@ export const KeyValue: FunctionComponent<Props> = ({
   const [visible, setVisible] = useState(!hidden)
 
   return (
-    <View style={style}>
-      <View style={styles.header}>
+    <View style={[styles.main, style]}>
+      <View style={styles.content}>
         <Text style={[styles.label, labelMono && styles.mono]}>{label}</Text>
-        {hidden && (
-          <Touchable
-            onPress={() => {
-              LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
 
-              setVisible(!visible)
-            }}
-            style={styles.toggle}>
-            <Text style={styles.toggleLabel}>{visible ? 'Hide' : 'Show'}</Text>
-          </Touchable>
-        )}
+        <Text
+          selectable={visible}
+          style={[
+            styles.value,
+            valueMono && styles.mono,
+            !visible && styles.spaced
+          ]}>
+          {hidden ? (visible ? value : '●●●●●') : value}
+        </Text>
       </View>
-      <Text
-        selectable={visible}
-        style={[
-          styles.value,
-          valueMono && styles.mono,
-          !visible && styles.spaced
-        ]}>
-        {hidden ? (visible ? value : '●●●●●') : value}
-      </Text>
+      {hidden && (
+        <Touchable
+          onPress={() => {
+            LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
+
+            setVisible(!visible)
+          }}
+          style={styles.toggle}>
+          <Image
+            source={visible ? img_ui_dark_visible : img_ui_dark_invisible}
+            style={styles.icon}
+          />
+        </Touchable>
+      )}
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between'
+  content: {
+    flex: 1
+  },
+  icon: {
+    height: layout.icon,
+    marginHorizontal: layout.padding,
+    opacity: 0.25,
+    width: layout.icon
   },
   label: {
     ...typography.small,
     ...typography.medium,
     color: colors.foregroundLight
+  },
+  main: {
+    alignItems: 'stretch',
+    flexDirection: 'row'
   },
   mono: {
     ...typography.code
@@ -76,12 +91,7 @@ const styles = StyleSheet.create({
     letterSpacing: 2
   },
   toggle: {
-    backgroundColor: colors.backgroundDark,
-    borderRadius: layout.radius,
-    padding: layout.padding / 2
-  },
-  toggleLabel: {
-    ...typography.small
+    justifyContent: 'center'
   },
   value: {
     ...typography.regular,
