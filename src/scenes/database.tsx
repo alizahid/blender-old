@@ -43,9 +43,11 @@ export const Database: FunctionComponent<Props> = ({
             label="Delete database"
             loading={removing}
             onPress={async () => {
-              await remove(database.id)
+              const response = await remove(database.id)
 
-              pop()
+              if (response) {
+                pop()
+              }
             }}
             small
             style={styles.remove}

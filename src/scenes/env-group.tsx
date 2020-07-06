@@ -87,9 +87,11 @@ export const EnvGroup: FunctionComponent<Props> = ({
             label="Delete env group"
             loading={removingEnvGroup}
             onPress={async () => {
-              await remove(envGroup.id)
+              const response = await remove(envGroup.id)
 
-              pop()
+              if (response) {
+                pop()
+              }
             }}
             small
             style={styles.remove}

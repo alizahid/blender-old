@@ -235,46 +235,48 @@ export const useDeleteDatabase = () => {
         'Are you sure you want to delete this database?'
       )
 
-      if (yes) {
-        mutate({
-          update(proxy, response) {
-            if (!response.data) {
-              return
-            }
-
-            const options = {
-              query: DATABASES,
-              variables: {
-                ownerId
-              }
-            }
-
-            const data = proxy.readQuery<{
-              databasesForOwner: IDatabase[]
-            }>(options)
-
-            if (!data) {
-              return
-            }
-
-            const index = data.databasesForOwner.findIndex(
-              (database) => database.id === id
-            )
-
-            proxy.writeQuery({
-              ...options,
-              data: update(data, {
-                databasesForOwner: {
-                  $splice: [[index, 1]]
-                }
-              })
-            })
-          },
-          variables: {
-            id
-          }
-        })
+      if (!yes) {
+        return
       }
+
+      return mutate({
+        update(proxy, response) {
+          if (!response.data) {
+            return
+          }
+
+          const options = {
+            query: DATABASES,
+            variables: {
+              ownerId
+            }
+          }
+
+          const data = proxy.readQuery<{
+            databasesForOwner: IDatabase[]
+          }>(options)
+
+          if (!data) {
+            return
+          }
+
+          const index = data.databasesForOwner.findIndex(
+            (database) => database.id === id
+          )
+
+          proxy.writeQuery({
+            ...options,
+            data: update(data, {
+              databasesForOwner: {
+                $splice: [[index, 1]]
+              }
+            })
+          })
+        },
+        variables: {
+          id
+        }
+      })
     },
     [mutate, ownerId]
   )
