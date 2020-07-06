@@ -8,3 +8,13 @@ export {
   useDatabases,
   useDeleteDatabase
 } from './databases'
+
+export {
+  useCreateEnvGroup,
+  useDeleteEnvGroup,
+  useEnvGroup,
+  useEnvGroupNameExists,
+  useEnvGroups,
+  useUpdateEnvGroupEnvVars,
+  useUpdateEnvGroupSecretFiles
+} from './env'

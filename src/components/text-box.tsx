@@ -1,6 +1,5 @@
 import React, { forwardRef } from 'react'
 import {
-  Dimensions,
   StyleProp,
   StyleSheet,
   TextInput,
@@ -16,22 +15,18 @@ interface Props {
 }
 
 export const TextBox = forwardRef<TextInput, Props & TextInputProps>(
-  ({ containerStyle, style, ...props }, ref) => {
-    if (props.multiline) {
-      return (
-        <View style={[styles.main, containerStyle]}>
-          <TextInput
-            placeholderTextColor={colors.foregroundLight}
-            ref={ref}
-            style={[styles.textBox, style, styles.multiline]}
-            textAlignVertical="top"
-            {...props}
-          />
-        </View>
-      )
-    }
-
-    return (
+  ({ containerStyle, style, ...props }, ref) =>
+    props.multiline ? (
+      <View style={[styles.main, containerStyle]}>
+        <TextInput
+          placeholderTextColor={colors.foregroundLight}
+          ref={ref}
+          style={[styles.textBox, styles.multiline, style]}
+          textAlignVertical="top"
+          {...props}
+        />
+      </View>
+    ) : (
       <TextInput
         placeholderTextColor={colors.foregroundLight}
         ref={ref}
@@ -40,20 +35,16 @@ export const TextBox = forwardRef<TextInput, Props & TextInputProps>(
         {...props}
       />
     )
-  }
 )
-
-const { height } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
   main: {
     backgroundColor: colors.backgroundDark,
     borderRadius: layout.radius,
-    paddingVertical: layout.padding
+    paddingVertical: layout.padding / 2
   },
   multiline: {
-    ...typography.regular,
-    height: height / 4,
+    height: layout.textBox * 4,
     lineHeight: typography.regular.fontSize * layout.lineHeight
   },
   textBox: {
@@ -62,6 +53,6 @@ const styles = StyleSheet.create({
     borderRadius: layout.radius,
     color: colors.foreground,
     height: layout.textBox,
-    paddingHorizontal: layout.margin
+    paddingHorizontal: layout.margin * (3 / 4)
   }
 })

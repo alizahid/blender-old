@@ -6,13 +6,16 @@ import { useSafeArea } from 'react-native-safe-area-context'
 
 import { img_ui_dark_back } from '../assets'
 import { colors, layout, typography } from '../styles'
+import { Spinner } from './spinner'
 import { Touchable } from './touchable'
 
 interface Props {
+  loading?: boolean
   right?: ReactChild
 }
 
 export const Header: FunctionComponent<Props & StackHeaderProps> = ({
+  loading,
   navigation: { goBack },
   previous,
   right,
@@ -41,11 +44,9 @@ export const Header: FunctionComponent<Props & StackHeaderProps> = ({
         }
       ]}>
       {previous && (
-        <HeaderButton
-          icon={img_ui_dark_back}
-          onPress={() => goBack()}
-          style={[styles.action, styles.back]}
-        />
+        <View style={[styles.actions, styles.left]}>
+          <HeaderButton icon={img_ui_dark_back} onPress={() => goBack()} />
+        </View>
       )}
       <Animated.Text
         style={[
@@ -56,7 +57,17 @@ export const Header: FunctionComponent<Props & StackHeaderProps> = ({
         ]}>
         {title}
       </Animated.Text>
-      {right && <View style={[styles.action, styles.right]}>{right}</View>}
+      {(loading || right) && (
+        <View style={[styles.actions, styles.right]}>
+          {loading ? (
+            <View style={styles.action}>
+              <Spinner />
+            </View>
+          ) : (
+            right
+          )}
+        </View>
+      )}
     </Animated.View>
   )
 }
@@ -73,7 +84,7 @@ export const HeaderButton: FunctionComponent<HeaderButtonProps> = ({
   onPress,
   style
 }) => (
-  <Touchable onPress={onPress} style={style}>
+  <Touchable onPress={onPress} style={[styles.action, style]}>
     <Image source={icon} style={styles.icon} />
   </Touchable>
 )
@@ -81,18 +92,23 @@ export const HeaderButton: FunctionComponent<HeaderButtonProps> = ({
 const styles = StyleSheet.create({
   action: {
     alignItems: 'center',
-    bottom: 0,
     height: layout.header,
     justifyContent: 'center',
-    position: 'absolute',
     width: layout.header
   },
-  back: {
-    left: 0
+  actions: {
+    alignItems: 'center',
+    bottom: 0,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    position: 'absolute'
   },
   icon: {
     height: layout.icon,
     width: layout.icon
+  },
+  left: {
+    left: 0
   },
   main: {
     alignItems: 'center',

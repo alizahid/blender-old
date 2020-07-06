@@ -49,44 +49,41 @@ export const CreateDatabase: FunctionComponent<Props> = ({
   return (
     <Form
       onChangePlan={() => setPlan(undefined)}
-      onUpdate={(data) => {
+      onUpdate={(data) =>
         setOptions({
           header: (props) => (
             <Header
               {...props}
+              loading={creating}
               right={
                 data.name ? (
-                  creating ? (
-                    <Spinner />
-                  ) : (
-                    <HeaderButton
-                      icon={img_ui_dark_check}
-                      onPress={async () => {
-                        const response = await create({
-                          databaseName: data.databaseName,
-                          databaseUser: data.databaseUser,
-                          name: String(data.name),
-                          ownerId: String(id),
-                          plan: plan.name,
-                          region: data.region,
-                          type: IDatabaseType.Postgresql,
-                          version: '10.x'
-                        })
+                  <HeaderButton
+                    icon={img_ui_dark_check}
+                    onPress={async () => {
+                      const response = await create({
+                        databaseName: data.databaseName,
+                        databaseUser: data.databaseUser,
+                        name: String(data.name),
+                        ownerId: String(id),
+                        plan: plan.name,
+                        region: data.region,
+                        type: IDatabaseType.Postgresql,
+                        version: '10.x'
+                      })
 
-                        if (response.data?.createDatabase.id) {
-                          replace('Database', {
-                            id: response.data.createDatabase.id
-                          })
-                        }
-                      }}
-                    />
-                  )
+                      if (response.data?.createDatabase.id) {
+                        replace('Database', {
+                          id: response.data.createDatabase.id
+                        })
+                      }
+                    }}
+                  />
                 ) : undefined
               }
             />
           )
         })
-      }}
+      }
       plan={plan}
       regions={regions}
     />

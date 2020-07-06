@@ -7,22 +7,30 @@ import {
   View,
   ViewStyle
 } from 'react-native'
-import Image from 'react-native-fast-image'
+import Image, { Source } from 'react-native-fast-image'
 
 import { img_ui_dark_invisible, img_ui_dark_visible } from '../assets'
 import { colors, layout, typography } from '../styles'
 import { Touchable } from './touchable'
 
+interface Action {
+  icon: Source
+
+  onPress: () => void
+}
+
 interface Props {
+  actions?: Action[]
   hidden?: boolean
   label: string
   labelMono?: boolean
+  style?: StyleProp<ViewStyle>
   value: string
   valueMono?: boolean
-  style?: StyleProp<ViewStyle>
 }
 
 export const KeyValue: FunctionComponent<Props> = ({
+  actions = [],
   hidden,
   label,
   labelMono,
@@ -36,7 +44,6 @@ export const KeyValue: FunctionComponent<Props> = ({
     <View style={[styles.main, style]}>
       <View style={styles.content}>
         <Text style={[styles.label, labelMono && styles.mono]}>{label}</Text>
-
         <Text
           selectable={visible}
           style={[
@@ -54,18 +61,29 @@ export const KeyValue: FunctionComponent<Props> = ({
 
             setVisible(!visible)
           }}
-          style={styles.toggle}>
+          style={styles.action}>
           <Image
             source={visible ? img_ui_dark_visible : img_ui_dark_invisible}
             style={styles.icon}
           />
         </Touchable>
       )}
+      {actions.map((action, index) => (
+        <Touchable
+          key={index}
+          onPress={() => action.onPress()}
+          style={styles.action}>
+          <Image source={action.icon} style={styles.icon} />
+        </Touchable>
+      ))}
     </View>
   )
 }
 
 const styles = StyleSheet.create({
+  action: {
+    justifyContent: 'center'
+  },
   content: {
     flex: 1
   },
@@ -89,9 +107,6 @@ const styles = StyleSheet.create({
   },
   spaced: {
     letterSpacing: 2
-  },
-  toggle: {
-    justifyContent: 'center'
   },
   value: {
     ...typography.regular,

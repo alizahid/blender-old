@@ -192,7 +192,7 @@ export const useCreateDatabase = () => {
         ...options,
         data: update(data, {
           databasesForOwner: {
-            $push: [response.data.createDatabase]
+            $unshift: [response.data.createDatabase]
           }
         })
       })

@@ -1,37 +1,49 @@
 import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
-import React, { FunctionComponent } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import Image from 'react-native-fast-image'
+import React, { FunctionComponent, useEffect } from 'react'
 
-import { img_blender } from '../assets'
-import { AppParamList } from '../navigators/app'
-import { layout, typography } from '../styles'
+import { img_ui_dark_add } from '../assets'
+import { Header, HeaderButton } from '../components'
+import { List } from '../components/env-groups'
+import { useEnvGroups } from '../hooks'
+import { EnvGroupsParamList } from '../navigators/env-groups'
 
 interface Props {
-  navigation: StackNavigationProp<AppParamList, 'EnvGroups'>
-  route: RouteProp<AppParamList, 'EnvGroups'>
+  navigation: StackNavigationProp<EnvGroupsParamList, 'EnvGroups'>
+  route: RouteProp<EnvGroupsParamList, 'EnvGroups'>
 }
 
-export const EnvGroups: FunctionComponent<Props> = () => (
-  <View style={styles.main}>
-    <Image source={img_blender} style={styles.logo} />
-    <Text style={styles.title}>Env Groups</Text>
-  </View>
-)
+export const EnvGroups: FunctionComponent<Props> = ({
+  navigation: { navigate, setOptions }
+}) => {
+  const { envGroups, loading, refetch } = useEnvGroups()
 
-const styles = StyleSheet.create({
-  logo: {
-    height: layout.icon * 4,
-    width: layout.icon * 4
-  },
-  main: {
-    alignItems: 'center',
-    flex: 1,
-    justifyContent: 'center'
-  },
-  title: {
-    ...typography.title,
-    marginTop: layout.margin * 2
-  }
-})
+  useEffect(() => {
+    setOptions({
+      header: (props) => (
+        <Header
+          {...props}
+          right={
+            <HeaderButton
+              icon={img_ui_dark_add}
+              onPress={() => navigate('CreateEnvGroup')}
+            />
+          }
+        />
+      )
+    })
+  }, [navigate, setOptions])
+
+  return (
+    <List
+      envGroups={envGroups}
+      loading={loading}
+      onItemPress={(id) =>
+        navigate('EnvGroup', {
+          id
+        })
+      }
+      refetch={refetch}
+    />
+  )
+}

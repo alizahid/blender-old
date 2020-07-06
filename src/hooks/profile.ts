@@ -30,7 +30,7 @@ export const useNewPaidServiceAllowed = () => {
   })
 
   return {
-    allowed: data?.newPaidServiceAllowed,
+    allowed: data?.newPaidServiceAllowed ?? false,
     loading
   }
 }

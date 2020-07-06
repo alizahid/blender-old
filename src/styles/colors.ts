@@ -7,6 +7,7 @@ export const colors = {
   modal: 'rgba(220, 220, 220, 0.75)',
   primary: '#0091ff',
   status: {
+    blue: '#007aff',
     green: '#4cd964',
     orange: '#ff9500',
     red: '#ff3b30',

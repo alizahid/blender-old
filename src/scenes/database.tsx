@@ -32,7 +32,6 @@ export const Database: FunctionComponent<Props> = ({
   return (
     <ScrollView
       keyboardShouldPersistTaps="always"
-      nestedScrollEnabled
       refreshControl={<Refresher onRefresh={refetch} refreshing={loading} />}>
       {database && (
         <>
@@ -44,7 +43,7 @@ export const Database: FunctionComponent<Props> = ({
             label="Delete database"
             loading={removing}
             onPress={async () => {
-              await remove(database?.id)
+              await remove(database.id)
 
               pop()
             }}

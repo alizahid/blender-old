@@ -31,7 +31,14 @@
           "useDatabasePlans",
           "useCreateDatabase",
           "useDeleteDatabase",
-          "useProfile"
+          "useProfile",
+          "useEnvGroups",
+          "useEnvGroup",
+          "useEnvGroupNameExists",
+          "useCreateEnvGroup",
+          "useDeleteEnvGroup",
+          "useUpdateEnvGroupEnvVars",
+          "useUpdateEnvGroupSecretFiles"
         ]
       }
     ],
