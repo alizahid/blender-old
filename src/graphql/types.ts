@@ -11,593 +11,13 @@ export type Scalars = {
   Time: any;
 };
 
-export type IRepoInput = {
-  name: Scalars['String'];
-  ownerName: Scalars['String'];
-  webURL: Scalars['String'];
-  isFork: Scalars['Boolean'];
-  isPrivate: Scalars['Boolean'];
-  provider: IGitProvider;
-  providerId: Scalars['String'];
-  defaultBranchName: Scalars['String'];
-};
-
-export type IBackupPage = {
-  __typename?: 'BackupPage';
-  edges: Array<IBackupEdge>;
-};
-
-export type IDiskSnapshot = {
-  __typename?: 'DiskSnapshot';
-  createdAt: Scalars['Time'];
-  snapshotKey: Scalars['String'];
-};
-
-export type IHeader = {
-  __typename?: 'Header';
-  id: Scalars['String'];
-  createdAt: Scalars['Time'];
-  key: Scalars['String'];
-  path: Scalars['String'];
-  serviceId: Scalars['String'];
-  value: Scalars['String'];
-};
-
-export type ISampleValue = {
-  __typename?: 'SampleValue';
-  time: Scalars['Time'];
-  memory?: Maybe<Scalars['Float']>;
-  cpu?: Maybe<Scalars['Int']>;
-};
-
-export type IServiceEventsResult = {
-  __typename?: 'ServiceEventsResult';
-  hasMore: Scalars['Boolean'];
-  events: Array<IServiceEvent>;
-};
-
-export type IBillingInfoInput = {
-  id: Scalars['String'];
-  name: Scalars['String'];
-  address: Scalars['String'];
-  city: Scalars['String'];
-  region: Scalars['String'];
-  country: Scalars['String'];
-  postalCode: Scalars['String'];
-  vatNumber: Scalars['String'];
-};
-
-export type ILogEntry = {
-  __typename?: 'LogEntry';
-  id: Scalars['String'];
-  serviceId: Scalars['String'];
-  buildId: Scalars['String'];
-  deployId: Scalars['String'];
-  timestamp: Scalars['String'];
-  text: Scalars['String'];
-};
-
-export type IGitCommit = {
-  __typename?: 'GitCommit';
-  id: Scalars['String'];
-  url: Scalars['String'];
-  shortId: Scalars['String'];
-  message: Scalars['String'];
-  createdAt: Scalars['Time'];
-};
-
-export type IIacManagedResource = IServer | ICronJob | IDatabase | IEnvGroup;
-
-export type IBuildDeployTrigger = {
-  __typename?: 'BuildDeployTrigger';
-  firstBuild?: Maybe<Scalars['Boolean']>;
-  clusterSynced?: Maybe<Scalars['Boolean']>;
-  envUpdated?: Maybe<Scalars['Boolean']>;
-  manual?: Maybe<Scalars['Boolean']>;
-  user?: Maybe<IUser>;
-  updatedProperty?: Maybe<Scalars['String']>;
-  newCommit?: Maybe<Scalars['String']>;
-  system?: Maybe<Scalars['Boolean']>;
-  clearCache?: Maybe<Scalars['Boolean']>;
-  rollback?: Maybe<Scalars['Boolean']>;
-  rollbackTargetDeployID?: Maybe<Scalars['String']>;
-};
-
-export type IServiceSuspended = IServiceEvent & {
-  __typename?: 'ServiceSuspended';
-  id: Scalars['String'];
-  timestamp: Scalars['Time'];
-  service: IService;
-};
-
-export type ISuggestion = {
-  __typename?: 'Suggestion';
-  framework?: Maybe<Scalars['String']>;
-  environment?: Maybe<Scalars['String']>;
-  buildCommand?: Maybe<Scalars['String']>;
-  startCommand?: Maybe<Scalars['String']>;
-  publishPath?: Maybe<Scalars['String']>;
-};
-
-export type IDisk = {
-  __typename?: 'Disk';
-  id: Scalars['String'];
-  name: Scalars['String'];
-  sizeGB: Scalars['Int'];
-  mountPath: Scalars['String'];
-  plan?: Maybe<IPlan>;
-  fsOwnerID?: Maybe<Scalars['String']>;
-  metrics: Array<IDiskSample>;
-  snapshots?: Maybe<Array<Maybe<IDiskSnapshot>>>;
-};
-
-
-export type IDiskMetricsArgs = {
-  historyMinutes?: Maybe<Scalars['Int']>;
-  step?: Maybe<Scalars['Int']>;
-};
-
-export type ITeamInput = {
-  name: Scalars['String'];
-  email: Scalars['String'];
-  transfer: Scalars['Boolean'];
-  card?: Maybe<ICardInput>;
-};
-
-export type IPullRequest = {
-  __typename?: 'PullRequest';
-  id: Scalars['String'];
-  providerPullRequestId: Scalars['String'];
-  number: Scalars['String'];
-  url: Scalars['String'];
-  title: Scalars['String'];
-  userLogin: Scalars['String'];
-  userURL: Scalars['String'];
-  createdAt: Scalars['Time'];
-  updatedAt: Scalars['Time'];
-};
-
-export type ISuspenderRemoved = IServiceEvent & {
-  __typename?: 'SuspenderRemoved';
-  id: Scalars['String'];
-  timestamp: Scalars['Time'];
-  service: IService;
-  actor: Scalars['String'];
-  resumedByUser?: Maybe<IUser>;
-};
-
-export type IBillingInfo = {
-  __typename?: 'BillingInfo';
-  name: Scalars['String'];
-  address: Scalars['String'];
-  city: Scalars['String'];
-  region: Scalars['String'];
-  country: Scalars['String'];
-  postalCode: Scalars['String'];
-  vatNumber: Scalars['String'];
-};
-
-export enum IGitProvider {
-  Github = 'GITHUB',
-  Gitlab = 'GITLAB'
-}
-
-export type ICustomDomain = {
-  __typename?: 'CustomDomain';
-  id: Scalars['String'];
-  name: Scalars['String'];
-  server: IServer;
-  redirectForName?: Maybe<Scalars['String']>;
-  publicSuffix?: Maybe<Scalars['String']>;
-  isApex: Scalars['Boolean'];
-  verified: Scalars['Boolean'];
-};
-
-
-export type IInvoices = {
-  __typename?: 'Invoices';
-  cursor?: Maybe<Scalars['Int']>;
-  invoices: Array<IInvoice>;
-  hasMore: Scalars['Boolean'];
-};
-
-export type ITwoFactorBackupCode = {
-  __typename?: 'TwoFactorBackupCode';
-  id: Scalars['String'];
-  code: Scalars['String'];
-};
-
-export type ICronJobRunEnded = IServiceEvent & {
-  __typename?: 'CronJobRunEnded';
-  id: Scalars['String'];
-  service: IService;
-  timestamp: Scalars['Time'];
-  cronJobRunId: Scalars['String'];
-  cronJobRun?: Maybe<ICronJobRun>;
-  status: Scalars['Int'];
-  newRun?: Maybe<ICronJobRun>;
-  reason?: Maybe<IFailureReason>;
-  user?: Maybe<IUser>;
-};
-
-export type ICardInput = {
-  last4: Scalars['String'];
-  brand: Scalars['String'];
-  token?: Maybe<Scalars['String']>;
-  country?: Maybe<Scalars['String']>;
-  region?: Maybe<Scalars['String']>;
-};
-
-export type IIacExecutionsPage = {
-  __typename?: 'IACExecutionsPage';
-  hasMore?: Maybe<Scalars['Boolean']>;
-  executions?: Maybe<Array<IIacExecution>>;
-};
-
-export type IOtpRequest = {
-  __typename?: 'OTPRequest';
-  id: Scalars['String'];
-  key: Scalars['String'];
-  qrCode: Scalars['String'];
-};
-
-export type IOwner = {
-  __typename?: 'Owner';
-  id: Scalars['String'];
-  email: Scalars['String'];
-  user?: Maybe<IUser>;
-  team?: Maybe<ITeam>;
-  balance: Scalars['Int'];
-  cardBrand: Scalars['String'];
-  cardLast4: Scalars['String'];
-  canBill: Scalars['Boolean'];
-  notifyOnFail: ISetting;
-  slackConnected: Scalars['Boolean'];
-  billingInfo?: Maybe<IBillingInfo>;
-};
-
-export type ISubject = IUser;
-
-export type IEnv = {
-  __typename?: 'Env';
-  id: Scalars['String'];
-  isStatic: Scalars['Boolean'];
-  language: Scalars['String'];
-  name: Scalars['String'];
-  sampleBuildCommand: Scalars['String'];
-  sampleStartCommand: Scalars['String'];
-};
-
-export enum IDatabaseStatus {
-  Creating = 'CREATING',
-  Available = 'AVAILABLE',
-  Unavailable = 'UNAVAILABLE'
-}
-
-export type ICustomDomainInput = {
-  name: Scalars['String'];
-  serverId: Scalars['String'];
-};
-
-export type IPullRequestServer = {
-  __typename?: 'PullRequestServer';
-  server: IServer;
-  pullRequest: IPullRequest;
-};
-
-export type IToast = {
-  toast: Scalars['String'];
-};
-
-export type IPendingUser = {
-  __typename?: 'PendingUser';
-  email: Scalars['String'];
-};
-
-export type IAuthResult = {
-  __typename?: 'AuthResult';
+export type IGithubAuthResult = {
+  __typename?: 'GithubAuthResult';
+  githubUser?: Maybe<IGithubUser>;
+  githubToken: Scalars['String'];
   idToken?: Maybe<Scalars['String']>;
   user?: Maybe<IUser>;
-};
-
-export enum IRollbackSupportStatus {
-  RollbackSupportUnknown = 'ROLLBACK_SUPPORT_UNKNOWN',
-  RollbackSupported = 'ROLLBACK_SUPPORTED',
-  RollbackUnsupportedNoServiceConfigSnapshot = 'ROLLBACK_UNSUPPORTED_NO_SERVICE_CONFIG_SNAPSHOT',
-  RollbackUnsupportedDeployDidNotFinish = 'ROLLBACK_UNSUPPORTED_DEPLOY_DID_NOT_FINISH',
-  RollbackUnsupportedDeployNotTerminal = 'ROLLBACK_UNSUPPORTED_DEPLOY_NOT_TERMINAL',
-  RollbackUnsupportedDeployLive = 'ROLLBACK_UNSUPPORTED_DEPLOY_LIVE'
-}
-
-export type IDatabase = {
-  __typename?: 'Database';
-  id: Scalars['String'];
-  backups?: Maybe<IBackupPage>;
-  canBill: Scalars['Boolean'];
-  createdAt: Scalars['Time'];
-  databaseName: Scalars['String'];
-  databaseUser: Scalars['String'];
-  isMaxPlan: Scalars['Boolean'];
-  maintenanceScheduledAt?: Maybe<Scalars['Time']>;
-  metrics: IMetrics;
-  name: Scalars['String'];
-  password?: Maybe<Scalars['String']>;
-  pendingMaintenanceBy?: Maybe<Scalars['Time']>;
-  plan: Scalars['String'];
-  region: IRegion;
-  status: IDatabaseStatus;
-  storageAvailable?: Maybe<Scalars['String']>;
-  storageTotal?: Maybe<Scalars['String']>;
-  storageUsed?: Maybe<Scalars['String']>;
-  storageUsedPercent?: Maybe<Scalars['String']>;
-  type: IDatabaseType;
-};
-
-
-export type IDatabaseMetricsArgs = {
-  historyMinutes?: Maybe<Scalars['Int']>;
-  step?: Maybe<Scalars['Int']>;
-};
-
-export type IBackup = {
-  __typename?: 'Backup';
-  id: Scalars['String'];
-  createdAt: Scalars['Time'];
-  status?: Maybe<IBackupStatus>;
-  baseUrl?: Maybe<Scalars['String']>;
-  sqlUrl?: Maybe<Scalars['String']>;
-};
-
-export type IBuild = {
-  __typename?: 'Build';
-  commitCreatedAt: Scalars['Time'];
-  commitId: Scalars['String'];
-  commitMessage: Scalars['String'];
-  commitShortId: Scalars['String'];
-  commitURL: Scalars['String'];
-  createdAt: Scalars['Time'];
-  id: Scalars['String'];
-  status: Scalars['Int'];
-  updatedAt: Scalars['Time'];
-};
-
-export type IRedirectRule = {
-  __typename?: 'RedirectRule';
-  id: Scalars['String'];
-  sequence: Scalars['Int'];
-  source: Scalars['String'];
-  destination: Scalars['String'];
-  enabled: Scalars['Boolean'];
-  httpStatus: Scalars['Int'];
-  createdAt: Scalars['Time'];
-  override: Scalars['Boolean'];
-  serverId: Scalars['String'];
-};
-
-export type IBuildEnded = IServiceEvent & {
-  __typename?: 'BuildEnded';
-  id: Scalars['String'];
-  service: IService;
-  timestamp: Scalars['Time'];
-  buildId: Scalars['String'];
-  build?: Maybe<IBuild>;
-  status: Scalars['Int'];
-  reason?: Maybe<IBuildDeployEndReason>;
-};
-
-export type IDeployStarted = IServiceEvent & {
-  __typename?: 'DeployStarted';
-  id: Scalars['String'];
-  service: IService;
-  timestamp: Scalars['Time'];
-  deployId: Scalars['String'];
-  deploy?: Maybe<IDeploy>;
-  trigger?: Maybe<IBuildDeployTrigger>;
-};
-
-export type IDiskEvent = IServiceEvent & {
-  __typename?: 'DiskEvent';
-  id: Scalars['String'];
-  service: IService;
-  timestamp: Scalars['Time'];
-  action: IDiskAction;
-};
-
-export type IGitRepo = {
-  __typename?: 'GitRepo';
-  id: Scalars['String'];
-  provider: IGitProvider;
-  providerId: Scalars['String'];
-  isFork: Scalars['Boolean'];
-  isPrivate: Scalars['Boolean'];
-  name: Scalars['String'];
-  nameWithOwner?: Maybe<Scalars['String']>;
-  owner: IGitRepoOwner;
-  shortDescriptionHTML?: Maybe<Scalars['String']>;
-  url: Scalars['String'];
-  defaultBranch: IGitBranch;
-  languages?: Maybe<Array<Scalars['String']>>;
-  branches: Array<IGitBranch>;
-  suggestedEnv?: Maybe<Scalars['String']>;
-  suggestedStartCommand?: Maybe<Scalars['String']>;
-  suggestedBuildCommand?: Maybe<Scalars['String']>;
-  suggestedPublishPath?: Maybe<Scalars['String']>;
-  suggestedFramework?: Maybe<Scalars['String']>;
-  suggestions?: Maybe<Array<ISuggestion>>;
-};
-
-export type IGitRepoOwner = {
-  __typename?: 'GitRepoOwner';
-  id: Scalars['String'];
-  login: Scalars['String'];
-};
-
-export enum IUserFacingTypeSlug {
-  Cron = 'cron',
-  Pserv = 'pserv',
-  Static = 'static',
-  Web = 'web',
-  Worker = 'worker'
-}
-
-export type IPlanData = {
-  __typename?: 'PlanData';
-  id: Scalars['String'];
-  name: Scalars['String'];
-  price: Scalars['Int'];
-  cpu: Scalars['String'];
-  mem: Scalars['String'];
-  size: Scalars['String'];
-  needsPaymentInfo: Scalars['Boolean'];
-};
-
-export type IServerFailed = IServiceEvent & {
-  __typename?: 'ServerFailed';
-  id: Scalars['String'];
-  service: IService;
-  timestamp: Scalars['Time'];
-  reason?: Maybe<IFailureReason>;
-};
-
-
-export type IBandwidth = {
-  __typename?: 'Bandwidth';
-  points: Array<IBandwidthPoint>;
-  totalMB: Scalars['Int'];
-};
-
-export type IPlan = {
-  __typename?: 'Plan';
-  name: Scalars['String'];
-  price: Scalars['Int'];
-};
-
-export type ISignupInput = {
-  email: Scalars['String'];
-  name?: Maybe<Scalars['String']>;
-  password?: Maybe<Scalars['String']>;
-  githubId?: Maybe<Scalars['String']>;
-  githubToken?: Maybe<Scalars['String']>;
-  googleId?: Maybe<Scalars['String']>;
-  gitlabId?: Maybe<Scalars['String']>;
-  inviteCode?: Maybe<Scalars['String']>;
-};
-
-export type IIacExecutionAndSource = {
-  __typename?: 'IACExecutionAndSource';
-  source?: Maybe<IIacExecutionSource>;
-  execution?: Maybe<IIacExecution>;
-};
-
-export type IInvoiceItem = {
-  __typename?: 'InvoiceItem';
-  id: Scalars['String'];
-  invoiceId: Scalars['String'];
-  chargeAmount: Scalars['Int'];
-  amountChargedToCredit: Scalars['Int'];
-  amountChargedToCard: Scalars['Int'];
-  serviceType: Scalars['String'];
-  rate?: Maybe<Scalars['Int']>;
-  duration: Scalars['Int'];
-  bandwidthGB: Scalars['Float'];
-  name: Scalars['String'];
-};
-
-export type IMetrics = {
-  __typename?: 'Metrics';
-  samples: Array<ISampleValue>;
-};
-
-export type IDiskAction = {
-  __typename?: 'DiskAction';
-  created: Scalars['Boolean'];
-  fromSizeGB?: Maybe<Scalars['Int']>;
-  toSizeGB?: Maybe<Scalars['Int']>;
-  deleted: Scalars['Boolean'];
-};
-
-export type IServerAvailable = IServiceEvent & {
-  __typename?: 'ServerAvailable';
-  id: Scalars['String'];
-  service: IService;
-  timestamp: Scalars['Time'];
-};
-
-export type IRedirectRuleInput = {
-  id?: Maybe<Scalars['String']>;
-  source: Scalars['String'];
-  destination: Scalars['String'];
-  enabled: Scalars['Boolean'];
-  override?: Maybe<Scalars['Boolean']>;
-  httpStatus?: Maybe<Scalars['Int']>;
-};
-
-export enum ISetting {
-  Default = 'DEFAULT',
-  Notify = 'NOTIFY',
-  Ignore = 'IGNORE'
-}
-
-export type IIacExecutionSource = {
-  __typename?: 'IACExecutionSource';
-  id?: Maybe<Scalars['String']>;
-  lastSyncAt?: Maybe<Scalars['Time']>;
-  repo?: Maybe<IRepo>;
-  branch?: Maybe<Scalars['String']>;
-  path?: Maybe<Scalars['String']>;
-  status?: Maybe<IIacExecutionSourceStatus>;
-  executions?: Maybe<IIacExecutionsPage>;
-  resources?: Maybe<Array<IIacManagedResource>>;
-};
-
-
-export type IIacExecutionSourceExecutionsArgs = {
-  limit?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Time']>;
-};
-
-export type IIacExecutionActionState = {
-  __typename?: 'IACExecutionActionState';
-  state?: Maybe<IIacExecutionState>;
-  message?: Maybe<Scalars['String']>;
-};
-
-export enum IIacExecutionSourceStatus {
-  Created = 'CREATED',
-  Paused = 'PAUSED',
-  InSync = 'IN_SYNC',
-  Syncing = 'SYNCING',
-  Error = 'ERROR'
-}
-
-export type IOomKilledData = {
-  __typename?: 'OOMKilledData';
-  memoryRequest?: Maybe<Scalars['String']>;
-  memoryLimit?: Maybe<Scalars['String']>;
-};
-
-export type IPendingPermission = {
-  __typename?: 'PendingPermission';
-  email: Scalars['String'];
-  action: Scalars['String'];
-};
-
-export type IBandwidthPoint = {
-  __typename?: 'BandwidthPoint';
-  time: Scalars['Time'];
-  bandwidthMB: Scalars['Int'];
-};
-
-export type IInvoice = {
-  __typename?: 'Invoice';
-  id: Scalars['String'];
-  total: Scalars['Int'];
-  status: Scalars['String'];
-  period: IPeriod;
-  startDate: Scalars['Time'];
-  endDate?: Maybe<Scalars['Time']>;
-  invoiceItems: Array<IInvoiceItem>;
-  billingInfo?: Maybe<IBillingInfo>;
+  userExists: Scalars['Boolean'];
 };
 
 export type IBranchDeleted = IServiceEvent & {
@@ -635,13 +55,11 @@ export type ICronJobInput = {
   schedule: Scalars['String'];
 };
 
-export type IGithubAuthResult = {
-  __typename?: 'GithubAuthResult';
-  githubUser?: Maybe<IGithubUser>;
-  githubToken: Scalars['String'];
-  idToken?: Maybe<Scalars['String']>;
-  user?: Maybe<IUser>;
-  userExists: Scalars['Boolean'];
+export type ICertificate = {
+  __typename?: 'Certificate';
+  id: Scalars['String'];
+  domain: Scalars['String'];
+  issued: Scalars['Boolean'];
 };
 
 export type ITeam = {
@@ -705,11 +123,18 @@ export type IGitlabUser = {
   name: Scalars['String'];
 };
 
-export type ICertificate = {
-  __typename?: 'Certificate';
+export type IGithubUser = {
+  __typename?: 'GithubUser';
+  email: Scalars['String'];
   id: Scalars['String'];
-  domain: Scalars['String'];
-  issued: Scalars['Boolean'];
+  username: Scalars['String'];
+  name: Scalars['String'];
+};
+
+export type IPeriod = {
+  __typename?: 'Period';
+  year: Scalars['Int'];
+  month: Scalars['String'];
 };
 
 export type IPermission = {
@@ -732,20 +157,6 @@ export type IHeaderInput = {
 export type IBackupEdge = {
   __typename?: 'BackupEdge';
   node: IBackup;
-};
-
-export type IGithubUser = {
-  __typename?: 'GithubUser';
-  email: Scalars['String'];
-  id: Scalars['String'];
-  username: Scalars['String'];
-  name: Scalars['String'];
-};
-
-export type IPeriod = {
-  __typename?: 'Period';
-  year: Scalars['Int'];
-  month: Scalars['String'];
 };
 
 export type IDiskSample = {
@@ -1786,31 +1197,6 @@ export type IIacExecution = {
   updatedAt?: Maybe<Scalars['Time']>;
 };
 
-export type ICronJobRunStarted = IServiceEvent & {
-  __typename?: 'CronJobRunStarted';
-  id: Scalars['String'];
-  service: IService;
-  timestamp: Scalars['Time'];
-  cronJobRunId: Scalars['String'];
-  cronJobRun?: Maybe<ICronJobRun>;
-  triggeredByUser?: Maybe<IUser>;
-};
-
-export type IExtraInstancesChanged = IServiceEvent & {
-  __typename?: 'ExtraInstancesChanged';
-  id: Scalars['String'];
-  timestamp: Scalars['Time'];
-  service: IService;
-  fromInstances: Scalars['Int'];
-  toInstances: Scalars['Int'];
-};
-
-export type IGitBranch = {
-  __typename?: 'GitBranch';
-  name: Scalars['String'];
-  latestCommit?: Maybe<IGitCommit>;
-};
-
 export type IServer = IService & {
   __typename?: 'Server';
   id: Scalars['String'];
@@ -1945,6 +1331,31 @@ export type ICharge = {
   serviceType: Scalars['String'];
 };
 
+export type ICronJobRunStarted = IServiceEvent & {
+  __typename?: 'CronJobRunStarted';
+  id: Scalars['String'];
+  service: IService;
+  timestamp: Scalars['Time'];
+  cronJobRunId: Scalars['String'];
+  cronJobRun?: Maybe<ICronJobRun>;
+  triggeredByUser?: Maybe<IUser>;
+};
+
+export type IExtraInstancesChanged = IServiceEvent & {
+  __typename?: 'ExtraInstancesChanged';
+  id: Scalars['String'];
+  timestamp: Scalars['Time'];
+  service: IService;
+  fromInstances: Scalars['Int'];
+  toInstances: Scalars['Int'];
+};
+
+export type IGitBranch = {
+  __typename?: 'GitBranch';
+  name: Scalars['String'];
+  latestCommit?: Maybe<IGitCommit>;
+};
+
 export type IUserProfileInput = {
   name: Scalars['String'];
 };
@@ -1978,6 +1389,18 @@ export type IPermissionInput = {
 export type IServiceMetrics = {
   __typename?: 'ServiceMetrics';
   samples: Array<ISampleValue>;
+};
+
+export type IGoogleUser = {
+  __typename?: 'GoogleUser';
+  id: Scalars['String'];
+  email: Scalars['String'];
+  name: Scalars['String'];
+};
+
+export type ITestToast = IToast & {
+  __typename?: 'TestToast';
+  toast: Scalars['String'];
 };
 
 export type IBuildDeployEndReason = {
@@ -2325,14 +1748,591 @@ export type IGoogleAuthResult = {
   user?: Maybe<IUser>;
 };
 
-export type IGoogleUser = {
-  __typename?: 'GoogleUser';
+export type IRepoInput = {
+  name: Scalars['String'];
+  ownerName: Scalars['String'];
+  webURL: Scalars['String'];
+  isFork: Scalars['Boolean'];
+  isPrivate: Scalars['Boolean'];
+  provider: IGitProvider;
+  providerId: Scalars['String'];
+  defaultBranchName: Scalars['String'];
+};
+
+export type IBackupPage = {
+  __typename?: 'BackupPage';
+  edges: Array<IBackupEdge>;
+};
+
+export type IDiskSnapshot = {
+  __typename?: 'DiskSnapshot';
+  createdAt: Scalars['Time'];
+  snapshotKey: Scalars['String'];
+};
+
+export type IHeader = {
+  __typename?: 'Header';
+  id: Scalars['String'];
+  createdAt: Scalars['Time'];
+  key: Scalars['String'];
+  path: Scalars['String'];
+  serviceId: Scalars['String'];
+  value: Scalars['String'];
+};
+
+export type ISampleValue = {
+  __typename?: 'SampleValue';
+  time: Scalars['Time'];
+  memory?: Maybe<Scalars['Float']>;
+  cpu?: Maybe<Scalars['Int']>;
+};
+
+export type IIacManagedResource = IServer | ICronJob | IDatabase | IEnvGroup;
+
+export type IServiceEventsResult = {
+  __typename?: 'ServiceEventsResult';
+  hasMore: Scalars['Boolean'];
+  events: Array<IServiceEvent>;
+};
+
+export type IBillingInfoInput = {
+  id: Scalars['String'];
+  name: Scalars['String'];
+  address: Scalars['String'];
+  city: Scalars['String'];
+  region: Scalars['String'];
+  country: Scalars['String'];
+  postalCode: Scalars['String'];
+  vatNumber: Scalars['String'];
+};
+
+export type ILogEntry = {
+  __typename?: 'LogEntry';
+  id: Scalars['String'];
+  serviceId: Scalars['String'];
+  buildId: Scalars['String'];
+  deployId: Scalars['String'];
+  timestamp: Scalars['String'];
+  text: Scalars['String'];
+};
+
+export type IGitCommit = {
+  __typename?: 'GitCommit';
+  id: Scalars['String'];
+  url: Scalars['String'];
+  shortId: Scalars['String'];
+  message: Scalars['String'];
+  createdAt: Scalars['Time'];
+};
+
+export type ITeamInput = {
+  name: Scalars['String'];
+  email: Scalars['String'];
+  transfer: Scalars['Boolean'];
+  card?: Maybe<ICardInput>;
+};
+
+export type IPullRequest = {
+  __typename?: 'PullRequest';
+  id: Scalars['String'];
+  providerPullRequestId: Scalars['String'];
+  number: Scalars['String'];
+  url: Scalars['String'];
+  title: Scalars['String'];
+  userLogin: Scalars['String'];
+  userURL: Scalars['String'];
+  createdAt: Scalars['Time'];
+  updatedAt: Scalars['Time'];
+};
+
+export type IBuildDeployTrigger = {
+  __typename?: 'BuildDeployTrigger';
+  firstBuild?: Maybe<Scalars['Boolean']>;
+  clusterSynced?: Maybe<Scalars['Boolean']>;
+  envUpdated?: Maybe<Scalars['Boolean']>;
+  manual?: Maybe<Scalars['Boolean']>;
+  user?: Maybe<IUser>;
+  updatedProperty?: Maybe<Scalars['String']>;
+  newCommit?: Maybe<Scalars['String']>;
+  system?: Maybe<Scalars['Boolean']>;
+  clearCache?: Maybe<Scalars['Boolean']>;
+  rollback?: Maybe<Scalars['Boolean']>;
+  rollbackTargetDeployID?: Maybe<Scalars['String']>;
+};
+
+export type IServiceSuspended = IServiceEvent & {
+  __typename?: 'ServiceSuspended';
+  id: Scalars['String'];
+  timestamp: Scalars['Time'];
+  service: IService;
+};
+
+export type ISuggestion = {
+  __typename?: 'Suggestion';
+  framework?: Maybe<Scalars['String']>;
+  environment?: Maybe<Scalars['String']>;
+  buildCommand?: Maybe<Scalars['String']>;
+  startCommand?: Maybe<Scalars['String']>;
+  publishPath?: Maybe<Scalars['String']>;
+};
+
+export type IDisk = {
+  __typename?: 'Disk';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  sizeGB: Scalars['Int'];
+  mountPath: Scalars['String'];
+  plan?: Maybe<IPlan>;
+  fsOwnerID?: Maybe<Scalars['String']>;
+  metrics: Array<IDiskSample>;
+  snapshots?: Maybe<Array<Maybe<IDiskSnapshot>>>;
+};
+
+
+export type IDiskMetricsArgs = {
+  historyMinutes?: Maybe<Scalars['Int']>;
+  step?: Maybe<Scalars['Int']>;
+};
+
+
+export type IInvoices = {
+  __typename?: 'Invoices';
+  cursor?: Maybe<Scalars['Int']>;
+  invoices: Array<IInvoice>;
+  hasMore: Scalars['Boolean'];
+};
+
+export type ITwoFactorBackupCode = {
+  __typename?: 'TwoFactorBackupCode';
+  id: Scalars['String'];
+  code: Scalars['String'];
+};
+
+export type ISuspenderRemoved = IServiceEvent & {
+  __typename?: 'SuspenderRemoved';
+  id: Scalars['String'];
+  timestamp: Scalars['Time'];
+  service: IService;
+  actor: Scalars['String'];
+  resumedByUser?: Maybe<IUser>;
+};
+
+export type IBillingInfo = {
+  __typename?: 'BillingInfo';
+  name: Scalars['String'];
+  address: Scalars['String'];
+  city: Scalars['String'];
+  region: Scalars['String'];
+  country: Scalars['String'];
+  postalCode: Scalars['String'];
+  vatNumber: Scalars['String'];
+};
+
+export enum IGitProvider {
+  Github = 'GITHUB',
+  Gitlab = 'GITLAB'
+}
+
+export type ICustomDomain = {
+  __typename?: 'CustomDomain';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  server: IServer;
+  redirectForName?: Maybe<Scalars['String']>;
+  publicSuffix?: Maybe<Scalars['String']>;
+  isApex: Scalars['Boolean'];
+  verified: Scalars['Boolean'];
+};
+
+export type ICronJobRunEnded = IServiceEvent & {
+  __typename?: 'CronJobRunEnded';
+  id: Scalars['String'];
+  service: IService;
+  timestamp: Scalars['Time'];
+  cronJobRunId: Scalars['String'];
+  cronJobRun?: Maybe<ICronJobRun>;
+  status: Scalars['Int'];
+  newRun?: Maybe<ICronJobRun>;
+  reason?: Maybe<IFailureReason>;
+  user?: Maybe<IUser>;
+};
+
+export type ICardInput = {
+  last4: Scalars['String'];
+  brand: Scalars['String'];
+  token?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  region?: Maybe<Scalars['String']>;
+};
+
+export type IIacExecutionsPage = {
+  __typename?: 'IACExecutionsPage';
+  hasMore?: Maybe<Scalars['Boolean']>;
+  executions?: Maybe<Array<IIacExecution>>;
+};
+
+export type IOtpRequest = {
+  __typename?: 'OTPRequest';
+  id: Scalars['String'];
+  key: Scalars['String'];
+  qrCode: Scalars['String'];
+};
+
+export type ICustomDomainInput = {
+  name: Scalars['String'];
+  serverId: Scalars['String'];
+};
+
+export type IPullRequestServer = {
+  __typename?: 'PullRequestServer';
+  server: IServer;
+  pullRequest: IPullRequest;
+};
+
+export type IToast = {
+  toast: Scalars['String'];
+};
+
+export type IOwner = {
+  __typename?: 'Owner';
   id: Scalars['String'];
   email: Scalars['String'];
+  user?: Maybe<IUser>;
+  team?: Maybe<ITeam>;
+  balance: Scalars['Int'];
+  cardBrand: Scalars['String'];
+  cardLast4: Scalars['String'];
+  canBill: Scalars['Boolean'];
+  notifyOnFail: ISetting;
+  slackConnected: Scalars['Boolean'];
+  billingInfo?: Maybe<IBillingInfo>;
+};
+
+export type ISubject = IUser;
+
+export type IEnv = {
+  __typename?: 'Env';
+  id: Scalars['String'];
+  isStatic: Scalars['Boolean'];
+  language: Scalars['String'];
+  name: Scalars['String'];
+  sampleBuildCommand: Scalars['String'];
+  sampleStartCommand: Scalars['String'];
+};
+
+export enum IDatabaseStatus {
+  Creating = 'CREATING',
+  Available = 'AVAILABLE',
+  Unavailable = 'UNAVAILABLE'
+}
+
+export type IPendingUser = {
+  __typename?: 'PendingUser';
+  email: Scalars['String'];
+};
+
+export type IAuthResult = {
+  __typename?: 'AuthResult';
+  idToken?: Maybe<Scalars['String']>;
+  user?: Maybe<IUser>;
+};
+
+export enum IRollbackSupportStatus {
+  RollbackSupportUnknown = 'ROLLBACK_SUPPORT_UNKNOWN',
+  RollbackSupported = 'ROLLBACK_SUPPORTED',
+  RollbackUnsupportedNoServiceConfigSnapshot = 'ROLLBACK_UNSUPPORTED_NO_SERVICE_CONFIG_SNAPSHOT',
+  RollbackUnsupportedDeployDidNotFinish = 'ROLLBACK_UNSUPPORTED_DEPLOY_DID_NOT_FINISH',
+  RollbackUnsupportedDeployNotTerminal = 'ROLLBACK_UNSUPPORTED_DEPLOY_NOT_TERMINAL',
+  RollbackUnsupportedDeployLive = 'ROLLBACK_UNSUPPORTED_DEPLOY_LIVE'
+}
+
+export type IBuild = {
+  __typename?: 'Build';
+  commitCreatedAt: Scalars['Time'];
+  commitId: Scalars['String'];
+  commitMessage: Scalars['String'];
+  commitShortId: Scalars['String'];
+  commitURL: Scalars['String'];
+  createdAt: Scalars['Time'];
+  id: Scalars['String'];
+  status: Scalars['Int'];
+  updatedAt: Scalars['Time'];
+};
+
+export type IRedirectRule = {
+  __typename?: 'RedirectRule';
+  id: Scalars['String'];
+  sequence: Scalars['Int'];
+  source: Scalars['String'];
+  destination: Scalars['String'];
+  enabled: Scalars['Boolean'];
+  httpStatus: Scalars['Int'];
+  createdAt: Scalars['Time'];
+  override: Scalars['Boolean'];
+  serverId: Scalars['String'];
+};
+
+export type IDatabase = {
+  __typename?: 'Database';
+  id: Scalars['String'];
+  backups?: Maybe<IBackupPage>;
+  canBill: Scalars['Boolean'];
+  createdAt: Scalars['Time'];
+  databaseName: Scalars['String'];
+  databaseUser: Scalars['String'];
+  isMaxPlan: Scalars['Boolean'];
+  maintenanceScheduledAt?: Maybe<Scalars['Time']>;
+  metrics: IMetrics;
+  name: Scalars['String'];
+  password?: Maybe<Scalars['String']>;
+  pendingMaintenanceBy?: Maybe<Scalars['Time']>;
+  plan: Scalars['String'];
+  region: IRegion;
+  status: IDatabaseStatus;
+  storageAvailable?: Maybe<Scalars['String']>;
+  storageTotal?: Maybe<Scalars['String']>;
+  storageUsed?: Maybe<Scalars['String']>;
+  storageUsedPercent?: Maybe<Scalars['String']>;
+  type: IDatabaseType;
+};
+
+
+export type IDatabaseMetricsArgs = {
+  historyMinutes?: Maybe<Scalars['Int']>;
+  step?: Maybe<Scalars['Int']>;
+};
+
+export type IBackup = {
+  __typename?: 'Backup';
+  id: Scalars['String'];
+  createdAt: Scalars['Time'];
+  status?: Maybe<IBackupStatus>;
+  baseUrl?: Maybe<Scalars['String']>;
+  sqlUrl?: Maybe<Scalars['String']>;
+};
+
+export type IGitRepo = {
+  __typename?: 'GitRepo';
+  id: Scalars['String'];
+  provider: IGitProvider;
+  providerId: Scalars['String'];
+  isFork: Scalars['Boolean'];
+  isPrivate: Scalars['Boolean'];
+  name: Scalars['String'];
+  nameWithOwner?: Maybe<Scalars['String']>;
+  owner: IGitRepoOwner;
+  shortDescriptionHTML?: Maybe<Scalars['String']>;
+  url: Scalars['String'];
+  defaultBranch: IGitBranch;
+  languages?: Maybe<Array<Scalars['String']>>;
+  branches: Array<IGitBranch>;
+  suggestedEnv?: Maybe<Scalars['String']>;
+  suggestedStartCommand?: Maybe<Scalars['String']>;
+  suggestedBuildCommand?: Maybe<Scalars['String']>;
+  suggestedPublishPath?: Maybe<Scalars['String']>;
+  suggestedFramework?: Maybe<Scalars['String']>;
+  suggestions?: Maybe<Array<ISuggestion>>;
+};
+
+export type IGitRepoOwner = {
+  __typename?: 'GitRepoOwner';
+  id: Scalars['String'];
+  login: Scalars['String'];
+};
+
+export enum IUserFacingTypeSlug {
+  Cron = 'cron',
+  Pserv = 'pserv',
+  Static = 'static',
+  Web = 'web',
+  Worker = 'worker'
+}
+
+export type IPlanData = {
+  __typename?: 'PlanData';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  price: Scalars['Int'];
+  cpu: Scalars['String'];
+  mem: Scalars['String'];
+  size: Scalars['String'];
+  needsPaymentInfo: Scalars['Boolean'];
+};
+
+export type IBuildEnded = IServiceEvent & {
+  __typename?: 'BuildEnded';
+  id: Scalars['String'];
+  service: IService;
+  timestamp: Scalars['Time'];
+  buildId: Scalars['String'];
+  build?: Maybe<IBuild>;
+  status: Scalars['Int'];
+  reason?: Maybe<IBuildDeployEndReason>;
+};
+
+export type IDeployStarted = IServiceEvent & {
+  __typename?: 'DeployStarted';
+  id: Scalars['String'];
+  service: IService;
+  timestamp: Scalars['Time'];
+  deployId: Scalars['String'];
+  deploy?: Maybe<IDeploy>;
+  trigger?: Maybe<IBuildDeployTrigger>;
+};
+
+export type IDiskEvent = IServiceEvent & {
+  __typename?: 'DiskEvent';
+  id: Scalars['String'];
+  service: IService;
+  timestamp: Scalars['Time'];
+  action: IDiskAction;
+};
+
+export type IServerFailed = IServiceEvent & {
+  __typename?: 'ServerFailed';
+  id: Scalars['String'];
+  service: IService;
+  timestamp: Scalars['Time'];
+  reason?: Maybe<IFailureReason>;
+};
+
+
+export type IBandwidth = {
+  __typename?: 'Bandwidth';
+  points: Array<IBandwidthPoint>;
+  totalMB: Scalars['Int'];
+};
+
+export type IMetrics = {
+  __typename?: 'Metrics';
+  samples: Array<ISampleValue>;
+};
+
+export type IPlan = {
+  __typename?: 'Plan';
+  name: Scalars['String'];
+  price: Scalars['Int'];
+};
+
+export type ISignupInput = {
+  email: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
+  password?: Maybe<Scalars['String']>;
+  githubId?: Maybe<Scalars['String']>;
+  githubToken?: Maybe<Scalars['String']>;
+  googleId?: Maybe<Scalars['String']>;
+  gitlabId?: Maybe<Scalars['String']>;
+  inviteCode?: Maybe<Scalars['String']>;
+};
+
+export type IIacExecutionAndSource = {
+  __typename?: 'IACExecutionAndSource';
+  source?: Maybe<IIacExecutionSource>;
+  execution?: Maybe<IIacExecution>;
+};
+
+export type IInvoiceItem = {
+  __typename?: 'InvoiceItem';
+  id: Scalars['String'];
+  invoiceId: Scalars['String'];
+  chargeAmount: Scalars['Int'];
+  amountChargedToCredit: Scalars['Int'];
+  amountChargedToCard: Scalars['Int'];
+  serviceType: Scalars['String'];
+  rate?: Maybe<Scalars['Int']>;
+  duration: Scalars['Int'];
+  bandwidthGB: Scalars['Float'];
   name: Scalars['String'];
 };
 
-export type ITestToast = IToast & {
-  __typename?: 'TestToast';
-  toast: Scalars['String'];
+export type IRedirectRuleInput = {
+  id?: Maybe<Scalars['String']>;
+  source: Scalars['String'];
+  destination: Scalars['String'];
+  enabled: Scalars['Boolean'];
+  override?: Maybe<Scalars['Boolean']>;
+  httpStatus?: Maybe<Scalars['Int']>;
+};
+
+export enum ISetting {
+  Default = 'DEFAULT',
+  Notify = 'NOTIFY',
+  Ignore = 'IGNORE'
+}
+
+export type IIacExecutionSource = {
+  __typename?: 'IACExecutionSource';
+  id?: Maybe<Scalars['String']>;
+  lastSyncAt?: Maybe<Scalars['Time']>;
+  repo?: Maybe<IRepo>;
+  branch?: Maybe<Scalars['String']>;
+  path?: Maybe<Scalars['String']>;
+  status?: Maybe<IIacExecutionSourceStatus>;
+  executions?: Maybe<IIacExecutionsPage>;
+  resources?: Maybe<Array<IIacManagedResource>>;
+};
+
+
+export type IIacExecutionSourceExecutionsArgs = {
+  limit?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Time']>;
+};
+
+export type IIacExecutionActionState = {
+  __typename?: 'IACExecutionActionState';
+  state?: Maybe<IIacExecutionState>;
+  message?: Maybe<Scalars['String']>;
+};
+
+export type IDiskAction = {
+  __typename?: 'DiskAction';
+  created: Scalars['Boolean'];
+  fromSizeGB?: Maybe<Scalars['Int']>;
+  toSizeGB?: Maybe<Scalars['Int']>;
+  deleted: Scalars['Boolean'];
+};
+
+export type IServerAvailable = IServiceEvent & {
+  __typename?: 'ServerAvailable';
+  id: Scalars['String'];
+  service: IService;
+  timestamp: Scalars['Time'];
+};
+
+export enum IIacExecutionSourceStatus {
+  Created = 'CREATED',
+  Paused = 'PAUSED',
+  InSync = 'IN_SYNC',
+  Syncing = 'SYNCING',
+  Error = 'ERROR'
+}
+
+export type IOomKilledData = {
+  __typename?: 'OOMKilledData';
+  memoryRequest?: Maybe<Scalars['String']>;
+  memoryLimit?: Maybe<Scalars['String']>;
+};
+
+export type IPendingPermission = {
+  __typename?: 'PendingPermission';
+  email: Scalars['String'];
+  action: Scalars['String'];
+};
+
+export type IBandwidthPoint = {
+  __typename?: 'BandwidthPoint';
+  time: Scalars['Time'];
+  bandwidthMB: Scalars['Int'];
+};
+
+export type IInvoice = {
+  __typename?: 'Invoice';
+  id: Scalars['String'];
+  total: Scalars['Int'];
+  status: Scalars['String'];
+  period: IPeriod;
+  startDate: Scalars['Time'];
+  endDate?: Maybe<Scalars['Time']>;
+  invoiceItems: Array<IInvoiceItem>;
+  billingInfo?: Maybe<IBillingInfo>;
 };

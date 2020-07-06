@@ -2,60 +2,6 @@
   "__schema": {
     "types": [
       {
-        "kind": "INTERFACE",
-        "name": "ServiceEvent",
-        "possibleTypes": [
-          {
-            "name": "SuspenderAdded"
-          },
-          {
-            "name": "ServiceResumed"
-          },
-          {
-            "name": "PlanChanged"
-          },
-          {
-            "name": "CronJobRunStarted"
-          },
-          {
-            "name": "ExtraInstancesChanged"
-          },
-          {
-            "name": "DeployEnded"
-          },
-          {
-            "name": "ServiceSuspended"
-          },
-          {
-            "name": "SuspenderRemoved"
-          },
-          {
-            "name": "CronJobRunEnded"
-          },
-          {
-            "name": "DiskEvent"
-          },
-          {
-            "name": "BuildEnded"
-          },
-          {
-            "name": "DeployStarted"
-          },
-          {
-            "name": "ServerFailed"
-          },
-          {
-            "name": "ServerAvailable"
-          },
-          {
-            "name": "BranchDeleted"
-          },
-          {
-            "name": "BuildStarted"
-          }
-        ]
-      },
-      {
         "kind": "UNION",
         "name": "IACManagedResource",
         "possibleTypes": [
@@ -74,23 +20,14 @@
         ]
       },
       {
-        "kind": "INTERFACE",
-        "name": "Toast",
+        "kind": "UNION",
+        "name": "Object",
         "possibleTypes": [
           {
-            "name": "TestToast"
+            "name": "Server"
           },
           {
-            "name": "OOMKillToast"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "Subject",
-        "possibleTypes": [
-          {
-            "name": "User"
+            "name": "CronJob"
           }
         ]
       },
@@ -107,14 +44,77 @@
         ]
       },
       {
-        "kind": "UNION",
-        "name": "Object",
+        "kind": "INTERFACE",
+        "name": "ServiceEvent",
         "possibleTypes": [
           {
-            "name": "Server"
+            "name": "DiskEvent"
           },
           {
-            "name": "CronJob"
+            "name": "PlanChanged"
+          },
+          {
+            "name": "DeployStarted"
+          },
+          {
+            "name": "SuspenderRemoved"
+          },
+          {
+            "name": "BuildEnded"
+          },
+          {
+            "name": "ServerAvailable"
+          },
+          {
+            "name": "ServiceResumed"
+          },
+          {
+            "name": "BranchDeleted"
+          },
+          {
+            "name": "ServiceSuspended"
+          },
+          {
+            "name": "DeployEnded"
+          },
+          {
+            "name": "ExtraInstancesChanged"
+          },
+          {
+            "name": "BuildStarted"
+          },
+          {
+            "name": "CronJobRunStarted"
+          },
+          {
+            "name": "ServerFailed"
+          },
+          {
+            "name": "CronJobRunEnded"
+          },
+          {
+            "name": "SuspenderAdded"
+          }
+        ]
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "Toast",
+        "possibleTypes": [
+          {
+            "name": "OOMKillToast"
+          },
+          {
+            "name": "TestToast"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "Subject",
+        "possibleTypes": [
+          {
+            "name": "User"
           }
         ]
       }
