@@ -8,7 +8,7 @@ import { IEnvVar } from '../../graphql/types'
 import { colors, layout, typography } from '../../styles'
 import { KeyValue } from '../key-value'
 import { Touchable } from '../touchable'
-import { Actions } from '.'
+import { Actions } from './actions'
 
 interface Props {
   envVars: IEnvVar[]
