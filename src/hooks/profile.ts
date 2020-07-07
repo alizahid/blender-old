@@ -1,10 +1,13 @@
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
+import { useCallback } from 'react'
 
 import {
   IQueryNewPaidServiceAllowedArgs,
+  IQueryTeamsForUserArgs,
   IQueryUserArgs,
   IRegion,
+  ITeam,
   IUser
 } from '../graphql/types'
 import { useAuth } from '../store'
@@ -90,10 +93,26 @@ const USER = gql`
   }
 `
 
-export const useProfile = () => {
-  const [{ email }] = useAuth()
+const TEAMS = gql`
+  query teamsForUser($userId: String!) {
+    teamsForUser(userId: $userId) {
+      ...teamFields
+      __typename
+    }
+  }
 
-  const { data, loading, refetch } = useQuery<
+  fragment teamFields on Team {
+    id
+    name
+    email
+    __typename
+  }
+`
+
+export const useProfile = () => {
+  const [{ email, id }] = useAuth()
+
+  const user = useQuery<
     {
       user: IUser
     },
@@ -104,9 +123,26 @@ export const useProfile = () => {
     }
   })
 
+  const teams = useQuery<
+    {
+      teamsForUser: ITeam[]
+    },
+    IQueryTeamsForUserArgs
+  >(TEAMS, {
+    variables: {
+      userId: String(id)
+    }
+  })
+
+  const refetch = useCallback(() => {
+    user.refetch()
+    teams.refetch()
+  }, [teams, user])
+
   return {
-    loading,
-    profile: data?.user,
-    refetch
+    loading: user.loading,
+    profile: user?.data?.user,
+    refetch,
+    teams: teams?.data?.teamsForUser ?? []
   }
 }

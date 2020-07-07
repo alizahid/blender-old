@@ -4,7 +4,7 @@ import React, { FunctionComponent } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
 
 import { Button, Refresher, Separator } from '../components'
-import { Payment, Profile, TwoFactor } from '../components/settings'
+import { Payment, Profile, Teams, TwoFactor } from '../components/settings'
 import { useProfile } from '../hooks'
 import { SettingsParamList } from '../navigators/settings'
 import { useAuth } from '../store'
@@ -18,7 +18,7 @@ interface Props {
 export const Settings: FunctionComponent<Props> = () => {
   const [, { logout }] = useAuth()
 
-  const { loading, profile, refetch } = useProfile()
+  const { loading, profile, refetch, teams } = useProfile()
 
   return (
     <ScrollView
@@ -27,6 +27,8 @@ export const Settings: FunctionComponent<Props> = () => {
       {profile && (
         <>
           <Profile user={profile} />
+          <Separator />
+          <Teams teams={teams} />
           <Separator />
           <Payment user={profile} />
           <Separator />

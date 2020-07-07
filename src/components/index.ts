@@ -1,3 +1,4 @@
+export { Avatar } from './avatar'
 export { Button } from './button'
 export { Empty } from './empty'
 export { Header, HeaderButton } from './header'

@@ -4211,6 +4211,11 @@ inherits@2, inherits@2.0.4, inherits@^2.0.3, inherits@~2.0.3:
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"
   integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
 
+initials@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/initials/-/initials-3.1.1.tgz#a63395b2c46bc56207b4b964a6eb185dbd8458e6"
+  integrity sha512-imRkwIpCUer+w9NB41dTENhJrTQTGOJthRa3URF0O9+L7MOMBPmN8njwkiX4u8YnzxbjEp4Is0ohiW6NSA8ZCw==
+
 inquirer@7.3.0:
   version "7.3.0"
   resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-7.3.0.tgz#aa3e7cb0c18a410c3c16cdd2bc9dcbe83c4d333e"
