@@ -35,7 +35,8 @@ const styles = StyleSheet.create({
   label: {
     ...typography.code,
     color: colors.background,
-    fontSize: typography.tiny.fontSize
+    fontSize: typography.tiny.fontSize,
+    textAlign: 'center'
   },
   labelLarge: {
     fontSize: typography.regular.fontSize
