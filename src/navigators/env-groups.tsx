@@ -9,7 +9,7 @@ import {
   EditEnvVar,
   EnvGroup,
   EnvGroups
-} from '../scenes'
+} from '../scenes/env-groups'
 
 export type EnvGroupsParamList = {
   EnvGroups: undefined

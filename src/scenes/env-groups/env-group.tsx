@@ -3,20 +3,20 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import React, { FunctionComponent, useEffect } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
 
-import { Button, Refresher, Separator } from '../components'
+import { Button, Refresher, Separator } from '../../components'
 import {
   EnvVariables,
   LinkedServices,
   SecretFiles
-} from '../components/env-groups'
+} from '../../components/env-groups'
 import {
   useDeleteEnvGroup,
   useEnvGroup,
   useUpdateEnvGroupEnvVars,
   useUpdateEnvGroupSecretFiles
-} from '../hooks'
-import { EnvGroupsParamList } from '../navigators/env-groups'
-import { colors, layout } from '../styles'
+} from '../../hooks'
+import { EnvGroupsParamList } from '../../navigators/env-groups'
+import { colors, layout } from '../../styles'
 
 interface Props {
   navigation: StackNavigationProp<EnvGroupsParamList, 'EnvGroup'>

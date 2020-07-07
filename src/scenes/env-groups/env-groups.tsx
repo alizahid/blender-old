@@ -2,11 +2,11 @@ import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React, { FunctionComponent, useEffect } from 'react'
 
-import { img_ui_dark_add } from '../assets'
-import { Header, HeaderButton } from '../components'
-import { List } from '../components/env-groups'
-import { useEnvGroups } from '../hooks'
-import { EnvGroupsParamList } from '../navigators/env-groups'
+import { img_ui_dark_add } from '../../assets'
+import { Header, HeaderButton } from '../../components'
+import { List } from '../../components/env-groups'
+import { useEnvGroups } from '../../hooks'
+import { EnvGroupsParamList } from '../../navigators/env-groups'
 
 interface Props {
   navigation: StackNavigationProp<EnvGroupsParamList, 'EnvGroups'>

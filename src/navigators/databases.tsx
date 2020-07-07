@@ -2,7 +2,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import React, { FunctionComponent } from 'react'
 
 import { Header } from '../components'
-import { CreateDatabase, Database, Databases } from '../scenes'
+import { CreateDatabase, Database, Databases } from '../scenes/databases'
 
 export type DatabasesParamList = {
   Databases: undefined

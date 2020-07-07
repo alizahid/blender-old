@@ -2,11 +2,11 @@ import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React, { FunctionComponent, useEffect } from 'react'
 
-import { img_ui_dark_add } from '../assets'
-import { Header, HeaderButton } from '../components'
-import { List } from '../components/databases'
-import { useDatabases } from '../hooks'
-import { DatabasesParamList } from '../navigators/databases'
+import { img_ui_dark_add } from '../../assets'
+import { Header, HeaderButton } from '../../components'
+import { List } from '../../components/databases'
+import { useDatabases } from '../../hooks'
+import { DatabasesParamList } from '../../navigators/databases'
 
 interface Props {
   navigation: StackNavigationProp<DatabasesParamList, 'Databases'>

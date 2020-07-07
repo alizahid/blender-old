@@ -2,18 +2,18 @@ import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React, { FunctionComponent, useState } from 'react'
 
-import { img_ui_dark_check } from '../assets'
-import { Empty, Header, HeaderButton, Spinner } from '../components'
-import { Form } from '../components/databases'
-import { DatabasePlans } from '../components/plans'
-import { IDatabaseType, IPlanData } from '../graphql/types'
+import { img_ui_dark_check } from '../../assets'
+import { Empty, Header, HeaderButton, Spinner } from '../../components'
+import { Form } from '../../components/databases'
+import { DatabasePlans } from '../../components/plans'
+import { IDatabaseType, IPlanData } from '../../graphql/types'
 import {
   useAllRegions,
   useCreateDatabase,
   useNewPaidServiceAllowed
-} from '../hooks'
-import { DatabasesParamList } from '../navigators/databases'
-import { useAuth } from '../store'
+} from '../../hooks'
+import { DatabasesParamList } from '../../navigators/databases'
+import { useAuth } from '../../store'
 
 interface Props {
   navigation: StackNavigationProp<DatabasesParamList, 'CreateDatabase'>

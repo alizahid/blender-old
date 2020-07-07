@@ -3,11 +3,11 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import React, { FunctionComponent, useEffect } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
 
-import { Button, Refresher, Separator } from '../components'
-import { Backups, Details } from '../components/databases'
-import { useDatabase, useDeleteDatabase } from '../hooks'
-import { DatabasesParamList } from '../navigators/databases'
-import { colors, layout } from '../styles'
+import { Button, Refresher, Separator } from '../../components'
+import { Backups, Details } from '../../components/databases'
+import { useDatabase, useDeleteDatabase } from '../../hooks'
+import { DatabasesParamList } from '../../navigators/databases'
+import { colors, layout } from '../../styles'
 
 interface Props {
   navigation: StackNavigationProp<DatabasesParamList, 'Database'>

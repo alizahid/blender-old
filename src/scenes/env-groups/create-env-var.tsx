@@ -2,14 +2,14 @@ import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React, { FunctionComponent } from 'react'
 
-import { img_ui_dark_check } from '../assets'
-import { Header, HeaderButton } from '../components'
-import { Form } from '../components/env-groups'
+import { img_ui_dark_check } from '../../assets'
+import { Header, HeaderButton } from '../../components'
+import { Form } from '../../components/env-groups'
 import {
   useUpdateEnvGroupEnvVars,
   useUpdateEnvGroupSecretFiles
-} from '../hooks'
-import { EnvGroupsParamList } from '../navigators/env-groups'
+} from '../../hooks'
+import { EnvGroupsParamList } from '../../navigators/env-groups'
 
 interface Props {
   navigation: StackNavigationProp<EnvGroupsParamList, 'CreateEnvVar'>
