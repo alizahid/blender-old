@@ -11,21 +11,8 @@ interface Props {
   route: RouteProp<ServicesParamList, 'Services'>
 }
 
-export const Services: FunctionComponent<Props> = ({
-  navigation: { navigate }
-}) => {
+export const Services: FunctionComponent<Props> = () => {
   const { loading, refetch, services } = useServices()
 
-  return (
-    <List
-      loading={loading}
-      onItemPress={(id) =>
-        navigate('Service', {
-          id
-        })
-      }
-      refetch={refetch}
-      services={services}
-    />
-  )
+  return <List loading={loading} refetch={refetch} services={services} />
 }

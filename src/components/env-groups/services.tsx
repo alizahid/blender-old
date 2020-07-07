@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/native'
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
@@ -10,26 +9,14 @@ interface Props {
   services: IService[]
 }
 
-export const LinkedServices: FunctionComponent<Props> = ({ services }) => {
-  const { navigate } = useNavigation()
-
-  return (
-    <View>
-      <Text style={styles.title}>Linked services</Text>
-      {new Array(10).fill(services[0]).map((service) => (
-        <Service
-          onPress={(id) =>
-            navigate('Service', {
-              id
-            })
-          }
-          service={service}
-          style={styles.service}
-        />
-      ))}
-    </View>
-  )
-}
+export const LinkedServices: FunctionComponent<Props> = ({ services }) => (
+  <View>
+    <Text style={styles.title}>Linked services</Text>
+    {new Array(10).fill(services[0]).map((service) => (
+      <Service service={service} style={styles.service} />
+    ))}
+  </View>
+)
 
 const styles = StyleSheet.create({
   service: {

@@ -10,13 +10,11 @@ interface Props {
   services: IService[]
   loading: boolean
 
-  onItemPress: (id: string) => void
   refetch: () => void
 }
 
 export const List: FunctionComponent<Props> = ({
   loading,
-  onItemPress,
   refetch,
   services
 }) => (
@@ -28,9 +26,7 @@ export const List: FunctionComponent<Props> = ({
     contentContainerStyle={styles.content}
     data={services}
     refreshControl={<Refresher onRefresh={refetch} refreshing={loading} />}
-    renderItem={({ item }) => (
-      <Card onPress={(id) => onItemPress(id)} service={item} />
-    )}
+    renderItem={({ item }) => <Card service={item} />}
   />
 )
 
