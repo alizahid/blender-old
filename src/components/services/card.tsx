@@ -131,8 +131,7 @@ const styles = StyleSheet.create({
     padding: layout.padding / 2
   },
   tagLabel: {
-    ...typography.small,
-    ...typography.medium
+    ...typography.tiny
   },
   tags: {
     flexDirection: 'row'

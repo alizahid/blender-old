@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React, { FunctionComponent } from 'react'
 
-import { TabBar } from '../components'
+import { BottomTabBar } from '../components'
 import { DatabasesNavigator } from './databases'
 import { EnvGroupsNavigator } from './env-groups'
 import { ServicesNavigator } from './services'
@@ -17,7 +17,7 @@ export type AppParamList = {
 const { Navigator, Screen } = createBottomTabNavigator<AppParamList>()
 
 export const AppNavigator: FunctionComponent = () => (
-  <Navigator tabBar={(props) => <TabBar {...props} />}>
+  <Navigator tabBar={(props) => <BottomTabBar {...props} />}>
     <Screen component={ServicesNavigator} name="Services" />
     <Screen component={DatabasesNavigator} name="Databases" />
     <Screen component={EnvGroupsNavigator} name="EnvGroups" />

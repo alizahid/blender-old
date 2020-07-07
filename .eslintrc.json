@@ -38,7 +38,9 @@
           "useDeleteEnvGroup",
           "useUpdateEnvGroupEnvVars",
           "useUpdateEnvGroupSecretFiles",
-          "useServices"
+          "useServices",
+          "useServer",
+          "useServiceEvents"
         ]
       }
     ],

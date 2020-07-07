@@ -2,9 +2,9 @@ import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React, { FunctionComponent } from 'react'
 
-import { List } from '../components/services'
-import { useServices } from '../hooks'
-import { ServicesParamList } from '../navigators/services'
+import { List } from '../../components/services'
+import { useServices } from '../../hooks'
+import { ServicesParamList } from '../../navigators/services'
 
 interface Props {
   navigation: StackNavigationProp<ServicesParamList, 'Services'>

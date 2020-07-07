@@ -1,7 +1,7 @@
 export { useSignIn, useVerifyOtp } from './auth'
 export { useAllRegions, useNewPaidServiceAllowed, useProfile } from './profile'
 
-export { useServices } from './services'
+export { useServer, useServiceEvents, useServices } from './services'
 
 export {
   useCreateDatabase,
