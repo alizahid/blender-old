@@ -4,7 +4,11 @@ import React, { FunctionComponent, useEffect } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
 
 import { Button, Refresher, Separator } from '../components'
-import { EnvVariables, SecretFiles } from '../components/env-groups'
+import {
+  EnvVariables,
+  LinkedServices,
+  SecretFiles
+} from '../components/env-groups'
 import {
   useDeleteEnvGroup,
   useEnvGroup,
@@ -25,7 +29,7 @@ export const EnvGroup: FunctionComponent<Props> = ({
     params: { id }
   }
 }) => {
-  const { envGroup, loading, refetch } = useEnvGroup(id)
+  const { envGroup, loading, refetch, services } = useEnvGroup(id)
   const { loading: removingEnvGroup, remove } = useDeleteEnvGroup()
   const { loading: removingEnvVar, removeEnvVar } = useUpdateEnvGroupEnvVars()
   const {
@@ -82,6 +86,8 @@ export const EnvGroup: FunctionComponent<Props> = ({
             onRemove={(id) => removeSecretFile(envGroup, id)}
             removing={removingSecretFile}
           />
+          <Separator />
+          <LinkedServices services={services} />
           <Separator />
           <Button
             label="Delete env group"

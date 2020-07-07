@@ -37,7 +37,8 @@
           "useCreateEnvGroup",
           "useDeleteEnvGroup",
           "useUpdateEnvGroupEnvVars",
-          "useUpdateEnvGroupSecretFiles"
+          "useUpdateEnvGroupSecretFiles",
+          "useServices"
         ]
       }
     ],

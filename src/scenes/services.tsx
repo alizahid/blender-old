@@ -1,37 +1,31 @@
 import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React, { FunctionComponent } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import Image from 'react-native-fast-image'
 
-import { img_blender } from '../assets'
-import { AppParamList } from '../navigators/app'
-import { layout, typography } from '../styles'
+import { List } from '../components/services'
+import { useServices } from '../hooks'
+import { ServicesParamList } from '../navigators/services'
 
 interface Props {
-  navigation: StackNavigationProp<AppParamList, 'Services'>
-  route: RouteProp<AppParamList, 'Services'>
+  navigation: StackNavigationProp<ServicesParamList, 'Services'>
+  route: RouteProp<ServicesParamList, 'Services'>
 }
 
-export const Services: FunctionComponent<Props> = () => (
-  <View style={styles.main}>
-    <Image source={img_blender} style={styles.logo} />
-    <Text style={styles.title}>Services</Text>
-  </View>
-)
+export const Services: FunctionComponent<Props> = ({
+  navigation: { navigate }
+}) => {
+  const { loading, refetch, services } = useServices()
 
-const styles = StyleSheet.create({
-  logo: {
-    height: layout.icon * 4,
-    width: layout.icon * 4
-  },
-  main: {
-    alignItems: 'center',
-    flex: 1,
-    justifyContent: 'center'
-  },
-  title: {
-    ...typography.title,
-    marginTop: layout.margin * 2
-  }
-})
+  return (
+    <List
+      loading={loading}
+      onItemPress={(id) =>
+        navigate('Service', {
+          id
+        })
+      }
+      refetch={refetch}
+      services={services}
+    />
+  )
+}
