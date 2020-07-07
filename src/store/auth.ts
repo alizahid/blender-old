@@ -57,11 +57,7 @@ const actions = {
 
     await client.clearStore()
 
-    setState({
-      email: undefined,
-      id: undefined,
-      loggedIn: false
-    })
+    setState(initialState)
   }
 }
 
