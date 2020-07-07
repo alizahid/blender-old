@@ -12,7 +12,7 @@ interface Props {
 export const LinkedServices: FunctionComponent<Props> = ({ services }) => (
   <View>
     <Text style={styles.title}>Linked services</Text>
-    {new Array(10).fill(services[0]).map((service) => (
+    {services.map((service) => (
       <Service service={service} style={styles.service} />
     ))}
   </View>
