@@ -1,3 +1,4 @@
+import { orderBy } from 'lodash'
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import Image from 'react-native-fast-image'
@@ -39,7 +40,7 @@ export const EnvVariables: FunctionComponent<Props> = ({
       variables, for example with <Text style={styles.code}>os.getenv()</Text>{' '}
       in Python or <Text style={styles.code}>process.env</Text> in Node.
     </Text>
-    {envVars.map((envVar) => (
+    {orderBy(envVars, 'key', 'asc').map((envVar) => (
       <Swipeable
         containerStyle={styles.item}
         key={envVar.id}

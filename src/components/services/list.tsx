@@ -1,3 +1,4 @@
+import { orderBy } from 'lodash'
 import React, { FunctionComponent } from 'react'
 import { FlatList, StyleSheet } from 'react-native'
 
@@ -24,7 +25,7 @@ export const List: FunctionComponent<Props> = ({
       loading ? null : <Empty message="You haven't created any services yet." />
     }
     contentContainerStyle={styles.content}
-    data={services}
+    data={orderBy(services, 'updatedAt', 'desc')}
     refreshControl={<Refresher onRefresh={refetch} refreshing={loading} />}
     renderItem={({ item }) => <Card service={item} />}
   />

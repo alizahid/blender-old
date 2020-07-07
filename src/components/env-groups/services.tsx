@@ -1,3 +1,4 @@
+import { orderBy } from 'lodash'
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
@@ -12,7 +13,7 @@ interface Props {
 export const LinkedServices: FunctionComponent<Props> = ({ services }) => (
   <View>
     <Text style={styles.title}>Linked services</Text>
-    {services.map((service) => (
+    {orderBy(services, 'updatedAt', 'desc').map((service) => (
       <Service service={service} style={styles.service} />
     ))}
   </View>

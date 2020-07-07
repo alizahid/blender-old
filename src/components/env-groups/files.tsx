@@ -1,3 +1,4 @@
+import { orderBy } from 'lodash'
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import Image from 'react-native-fast-image'
@@ -44,7 +45,7 @@ export const SecretFiles: FunctionComponent<Props> = ({
       (or Docker context). They are also available to load by absolute path at{' '}
       <Text style={styles.code}>{'/etc/secrets/<filename>'}</Text>.
     </Text>
-    {envVars.map((envVar) => (
+    {orderBy(envVars, 'key', 'asc').map((envVar) => (
       <Swipeable
         containerStyle={styles.item}
         key={envVar.id}

@@ -1,3 +1,4 @@
+import { orderBy } from 'lodash'
 import React, { FunctionComponent } from 'react'
 import { FlatList, StyleSheet } from 'react-native'
 
@@ -28,7 +29,7 @@ export const List: FunctionComponent<Props> = ({
       )
     }
     contentContainerStyle={styles.content}
-    data={databases}
+    data={orderBy(databases, 'createdAt', 'desc')}
     refreshControl={<Refresher onRefresh={refetch} refreshing={loading} />}
     renderItem={({ item }) => (
       <Card database={item} onPress={(id) => onItemPress(id)} />
