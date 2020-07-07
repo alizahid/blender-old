@@ -13,7 +13,6 @@ export {
   useCreateEnvGroup,
   useDeleteEnvGroup,
   useEnvGroup,
-  useEnvGroupNameExists,
   useEnvGroups,
   useUpdateEnvGroupEnvVars,
   useUpdateEnvGroupSecretFiles

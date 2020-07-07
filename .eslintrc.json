@@ -34,7 +34,6 @@
           "useProfile",
           "useEnvGroups",
           "useEnvGroup",
-          "useEnvGroupNameExists",
           "useCreateEnvGroup",
           "useDeleteEnvGroup",
           "useUpdateEnvGroupEnvVars",
