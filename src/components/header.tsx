@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   main: {
     alignItems: 'center',
     backgroundColor: colors.background,
-    borderBottomColor: colors.border,
+    borderBottomColor: colors.backgroundDark,
     borderBottomWidth: layout.border * 2,
     flexDirection: 'row',
     justifyContent: 'center'

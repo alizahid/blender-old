@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   },
   main: {
     backgroundColor: colors.background,
-    borderTopColor: colors.border,
+    borderTopColor: colors.backgroundDark,
     borderTopWidth: layout.border * 2,
     flexDirection: 'row'
   }
