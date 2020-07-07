@@ -51,9 +51,11 @@ export const Card: FunctionComponent<Props> = ({ onPress, service, style }) => (
         <View style={styles.tag}>
           <Text style={styles.tagLabel}>{service.userFacingType}</Text>
         </View>
-        <View style={styles.tag}>
-          <Text style={styles.tagLabel}>{service.env.name}</Text>
-        </View>
+        {service.userFacingType !== service.env.name && (
+          <View style={styles.tag}>
+            <Text style={styles.tagLabel}>{service.env.name}</Text>
+          </View>
+        )}
       </View>
       <Text style={styles.label}>
         Updated {moment(service.updatedAt).fromNow()}
