@@ -2,6 +2,15 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { RouteProp } from '@react-navigation/native'
 import React, { FunctionComponent } from 'react'
 
+import {
+  img_services_environment,
+  img_services_events,
+  img_services_headers,
+  img_services_metrics,
+  img_services_redirects,
+  img_services_settings,
+  img_services_sharing
+} from '../assets'
 import { TopTabBar } from '../components'
 import { Events } from '../scenes/services'
 import { ServicesParamList } from './services'
@@ -51,6 +60,7 @@ export const StaticSiteNavigator: FunctionComponent<Props> = ({
       }}
       name="Events"
       options={{
+        tabBarIcon: img_services_events,
         title: 'Events'
       }}
     />
@@ -61,6 +71,7 @@ export const StaticSiteNavigator: FunctionComponent<Props> = ({
       }}
       name="Environment"
       options={{
+        tabBarIcon: img_services_environment,
         title: 'Environment'
       }}
     />
@@ -71,6 +82,7 @@ export const StaticSiteNavigator: FunctionComponent<Props> = ({
       }}
       name="Redirects"
       options={{
+        tabBarIcon: img_services_redirects,
         title: 'Redirects / Rewrites'
       }}
     />
@@ -81,6 +93,7 @@ export const StaticSiteNavigator: FunctionComponent<Props> = ({
       }}
       name="Headers"
       options={{
+        tabBarIcon: img_services_headers,
         title: 'Headers'
       }}
     />
@@ -91,6 +104,7 @@ export const StaticSiteNavigator: FunctionComponent<Props> = ({
       }}
       name="Sharing"
       options={{
+        tabBarIcon: img_services_sharing,
         title: 'Sharing'
       }}
     />
@@ -101,6 +115,7 @@ export const StaticSiteNavigator: FunctionComponent<Props> = ({
       }}
       name="Metrics"
       options={{
+        tabBarIcon: img_services_metrics,
         title: 'Metrics'
       }}
     />
@@ -111,6 +126,7 @@ export const StaticSiteNavigator: FunctionComponent<Props> = ({
       }}
       name="Settings"
       options={{
+        tabBarIcon: img_services_settings,
         title: 'Settings'
       }}
     />

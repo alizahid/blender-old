@@ -2,6 +2,14 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { RouteProp } from '@react-navigation/native'
 import React, { FunctionComponent } from 'react'
 
+import {
+  img_services_builds,
+  img_services_environment,
+  img_services_events,
+  img_services_logs,
+  img_services_settings,
+  img_services_sharing
+} from '../assets'
 import { TopTabBar } from '../components'
 import { Events, Logs } from '../scenes/services'
 import { ServicesParamList } from './services'
@@ -46,6 +54,7 @@ export const CronJobNavigator: FunctionComponent<Props> = ({
       }}
       name="Events"
       options={{
+        tabBarIcon: img_services_events,
         title: 'Events'
       }}
     />
@@ -56,6 +65,7 @@ export const CronJobNavigator: FunctionComponent<Props> = ({
       }}
       name="Logs"
       options={{
+        tabBarIcon: img_services_logs,
         title: 'Logs'
       }}
     />
@@ -66,6 +76,7 @@ export const CronJobNavigator: FunctionComponent<Props> = ({
       }}
       name="Builds"
       options={{
+        tabBarIcon: img_services_builds,
         title: 'Builds'
       }}
     />
@@ -76,6 +87,7 @@ export const CronJobNavigator: FunctionComponent<Props> = ({
       }}
       name="Environment"
       options={{
+        tabBarIcon: img_services_environment,
         title: 'Environment'
       }}
     />
@@ -86,6 +98,7 @@ export const CronJobNavigator: FunctionComponent<Props> = ({
       }}
       name="Sharing"
       options={{
+        tabBarIcon: img_services_sharing,
         title: 'Sharing'
       }}
     />
@@ -96,6 +109,7 @@ export const CronJobNavigator: FunctionComponent<Props> = ({
       }}
       name="Settings"
       options={{
+        tabBarIcon: img_services_settings,
         title: 'Settings'
       }}
     />
