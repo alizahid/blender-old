@@ -3,7 +3,7 @@ import { RouteProp } from '@react-navigation/native'
 import React, { FunctionComponent } from 'react'
 
 import { TopTabBar } from '../components'
-import { Events } from '../scenes/services'
+import { Events, Logs } from '../scenes/services'
 import { ServicesParamList } from './services'
 
 export type CronJobParamList = {
@@ -50,7 +50,7 @@ export const CronJobNavigator: FunctionComponent<Props> = ({
       }}
     />
     <Screen
-      component={Events}
+      component={Logs}
       initialParams={{
         id
       }}

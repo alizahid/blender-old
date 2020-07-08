@@ -2,8 +2,10 @@ import { useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
 
 import {
+  ILogEntry,
   IQueryServerArgs,
   IQueryServiceEventsArgs,
+  IQueryServiceLogsArgs,
   IQueryServicesForOwnerArgs,
   IServer,
   IService,
@@ -493,6 +495,44 @@ export const useServiceEvents = (id: string) => {
   return {
     events: data?.serviceEvents.events ?? [],
     loading,
+    refetch
+  }
+}
+
+const LOGS = gql`
+  query serviceLogs($serviceId: String!) {
+    serviceLogs(serviceId: $serviceId) {
+      ...logEntryFields
+      __typename
+    }
+  }
+
+  fragment logEntryFields on LogEntry {
+    id
+    serviceId
+    buildId
+    deployId
+    timestamp
+    text
+    __typename
+  }
+`
+
+export const useServiceLogs = (id: string) => {
+  const { data, loading, refetch } = useQuery<
+    {
+      serviceLogs: ILogEntry[]
+    },
+    IQueryServiceLogsArgs
+  >(LOGS, {
+    variables: {
+      serviceId: id
+    }
+  })
+
+  return {
+    loading,
+    logs: data?.serviceLogs ?? [],
     refetch
   }
 }

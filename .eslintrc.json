@@ -40,7 +40,8 @@
           "useUpdateEnvGroupSecretFiles",
           "useServices",
           "useServer",
-          "useServiceEvents"
+          "useServiceEvents",
+          "useServiceLogs"
         ]
       }
     ],
