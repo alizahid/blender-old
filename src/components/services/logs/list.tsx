@@ -17,7 +17,7 @@ interface Props {
 export const List: FunctionComponent<Props> = ({ loading, logs, refetch }) => (
   <FlatList
     contentContainerStyle={styles.content}
-    data={orderBy(logs, 'createdAt', 'desc')}
+    data={orderBy(logs, 'timestamp', 'desc')}
     inverted
     refreshControl={<Refresher onRefresh={refetch} refreshing={loading} />}
     renderItem={({ item }) => <Card log={item} />}
