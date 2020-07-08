@@ -41,7 +41,9 @@
           "useServices",
           "useServer",
           "useServiceEvents",
-          "useServiceLogs"
+          "useServiceLogs",
+          "useServiceDisk",
+          "useRestoreDiskSnapshot"
         ]
       }
     ],

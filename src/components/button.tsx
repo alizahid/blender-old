@@ -32,7 +32,7 @@ export const Button: FunctionComponent<Props> = ({
   <Touchable
     disabled={loading}
     onPress={onPress}
-    style={[styles.main, style, small && styles.small]}>
+    style={[styles.main, small && styles.small, style]}>
     {!loading && (
       <Text style={[styles.label, styleLabel, small && styles.smallLabel]}>
         {label}

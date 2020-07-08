@@ -1,8 +1,11 @@
-import { useQuery } from '@apollo/react-hooks'
+import { useMutation, useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
+import { useCallback } from 'react'
 
 import {
+  IDiskMetricsArgs,
   ILogEntry,
+  IMutationRestoreDiskSnapshotArgs,
   IQueryServerArgs,
   IQueryServiceEventsArgs,
   IQueryServiceLogsArgs,
@@ -11,6 +14,7 @@ import {
   IService,
   IServiceEventsResult
 } from '../graphql/types'
+import { dialog } from '../lib'
 import { useAuth } from '../store'
 
 const SERVICES = gql`
@@ -534,5 +538,122 @@ export const useServiceLogs = (id: string) => {
     loading,
     logs: data?.serviceLogs ?? [],
     refetch
+  }
+}
+
+const DISK_METRICS = gql`
+  query diskMetrics($serviceId: String!, $historyLength: Int, $step: Int) {
+    server(id: $serviceId) {
+      id
+      disk {
+        id
+        name
+        mountPath
+        sizeGB
+        metrics(historyMinutes: $historyLength, step: $step) {
+          time
+          availableBytes
+          usedBytes
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+  }
+`
+
+const DISK_SNAPSHOTS = gql`
+  query diskSnapshots($serverId: String!) {
+    server(id: $serverId) {
+      id
+      disk {
+        id
+        name
+        snapshots {
+          createdAt
+          snapshotKey
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+  }
+`
+
+export const useServiceDisk = (id: string) => {
+  const disk = useQuery<
+    {
+      server: IServer
+    },
+    IQueryServiceLogsArgs & IDiskMetricsArgs
+  >(DISK_METRICS, {
+    variables: {
+      historyMinutes: 60,
+      serviceId: id,
+      step: 60 * 24
+    }
+  })
+
+  const snapshots = useQuery<{
+    server: IServer
+  }>(DISK_SNAPSHOTS, {
+    variables: {
+      serverId: id
+    }
+  })
+
+  const refetch = useCallback(() => {
+    disk.refetch()
+    snapshots.refetch()
+  }, [disk, snapshots])
+
+  return {
+    disk: disk.data?.server.disk,
+    loading: disk.loading || snapshots.loading,
+    refetch,
+    snapshots: snapshots.data?.server.disk?.snapshots ?? []
+  }
+}
+
+const RESTORE_DISK_SNAPSHOT = gql`
+  mutation restoreDiskSnapshot($diskId: String!, $snapshotKey: String!) {
+    restoreDiskSnapshot(diskId: $diskId, snapshotKey: $snapshotKey) {
+      __typename
+    }
+  }
+`
+
+export const useRestoreDiskSnapshot = () => {
+  const [mutate, { loading }] = useMutation<
+    void,
+    IMutationRestoreDiskSnapshotArgs
+  >(RESTORE_DISK_SNAPSHOT)
+
+  const restore = useCallback(
+    async (id: string, key: string) => {
+      const yes = await dialog.confirm(
+        'Restore disk snapshot',
+        'Are you sure you want to restore this snapshot?'
+      )
+
+      if (!yes) {
+        return
+      }
+
+      return mutate({
+        variables: {
+          diskId: id,
+          snapshotKey: key
+        }
+      })
+    },
+    [mutate]
+  )
+
+  return {
+    loading,
+    restore
   }
 }

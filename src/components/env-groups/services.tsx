@@ -14,7 +14,7 @@ export const LinkedServices: FunctionComponent<Props> = ({ services }) => (
   <View>
     <Text style={styles.title}>Linked services</Text>
     {orderBy(services, 'updatedAt', 'desc').map((service) => (
-      <Service service={service} style={styles.service} />
+      <Service key={service.id} service={service} style={styles.service} />
     ))}
   </View>
 )

@@ -9,6 +9,7 @@ export { default as img_ui_dark_edit } from './img/ui/dark_edit.png'
 export { default as img_ui_dark_expand } from './img/ui/dark_expand.png'
 export { default as img_ui_dark_invisible } from './img/ui/dark_invisible.png'
 export { default as img_ui_dark_remove } from './img/ui/dark_remove.png'
+export { default as img_ui_dark_restore } from './img/ui/dark_restore.png'
 export { default as img_ui_dark_visible } from './img/ui/dark_visible.png'
 
 export { default as img_ui_light_close } from './img/ui/light_close.png'

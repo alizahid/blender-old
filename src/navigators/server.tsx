@@ -14,7 +14,7 @@ import {
 } from '../assets'
 import { TopTabBar } from '../components'
 import { useServer } from '../hooks'
-import { Events, Logs } from '../scenes/services'
+import { Disks, Events, Logs } from '../scenes/services'
 import { ServicesParamList } from './services'
 
 export type ServerParamList = {
@@ -89,7 +89,7 @@ export const ServerNavigator: FunctionComponent<Props> = ({
         }}
       />
       <Screen
-        component={Events}
+        component={Disks}
         initialParams={{
           id
         }}
