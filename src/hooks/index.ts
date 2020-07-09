@@ -2,6 +2,7 @@ export { useSignIn, useVerifyOtp } from './auth'
 export { useAllRegions, useNewPaidServiceAllowed, useProfile } from './profile'
 
 export {
+  useBuildsForCronJob,
   useRestoreDiskSnapshot,
   useServer,
   useServiceDisk,

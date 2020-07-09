@@ -3,9 +3,11 @@ import { gql } from 'apollo-boost'
 import { useCallback } from 'react'
 
 import {
+  IBuild,
   IDiskMetricsArgs,
   ILogEntry,
   IMutationRestoreDiskSnapshotArgs,
+  IQueryBuildsForCronJobArgs,
   IQueryServerArgs,
   IQueryServiceEventsArgs,
   IQueryServiceLogsArgs,
@@ -656,5 +658,47 @@ export const useRestoreDiskSnapshot = () => {
   return {
     loading,
     restore
+  }
+}
+
+const BUILDS_FOR_CRON_JOB = gql`
+  query buildsForCronJob($cronJobId: String!, $limit: Int!) {
+    buildsForCronJob(cronJobId: $cronJobId, limit: $limit) {
+      ...buildFields
+      __typename
+    }
+  }
+
+  fragment buildFields on Build {
+    id
+    status
+    commitId
+    commitShortId
+    commitMessage
+    commitURL
+    commitCreatedAt
+    createdAt
+    updatedAt
+    __typename
+  }
+`
+
+export const useBuildsForCronJob = (id: string) => {
+  const { data, loading, refetch } = useQuery<
+    {
+      buildsForCronJob: IBuild[]
+    },
+    IQueryBuildsForCronJobArgs
+  >(BUILDS_FOR_CRON_JOB, {
+    variables: {
+      cronJobId: id,
+      limit: 20
+    }
+  })
+
+  return {
+    builds: data?.buildsForCronJob ?? [],
+    loading,
+    refetch
   }
 }
