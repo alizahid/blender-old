@@ -1,6 +1,5 @@
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs'
-import { CommonActions } from '@react-navigation/native'
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
 import { FlatList, Keyboard, StyleSheet, Text, View } from 'react-native'
 import Image, { Source } from 'react-native-fast-image'
@@ -115,8 +114,8 @@ const stylesBottom = StyleSheet.create({
 
 export const TopTabBar: FunctionComponent<MaterialTopTabBarProps> = ({
   descriptors,
-  navigation: { dispatch, emit },
-  state: { index, key, routes }
+  navigation: { emit, navigate },
+  state: { index, routes }
 }) => {
   const list = useRef<FlatList>(null)
 
@@ -143,10 +142,7 @@ export const TopTabBar: FunctionComponent<MaterialTopTabBarProps> = ({
               })
 
               if (index !== active && !event.defaultPrevented) {
-                dispatch({
-                  ...CommonActions.navigate(item.name),
-                  target: key
-                })
+                navigate(item.name)
               }
             }}
             style={stylesTop.link}>
