@@ -1,35 +1,56 @@
 import initials from 'initials'
 import { upperCase } from 'lodash'
+import md5 from 'md5'
 import React, { FunctionComponent } from 'react'
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import Image from 'react-native-fast-image'
 
 import { colors, layout, typography } from '../styles'
 
 interface Props {
-  name: string
+  email?: string
+  name?: string
   size?: 'small' | 'large'
   style?: StyleProp<ViewStyle>
 }
 
 export const Avatar: FunctionComponent<Props> = ({
+  email,
   name,
   size = 'small',
   style
-}) => (
-  <View
-    style={[
-      styles.main,
-      size === 'small' ? styles.small : styles.large,
-      {
-        backgroundColor: getBackground(name)
-      },
-      style
-    ]}>
-    <Text style={[styles.label, size === 'large' && styles.labelLarge]}>
-      {upperCase(initials(name).toString())}
-    </Text>
-  </View>
-)
+}) => {
+  if (name) {
+    return (
+      <View
+        style={[
+          styles.main,
+          size === 'small' ? styles.small : styles.large,
+          {
+            backgroundColor: getBackground(name)
+          },
+          style
+        ]}>
+        <Text style={[styles.label, size === 'large' && styles.labelLarge]}>
+          {upperCase(initials(name).toString())}
+        </Text>
+      </View>
+    )
+  }
+
+  if (email) {
+    return (
+      <Image
+        source={{
+          uri: `https://gravatar.com/avatar/${md5(email)}?s=200`
+        }}
+        style={[size === 'small' ? styles.small : styles.large, style]}
+      />
+    )
+  }
+
+  return null
+}
 
 const styles = StyleSheet.create({
   label: {

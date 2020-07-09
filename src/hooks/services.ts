@@ -2,19 +2,25 @@ import { useMutation, useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
 import { useCallback } from 'react'
 
+import { client } from '../graphql'
 import {
   IBuild,
   IDiskMetricsArgs,
   ILogEntry,
+  IMutationGrantPermissionsArgs,
+  IMutationInviteAndShareArgs,
   IMutationRestoreDiskSnapshotArgs,
+  IMutationRevokeAllPermissionsArgs,
   IQueryBuildsForCronJobArgs,
   IQueryServerArgs,
   IQueryServiceEventsArgs,
   IQueryServiceLogsArgs,
   IQueryServicesForOwnerArgs,
+  IQueryUserArgs,
   IServer,
   IService,
-  IServiceEventsResult
+  IServiceEventsResult,
+  IUser
 } from '../graphql/types'
 import { dialog } from '../lib'
 import { useAuth } from '../store'
@@ -700,5 +706,226 @@ export const useBuildsForCronJob = (id: string) => {
     builds: data?.buildsForCronJob ?? [],
     loading,
     refetch
+  }
+}
+
+const COLLABORATORS = gql`
+  query permissionsGrantedForService($serviceId: String!) {
+    service(id: $serviceId) {
+      id
+      user {
+        id
+        email
+        __typename
+      }
+      referentPermissions {
+        subject {
+          __typename
+          ... on User {
+            id
+            email
+            __typename
+          }
+        }
+        action
+        __typename
+      }
+      pendingPermissions {
+        email
+        action
+        __typename
+      }
+      __typename
+    }
+  }
+`
+
+export const useServiceCollaborators = (id: string) => {
+  const { data, loading, refetch } = useQuery<
+    {
+      service: IService
+    },
+    IQueryServiceLogsArgs
+  >(COLLABORATORS, {
+    variables: {
+      serviceId: id
+    }
+  })
+
+  return {
+    collaborators: data?.service.referentPermissions ?? [],
+    loading,
+    owner: data?.service.user,
+    pending: data?.service.pendingPermissions ?? [],
+    refetch
+  }
+}
+
+const USER = gql`
+  query user($email: String!) {
+    user(email: $email) {
+      id
+      email
+      __typename
+    }
+  }
+`
+
+const ADD_COLLABORATOR = gql`
+  mutation grantPermissions($permissions: [PermissionInput!]!) {
+    grantPermissions(permissions: $permissions) {
+      subject {
+        __typename
+        ... on User {
+          id
+          __typename
+        }
+      }
+      action
+      __typename
+    }
+  }
+`
+
+const INVITE_AND_SHARE = gql`
+  mutation inviteAndShare(
+    $email: String!
+    $action: String!
+    $serviceId: String!
+  ) {
+    inviteAndShare(email: $email, action: $action, serviceId: $serviceId) {
+      email
+      action
+      __typename
+    }
+  }
+`
+
+export const useAddCollaborator = () => {
+  const [mutate, mutation] = useMutation<void, IMutationGrantPermissionsArgs>(
+    ADD_COLLABORATOR
+  )
+
+  const [invite, inviteMutation] = useMutation<
+    void,
+    IMutationInviteAndShareArgs
+  >(INVITE_AND_SHARE)
+
+  const add = useCallback(
+    async (id: string, email: string) => {
+      const {
+        data: { user }
+      } = await client.query<
+        {
+          user: IUser
+        },
+        IQueryUserArgs
+      >({
+        query: USER,
+        variables: {
+          email
+        }
+      })
+
+      if (user) {
+        mutate({
+          awaitRefetchQueries: true,
+          refetchQueries() {
+            return [
+              {
+                query: COLLABORATORS,
+                variables: {
+                  serviceId: id
+                }
+              }
+            ]
+          },
+          variables: {
+            permissions: [
+              {
+                action: 'all',
+                objectId: id,
+                subjectId: user.id
+              }
+            ]
+          }
+        })
+      }
+
+      invite({
+        awaitRefetchQueries: true,
+        refetchQueries() {
+          return [
+            {
+              query: COLLABORATORS,
+              variables: {
+                serviceId: id
+              }
+            }
+          ]
+        },
+        variables: {
+          action: 'all',
+          email,
+          serviceId: id
+        }
+      })
+    },
+    [invite, mutate]
+  )
+
+  return {
+    add,
+    adding: mutation.loading || inviteMutation.loading
+  }
+}
+
+const REMOVE_COLLABORATOR = gql`
+  mutation revokeAllPermissions($subjectId: String!, $objectId: String!) {
+    revokeAllPermissions(subjectId: $subjectId, objectId: $objectId)
+  }
+`
+
+export const useRemoveCollaborator = () => {
+  const [mutate, mutation] = useMutation<
+    void,
+    IMutationRevokeAllPermissionsArgs
+  >(REMOVE_COLLABORATOR)
+
+  const remove = useCallback(
+    async (id: string, userId: string) => {
+      const yes = await dialog.confirm(
+        'Remove collaborator',
+        'Are you sure you want to remove this collaborator?'
+      )
+
+      if (!yes) {
+        return
+      }
+
+      return mutate({
+        awaitRefetchQueries: true,
+        refetchQueries() {
+          return [
+            {
+              query: COLLABORATORS,
+              variables: {
+                serviceId: id
+              }
+            }
+          ]
+        },
+        variables: {
+          objectId: id,
+          subjectId: userId
+        }
+      })
+    },
+    [mutate]
+  )
+
+  return {
+    remove,
+    removing: mutation.loading
   }
 }

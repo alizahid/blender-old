@@ -44,7 +44,10 @@
           "useServiceLogs",
           "useServiceDisk",
           "useRestoreDiskSnapshot",
-          "useBuildsForCronJob"
+          "useBuildsForCronJob",
+          "useServiceCollaborators",
+          "useAddCollaborator",
+          "useRemoveCollaborator"
         ]
       }
     ],
