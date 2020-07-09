@@ -5,12 +5,17 @@ import { StyleSheet, Text, View } from 'react-native'
 import Image, { Source } from 'react-native-fast-image'
 
 import {
+  img_events_build_cancelled,
+  img_events_build_failed,
   img_events_build_started,
+  img_events_build_succeeded,
   img_events_cron_job_cancelled,
   img_events_cron_job_started,
   img_events_cron_job_succeeded,
+  img_events_cron_job_triggered,
   img_events_default,
   img_events_deployment_cancelled,
+  img_events_deployment_failed,
   img_events_deployment_started,
   img_events_deployment_succeeded,
   img_events_server_available,
@@ -116,25 +121,39 @@ const getIcon = (event: Event): Source => {
       return img_events_build_started
 
     case 'BuildEnded':
-      return event.status === 4
-        ? img_events_deployment_cancelled
-        : img_events_deployment_succeeded
+      return event.status === 2
+        ? img_events_build_succeeded
+        : event.status === 3
+        ? img_events_build_failed
+        : event.status === 4
+        ? img_events_build_cancelled
+        : img_events_build_started
 
     case 'CronJobRunStarted':
-      return img_events_cron_job_started
+      return event.triggeredByUser
+        ? img_events_cron_job_triggered
+        : img_events_cron_job_started
 
     case 'CronJobRunEnded':
-      return event.status === 1
-        ? img_events_cron_job_cancelled
+      return event.status === 2
+        ? img_events_cron_job_succeeded
         : event.status === 3
         ? img_events_cron_job_cancelled
-        : img_events_cron_job_succeeded
+        : event.status === 4
+        ? img_events_cron_job_cancelled
+        : img_events_cron_job_started
 
     case 'DeployStarted':
       return img_events_deployment_started
 
     case 'DeployEnded':
-      return img_events_deployment_succeeded
+      return event.status === 2
+        ? img_events_deployment_succeeded
+        : event.status === 3
+        ? img_events_deployment_failed
+        : event.status === 4
+        ? img_events_deployment_cancelled
+        : img_events_deployment_started
 
     case 'ServerAvailable':
       return img_events_server_available
@@ -165,23 +184,51 @@ const getMessage = (event: Event, userId?: string): string => {
       return 'Build started'
 
     case 'BuildEnded':
-      return event.status === 4 ? 'Deploy cancelled' : 'Build ended'
+      return `Build ${
+        event.status === 2
+          ? 'succeeded'
+          : event.status === 3
+          ? 'failed'
+          : event.status === 4
+          ? 'cancelled'
+          : 'created'
+      }`
 
     case 'CronJobRunStarted':
+      if (event.triggeredByUser) {
+        return `Cron job run triggered by ${
+          event.triggeredByUser.id === userId
+            ? 'you'
+            : event.triggeredByUser.name || event.triggeredByUser.email
+        }`
+      }
+
       return 'Cron job run started'
 
     case 'CronJobRunEnded':
-      return event.status === 1
-        ? 'Cron job run failed'
-        : event.status === 3
-        ? 'Cron job run cancelled'
-        : 'Cron job run succeeded'
+      return `Cron job run ${
+        event.status === 2
+          ? 'succeeded'
+          : event.status === 3
+          ? 'failed'
+          : event.status === 4
+          ? 'cancelled'
+          : 'created'
+      }`
 
     case 'DeployStarted':
       return 'Deploy started'
 
     case 'DeployEnded':
-      return 'Deploy live'
+      return `Deploy ${
+        event.status === 2
+          ? 'succeeded'
+          : event.status === 3
+          ? 'failed'
+          : event.status === 4
+          ? 'cancelled'
+          : 'created'
+      }`
 
     case 'DiskEvent':
       return 'Disk added'
@@ -213,6 +260,8 @@ const getMessage = (event: Event, userId?: string): string => {
       }`
 
     default:
+      // TODO: report to Sentry
+
       return 'Unknown event'
   }
 }

@@ -393,6 +393,7 @@ const EVENTS = gql`
     triggeredByUser {
       id
       email
+      name
       __typename
     }
     __typename
