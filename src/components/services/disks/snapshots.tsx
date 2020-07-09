@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
     marginTop: layout.margin
   },
   title: {
-    ...typography.subtitle
+    ...typography.subtitle,
+    color: colors.foreground
   }
 })

@@ -4,24 +4,27 @@ import React, { FunctionComponent } from 'react'
 import { Dimensions, StyleSheet, Text, View } from 'react-native'
 import { LineChart, XAxis, YAxis } from 'react-native-svg-charts'
 
-import { IDisk } from '../../../graphql/types'
+import { IBandwidth } from '../../../graphql/types'
 import { colors, layout, typography } from '../../../styles'
 
 interface Props {
-  disk: IDisk
+  bandwidth: IBandwidth
 }
 
-export const Metrics: FunctionComponent<Props> = ({ disk }) => {
+export const Bandwidth: FunctionComponent<Props> = ({ bandwidth }) => {
   const { width } = Dimensions.get('window')
 
-  const x = disk.metrics.slice(-5).map(({ time }) => moment(time).valueOf())
-  const y = disk.metrics
-    .slice(-5)
-    .map(({ usedBytes }) => Math.round(usedBytes / 1024 / 1024))
+  const x = bandwidth.points.slice(-5).map(({ time }) => moment(time).valueOf())
+  const y = bandwidth.points.slice(-5).map(({ bandwidthMB }) => bandwidthMB)
 
   return (
     <View style={styles.main}>
-      <Text style={styles.title}>Disk usage</Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>Bandwidth</Text>
+        <Text style={styles.total}>
+          {prettyBytes(bandwidth.totalMB * 1024)} this month
+        </Text>
+      </View>
       <View style={styles.chart}>
         <View>
           <LineChart
@@ -34,13 +37,13 @@ export const Metrics: FunctionComponent<Props> = ({ disk }) => {
             data={y}
             style={{
               height: width * 0.5,
-              width: width - (layout.margin * 4 + layout.padding)
+              width: width - layout.margin * 5
             }}
             svg={{
               stroke: colors.primary,
               strokeWidth: layout.border * 2
             }}
-            yMax={disk.sizeGB * 1024 * 1024}
+            yMax={bandwidth.totalMB * 1024}
             yMin={0}
           />
           <XAxis
@@ -62,8 +65,8 @@ export const Metrics: FunctionComponent<Props> = ({ disk }) => {
             top: layout.margin
           }}
           data={y}
-          formatLabel={(value) => prettyBytes(value * 1024 * 1024)}
-          max={disk.sizeGB * 1024}
+          formatLabel={(value) => prettyBytes(value)}
+          max={bandwidth.totalMB * 1024}
           min={0}
           numberOfTicks={3}
           svg={{
@@ -84,11 +87,19 @@ const styles = StyleSheet.create({
     marginTop: layout.margin,
     paddingBottom: layout.margin
   },
+  header: {
+    flexDirection: 'row'
+  },
   main: {
     padding: layout.margin
   },
   title: {
     ...typography.subtitle,
-    color: colors.primary
+    color: colors.foreground,
+    flex: 1
+  },
+  total: {
+    ...typography.regular,
+    ...typography.medium
   }
 })

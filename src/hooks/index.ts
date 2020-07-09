@@ -11,6 +11,7 @@ export {
   useServiceDisk,
   useServiceEvents,
   useServiceLogs,
+  useServiceMetrics,
   useServices
 } from './services'
 

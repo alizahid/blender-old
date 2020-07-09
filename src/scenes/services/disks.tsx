@@ -2,9 +2,9 @@ import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { compact } from 'lodash'
 import React, { FunctionComponent } from 'react'
-import { ScrollView } from 'react-native'
+import { ScrollView, StyleSheet } from 'react-native'
 
-import { Refresher, Separator } from '../../components'
+import { Empty, Refresher, Separator } from '../../components'
 import { Disk, Metrics, Snapshots } from '../../components/services/disks'
 import { useRestoreDiskSnapshot, useServiceDisk } from '../../hooks'
 import { ServerParamList } from '../../navigators/server'
@@ -24,6 +24,7 @@ export const Disks: FunctionComponent<Props> = ({
 
   return (
     <ScrollView
+      contentContainerStyle={styles.content}
       keyboardShouldPersistTaps="always"
       refreshControl={<Refresher onRefresh={refetch} refreshing={loading} />}>
       {disk && (
@@ -39,6 +40,13 @@ export const Disks: FunctionComponent<Props> = ({
           />
         </>
       )}
+      {<Empty message="No disk found for this service." />}
     </ScrollView>
   )
 }
+
+const styles = StyleSheet.create({
+  content: {
+    flexGrow: 1
+  }
+})

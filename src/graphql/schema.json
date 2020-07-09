@@ -3,6 +3,27 @@
     "types": [
       {
         "kind": "UNION",
+        "name": "Subject",
+        "possibleTypes": [
+          {
+            "name": "User"
+          }
+        ]
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "Service",
+        "possibleTypes": [
+          {
+            "name": "Server"
+          },
+          {
+            "name": "CronJob"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
         "name": "IACManagedResource",
         "possibleTypes": [
           {
@@ -33,72 +54,6 @@
       },
       {
         "kind": "INTERFACE",
-        "name": "Service",
-        "possibleTypes": [
-          {
-            "name": "Server"
-          },
-          {
-            "name": "CronJob"
-          }
-        ]
-      },
-      {
-        "kind": "INTERFACE",
-        "name": "ServiceEvent",
-        "possibleTypes": [
-          {
-            "name": "DiskEvent"
-          },
-          {
-            "name": "PlanChanged"
-          },
-          {
-            "name": "DeployStarted"
-          },
-          {
-            "name": "SuspenderRemoved"
-          },
-          {
-            "name": "BuildEnded"
-          },
-          {
-            "name": "ServerAvailable"
-          },
-          {
-            "name": "ServiceResumed"
-          },
-          {
-            "name": "BranchDeleted"
-          },
-          {
-            "name": "ServiceSuspended"
-          },
-          {
-            "name": "DeployEnded"
-          },
-          {
-            "name": "ExtraInstancesChanged"
-          },
-          {
-            "name": "BuildStarted"
-          },
-          {
-            "name": "CronJobRunStarted"
-          },
-          {
-            "name": "ServerFailed"
-          },
-          {
-            "name": "CronJobRunEnded"
-          },
-          {
-            "name": "SuspenderAdded"
-          }
-        ]
-      },
-      {
-        "kind": "INTERFACE",
         "name": "Toast",
         "possibleTypes": [
           {
@@ -110,11 +65,56 @@
         ]
       },
       {
-        "kind": "UNION",
-        "name": "Subject",
+        "kind": "INTERFACE",
+        "name": "ServiceEvent",
         "possibleTypes": [
           {
-            "name": "User"
+            "name": "ServiceResumed"
+          },
+          {
+            "name": "DeployEnded"
+          },
+          {
+            "name": "ServiceSuspended"
+          },
+          {
+            "name": "ExtraInstancesChanged"
+          },
+          {
+            "name": "CronJobRunEnded"
+          },
+          {
+            "name": "BranchDeleted"
+          },
+          {
+            "name": "SuspenderAdded"
+          },
+          {
+            "name": "CronJobRunStarted"
+          },
+          {
+            "name": "SuspenderRemoved"
+          },
+          {
+            "name": "DiskEvent"
+          },
+          {
+            "name": "ServerFailed"
+          },
+          {
+            "name": "PlanChanged"
+          },
+          {
+            "name": "DeployStarted"
+          },
+          {
+            "name": "BuildStarted"
+          },
+          {
+            "name": "BuildEnded"
+          },
+          {
+            "name": "ServerAvailable"
           }
         ]
       }

@@ -1,27 +1,28 @@
+import { max } from 'lodash'
 import moment from 'moment'
 import prettyBytes from 'pretty-bytes'
 import React, { FunctionComponent } from 'react'
 import { Dimensions, StyleSheet, Text, View } from 'react-native'
 import { LineChart, XAxis, YAxis } from 'react-native-svg-charts'
 
-import { IDisk } from '../../../graphql/types'
+import { ISampleValue } from '../../../graphql/types'
 import { colors, layout, typography } from '../../../styles'
 
 interface Props {
-  disk: IDisk
+  metrics: ISampleValue[]
 }
 
-export const Metrics: FunctionComponent<Props> = ({ disk }) => {
+export const Memory: FunctionComponent<Props> = ({ metrics }) => {
   const { width } = Dimensions.get('window')
 
-  const x = disk.metrics.slice(-5).map(({ time }) => moment(time).valueOf())
-  const y = disk.metrics
-    .slice(-5)
-    .map(({ usedBytes }) => Math.round(usedBytes / 1024 / 1024))
+  const x = metrics.slice(-5).map(({ time }) => moment(time).valueOf())
+  const y = metrics.slice(-5).map(({ memory }) => memory || 0)
+
+  const maximum = Number(max(y))
 
   return (
     <View style={styles.main}>
-      <Text style={styles.title}>Disk usage</Text>
+      <Text style={styles.title}>Memory</Text>
       <View style={styles.chart}>
         <View>
           <LineChart
@@ -40,7 +41,7 @@ export const Metrics: FunctionComponent<Props> = ({ disk }) => {
               stroke: colors.primary,
               strokeWidth: layout.border * 2
             }}
-            yMax={disk.sizeGB * 1024 * 1024}
+            yMax={maximum + maximum / 2}
             yMin={0}
           />
           <XAxis
@@ -62,10 +63,9 @@ export const Metrics: FunctionComponent<Props> = ({ disk }) => {
             top: layout.margin
           }}
           data={y}
-          formatLabel={(value) => prettyBytes(value * 1024 * 1024)}
-          max={disk.sizeGB * 1024}
+          formatLabel={(value) => prettyBytes(value)}
+          max={maximum + maximum / 2}
           min={0}
-          numberOfTicks={3}
           svg={{
             fill: colors.foregroundLight,
             fontSize: typography.tiny.fontSize
@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typography.subtitle,
-    color: colors.primary
+    color: colors.foreground,
+    flex: 1
   }
 })

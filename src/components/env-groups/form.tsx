@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
 import { IEnvVar, IEnvVarInput } from '../../graphql/types'
-import { layout, typography } from '../../styles'
+import { colors, layout, typography } from '../../styles'
 import { TextBox } from '../text-box'
 
 interface Props {
@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
   title: {
     ...typography.regular,
     ...typography.medium,
+    color: colors.foreground,
     marginBottom: layout.padding
   },
   value: {

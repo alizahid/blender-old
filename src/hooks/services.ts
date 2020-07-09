@@ -12,9 +12,11 @@ import {
   IMutationRestoreDiskSnapshotArgs,
   IMutationRevokeAllPermissionsArgs,
   IQueryBuildsForCronJobArgs,
+  IQueryRedirectRulesArgs,
   IQueryServerArgs,
   IQueryServiceEventsArgs,
   IQueryServiceLogsArgs,
+  IQueryServiceMetricsArgs,
   IQueryServicesForOwnerArgs,
   IQueryUserArgs,
   IServer,
@@ -599,9 +601,9 @@ export const useServiceDisk = (id: string) => {
     IQueryServiceLogsArgs & IDiskMetricsArgs
   >(DISK_METRICS, {
     variables: {
-      historyMinutes: 60,
+      historyMinutes: 60 * 5,
       serviceId: id,
-      step: 60 * 24
+      step: 60
     }
   })
 
@@ -927,5 +929,92 @@ export const useRemoveCollaborator = () => {
   return {
     remove,
     removing: mutation.loading
+  }
+}
+
+const METRICS = gql`
+  query serviceMetrics(
+    $serviceId: String!
+    $historyMinutes: Int!
+    $step: Int!
+  ) {
+    service(id: $serviceId) {
+      id
+      env {
+        id
+        language
+        name
+        __typename
+      }
+      metrics(historyMinutes: $historyMinutes, step: $step) {
+        samples {
+          time
+          memory
+          cpu
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+  }
+`
+
+export const useServiceMetrics = (id: string) => {
+  const { data, loading, refetch } = useQuery<
+    {
+      service: IService
+    },
+    IQueryServiceMetricsArgs
+  >(METRICS, {
+    fetchPolicy: 'network-only',
+    variables: {
+      historyMinutes: 60 * 5,
+      serviceId: id,
+      step: 60
+    }
+  })
+
+  return {
+    loading,
+    metrics: data?.service.metrics.samples ?? [],
+    refetch
+  }
+}
+
+const BANDWIDTH = gql`
+  query serverBandwidth($serverId: String!) {
+    server(id: $serverId) {
+      id
+      bandwidthMB {
+        totalMB
+        points {
+          time
+          bandwidthMB
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+  }
+`
+
+export const useServerBandwidth = (id: string) => {
+  const { data, loading, refetch } = useQuery<
+    {
+      server: IServer
+    },
+    IQueryRedirectRulesArgs
+  >(BANDWIDTH, {
+    variables: {
+      serverId: id
+    }
+  })
+
+  return {
+    bandwidth: data?.server.bandwidthMB,
+    loading,
+    refetch
   }
 }

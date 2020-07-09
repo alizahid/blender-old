@@ -158,6 +158,7 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typography.small,
-    ...typography.medium
+    ...typography.medium,
+    color: colors.foreground
   }
 })

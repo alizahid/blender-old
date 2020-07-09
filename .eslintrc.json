@@ -47,7 +47,9 @@
           "useBuildsForCronJob",
           "useServiceCollaborators",
           "useAddCollaborator",
-          "useRemoveCollaborator"
+          "useRemoveCollaborator",
+          "useServiceMetrics",
+          "useServerBandwidth"
         ]
       }
     ],
