@@ -34,8 +34,8 @@ const iconsActive: Record<string, Source> = {
 }
 
 export const BottomTabBar: FunctionComponent<BottomTabBarProps> = ({
-  navigation: { dispatch, emit },
-  state: { index, key, routes }
+  navigation: { emit, navigate },
+  state: { index, routes }
 }) => {
   const { bottom } = useSafeArea()
 
@@ -74,10 +74,7 @@ export const BottomTabBar: FunctionComponent<BottomTabBarProps> = ({
             })
 
             if (index !== active && !event.defaultPrevented) {
-              dispatch({
-                ...CommonActions.navigate(route.name),
-                target: key
-              })
+              navigate(route.name)
             }
           }}
           style={stylesBottom.link}>
