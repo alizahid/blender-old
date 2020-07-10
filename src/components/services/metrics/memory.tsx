@@ -66,6 +66,7 @@ export const Memory: FunctionComponent<Props> = ({ metrics }) => {
           formatLabel={(value) => prettyBytes(value)}
           max={maximum + maximum / 2}
           min={0}
+          numberOfTicks={3}
           svg={{
             fill: colors.foregroundLight,
             fontSize: typography.tiny.fontSize
