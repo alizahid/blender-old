@@ -15,8 +15,9 @@ import {
   useUpdateEnvGroupEnvVars,
   useUpdateEnvGroupSecretFiles
 } from '../../hooks'
+import { dialog } from '../../lib'
 import { EnvGroupsParamList } from '../../navigators/env-groups'
-import { colors, layout } from '../../styles'
+import { colors, layout, typography } from '../../styles'
 
 interface Props {
   navigation: StackNavigationProp<EnvGroupsParamList, 'EnvGroup'>
@@ -24,17 +25,25 @@ interface Props {
 }
 
 export const EnvGroup: FunctionComponent<Props> = ({
-  navigation: { navigate, pop, setOptions },
+  navigation: { pop, setOptions },
   route: {
     params: { id }
   }
 }) => {
   const { envGroup, loading, refetch, services } = useEnvGroup(id)
   const { loading: removingEnvGroup, remove } = useDeleteEnvGroup()
-  const { loading: removingEnvVar, removeEnvVar } = useUpdateEnvGroupEnvVars()
+
   const {
+    createEnvVar,
+    loading: removingEnvVar,
+    removeEnvVar,
+    updateEnvVars
+  } = useUpdateEnvGroupEnvVars()
+  const {
+    createSecretFile,
     loading: removingSecretFile,
-    removeSecretFile
+    removeSecretFile,
+    updateSecretFiles
   } = useUpdateEnvGroupSecretFiles()
 
   useEffect(() => {
@@ -51,38 +60,98 @@ export const EnvGroup: FunctionComponent<Props> = ({
         <>
           <EnvVariables
             envVars={envGroup.envVars.filter(({ isFile }) => !isFile)}
-            onCreate={() =>
-              navigate('CreateEnvVar', {
-                envGroup,
-                isFile: false
+            onCreate={async () => {
+              const response = await dialog.keyValue({
+                labelPlaceholder: 'Key',
+                labelStyle: styles.code,
+                title: 'Create env var',
+                valueMultiline: true,
+                valuePlaceholder: 'Value',
+                valueStyle: styles.code
               })
-            }
-            onEdit={(envVar) =>
-              navigate('EditEnvVar', {
-                envGroup,
-                id: envVar.id,
-                isFile: false
+
+              if (response) {
+                const { key, value } = response
+
+                createEnvVar(envGroup, {
+                  isFile: false,
+                  key,
+                  value
+                })
+              }
+            }}
+            onEdit={async (envVar) => {
+              const response = await dialog.keyValue({
+                initialLabel: envVar.key,
+                initialValue: envVar.value,
+                labelPlaceholder: 'Key',
+                labelStyle: styles.code,
+                title: 'Edit env var',
+                valueMultiline: true,
+                valuePlaceholder: 'Value',
+                valueStyle: styles.code
               })
-            }
+
+              if (response) {
+                const { key, value } = response
+
+                updateEnvVars(envGroup, {
+                  id: envVar.id,
+                  isFile: false,
+                  key,
+                  value
+                })
+              }
+            }}
             onRemove={(id) => removeEnvVar(envGroup, id)}
             removing={removingEnvVar}
           />
           <Separator />
           <SecretFiles
             envVars={envGroup.envVars.filter(({ isFile }) => isFile)}
-            onCreate={() =>
-              navigate('CreateEnvVar', {
-                envGroup,
-                isFile: true
+            onCreate={async () => {
+              const response = await dialog.keyValue({
+                labelPlaceholder: 'Key',
+                labelStyle: styles.code,
+                title: 'Create secret file',
+                valueMultiline: true,
+                valuePlaceholder: 'Value',
+                valueStyle: styles.code
               })
-            }
-            onEdit={(envVar) =>
-              navigate('EditEnvVar', {
-                envGroup,
-                id: envVar.id,
-                isFile: true
+
+              if (response) {
+                const { key, value } = response
+
+                createSecretFile(envGroup, {
+                  isFile: true,
+                  key,
+                  value
+                })
+              }
+            }}
+            onEdit={async (envVar) => {
+              const response = await dialog.keyValue({
+                initialLabel: envVar.key,
+                initialValue: envVar.value,
+                labelPlaceholder: 'Key',
+                labelStyle: styles.code,
+                title: 'Edit secret file',
+                valueMultiline: true,
+                valuePlaceholder: 'Value',
+                valueStyle: styles.code
               })
-            }
+
+              if (response) {
+                const { key, value } = response
+
+                updateSecretFiles(envGroup, {
+                  id: envVar.id,
+                  isFile: true,
+                  key,
+                  value
+                })
+              }
+            }}
             onRemove={(id) => removeSecretFile(envGroup, id)}
             removing={removingSecretFile}
           />
@@ -109,6 +178,9 @@ export const EnvGroup: FunctionComponent<Props> = ({
 }
 
 const styles = StyleSheet.create({
+  code: {
+    ...typography.code
+  },
   remove: {
     alignSelf: 'center',
     backgroundColor: colors.status.red,

@@ -230,10 +230,10 @@ export const useDeleteDatabase = () => {
 
   const remove = useCallback(
     async (id: string) => {
-      const yes = await dialog.confirm(
-        'Delete database',
-        'Are you sure you want to delete this database?'
-      )
+      const yes = await dialog.confirm({
+        message: 'Are you sure you want to delete this database?',
+        title: 'Delete database'
+      })
 
       if (!yes) {
         return

@@ -644,10 +644,10 @@ export const useRestoreDiskSnapshot = () => {
 
   const restore = useCallback(
     async (id: string, key: string) => {
-      const yes = await dialog.confirm(
-        'Restore disk snapshot',
-        'Are you sure you want to restore this snapshot?'
-      )
+      const yes = await dialog.confirm({
+        message: 'Are you sure you want to restore this snapshot?',
+        title: 'Restore disk snapshot'
+      })
 
       if (!yes) {
         return
@@ -896,10 +896,10 @@ export const useRemoveCollaborator = () => {
 
   const remove = useCallback(
     async (id: string, userId: string) => {
-      const yes = await dialog.confirm(
-        'Remove collaborator',
-        'Are you sure you want to remove this collaborator?'
-      )
+      const yes = await dialog.confirm({
+        message: 'Are you sure you want to remove this collaborator?',
+        title: 'Remove collaborator'
+      })
 
       if (!yes) {
         return

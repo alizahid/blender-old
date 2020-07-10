@@ -57,7 +57,10 @@ const actions = {
 
     await client.clearStore()
 
-    setState(initialState)
+    setState({
+      ...initialState,
+      loading: false
+    })
   }
 }
 

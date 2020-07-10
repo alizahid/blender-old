@@ -1,40 +1,91 @@
-import { Alert } from 'react-native'
+import { KeyboardType, StyleProp, TextStyle } from 'react-native'
+
+import { mitter } from './mitter'
+
+interface AlertProps {
+  message: string
+  title: string
+}
+
+interface PromptProps extends AlertProps {
+  initialValue?: string
+  inputStyle?: StyleProp<TextStyle>
+  keyboardType?: KeyboardType
+  messageStyle?: StyleProp<TextStyle>
+  multiline?: boolean
+  placeholder: string
+}
+
+interface KeyValueProps {
+  initialLabel?: string
+  initialValue?: string
+  labelKeyboardType?: KeyboardType
+  labelMultiline?: boolean
+  labelPlaceholder: string
+  labelStyle?: StyleProp<TextStyle>
+  title: string
+  valueKeyboardType?: KeyboardType
+  valueMultiline?: boolean
+  valuePlaceholder: string
+  valueStyle?: StyleProp<TextStyle>
+}
 
 class Dialog {
-  alert(title: string, message: string): void {
-    Alert.alert(title, message)
+  alert(props: AlertProps): void {
+    mitter.emit('dialog', {
+      props,
+      type: 'alert'
+    })
   }
 
-  confirm(title: string, message: string): Promise<boolean> {
+  confirm(props: AlertProps): Promise<boolean> {
     return new Promise((resolve) =>
-      Alert.alert(title, message, [
-        {
-          onPress: () => resolve(false),
-          style: 'cancel',
-          text: 'No'
+      mitter.emit('dialog', {
+        props: {
+          ...props,
+          onNo: () => resolve(false),
+          onYes: () => resolve(true)
         },
-        {
-          onPress: () => resolve(true),
-          style: 'destructive',
-          text: 'Yes'
-        }
-      ])
+        type: 'confirm'
+      })
     )
   }
 
-  prompt(title: string, message: string): Promise<string | undefined> {
+  prompt(props: PromptProps): Promise<string | undefined> {
     return new Promise((resolve) =>
-      Alert.prompt(title, message, [
-        {
-          onPress: () => resolve(),
-          style: 'cancel',
-          text: 'Cancel'
+      mitter.emit('dialog', {
+        props: {
+          ...props,
+          onCancel: () => resolve(),
+          onSubmit: (value: string) => resolve(value)
         },
-        {
-          onPress: (value) => resolve(value),
-          text: 'Submit'
-        }
-      ])
+        type: 'prompt'
+      })
+    )
+  }
+
+  keyValue(
+    props: KeyValueProps
+  ): Promise<
+    | {
+        key: string
+        value: string
+      }
+    | undefined
+  > {
+    return new Promise((resolve) =>
+      mitter.emit('dialog', {
+        props: {
+          ...props,
+          onCancel: () => resolve(),
+          onSubmit: (key: string, value: string) =>
+            resolve({
+              key,
+              value
+            })
+        },
+        type: 'keyValue'
+      })
     )
   }
 }

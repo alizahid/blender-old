@@ -295,7 +295,10 @@ export const useCreateEnvGroup = () => {
       setChecking(false)
 
       if (envGroupNameExists) {
-        dialog.alert('Error', 'Env group name already exists.')
+        dialog.alert({
+          message: 'Env group name already exists.',
+          title: 'Error'
+        })
 
         return
       }
@@ -335,10 +338,10 @@ export const useDeleteEnvGroup = () => {
 
   const remove = useCallback(
     async (id: string) => {
-      const yes = await dialog.confirm(
-        'Delete env group',
-        'Are you sure you want to delete this env group?'
-      )
+      const yes = await dialog.confirm({
+        message: 'Are you sure you want to delete this env group?',
+        title: 'Delete env group'
+      })
 
       if (!yes) {
         return
@@ -490,10 +493,10 @@ export const useUpdateEnvGroupEnvVars = () => {
 
   const removeEnvVar = useCallback(
     async (envGroup: IEnvGroup, id: string) => {
-      const yes = await dialog.confirm(
-        'Delete env var',
-        'Are you sure you want to delete this env var?'
-      )
+      const yes = await dialog.confirm({
+        message: 'Are you sure you want to delete this env var?',
+        title: 'Delete env var'
+      })
 
       if (!yes) {
         return
@@ -656,10 +659,10 @@ export const useUpdateEnvGroupSecretFiles = () => {
 
   const removeSecretFile = useCallback(
     async (envGroup: IEnvGroup, id: string) => {
-      const yes = await dialog.confirm(
-        'Delete secret file',
-        'Are you sure you want to delete this secret file?'
-      )
+      const yes = await dialog.confirm({
+        message: 'Are you sure you want to delete this secret file?',
+        title: 'Delete secret file'
+      })
 
       if (!yes) {
         return
