@@ -19,7 +19,7 @@ export const Invite: FunctionComponent<Props> = ({ loading, onAdd }) => {
       <Text style={styles.title}>Invite</Text>
       <Text style={styles.message}>
         Sharing a web service with other Render users allows them to view,
-        modify, and delete it.
+        modify, and delete it
       </Text>
       <View style={styles.footer}>
         <TextBox

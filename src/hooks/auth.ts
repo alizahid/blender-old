@@ -71,7 +71,7 @@ export const useSignIn = () => {
             await login(idToken, user.id, user.email)
           } else if (user?.otpEnabled) {
             const code = await dialog.prompt({
-              message: 'Enter your 6-digit two-factor code.',
+              message: 'Enter your 6-digit two-factor code',
               placeholder: 'Code',
               title: 'Two-factor auth'
             })

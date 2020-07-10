@@ -18,7 +18,7 @@ export const Payment: FunctionComponent<Props> = ({ user }) => (
         <KeyValue label="Last 4" style={styles.item} value={user.cardLast4} />
       </>
     ) : (
-      <Text style={styles.empty}>No payment method added.</Text>
+      <Text style={styles.empty}>No payment method added</Text>
     )}
   </View>
 )

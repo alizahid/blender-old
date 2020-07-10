@@ -24,7 +24,7 @@ export const SignIn: FunctionComponent = () => {
       ]}>
       <Text style={styles.message}>
         Sign in with your Render account. This app does not store any data. We
-        don't even have servers. We communicate directly with the Render API.
+        don't even have servers. We communicate directly with the Render API
       </Text>
       <TextBox
         autoCapitalize="none"

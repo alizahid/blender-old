@@ -13,8 +13,8 @@ export const TwoFactor: FunctionComponent<Props> = ({ user }) => (
     <Text style={styles.title}>Two-factor authentication</Text>
     <Text style={styles.message}>
       {user.otpEnabled
-        ? 'Your account is protected by two-factor authentication.'
-        : 'You can enable two-factor authentication on the Render website.'}
+        ? 'Your account is protected by two-factor authentication'
+        : 'You can enable two-factor authentication on the Render website'}
     </Text>
   </View>
 )

@@ -296,7 +296,7 @@ export const useCreateEnvGroup = () => {
 
       if (envGroupNameExists) {
         dialog.alert({
-          message: 'Env group name already exists.',
+          message: 'Env group name already exists',
           title: 'Error'
         })
 
