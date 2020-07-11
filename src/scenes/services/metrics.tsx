@@ -9,8 +9,7 @@ import {
   Compute,
   Memory
 } from '../../components/services/metrics'
-import { useServiceMetrics } from '../../hooks'
-import { useServerBandwidth } from '../../hooks/services'
+import { useServerBandwidth, useServiceMetrics } from '../../hooks'
 import { ServerParamList } from '../../navigators/server'
 
 interface Props {

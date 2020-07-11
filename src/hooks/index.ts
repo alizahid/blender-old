@@ -7,6 +7,7 @@ export {
   useRemoveCollaborator,
   useRestoreDiskSnapshot,
   useServer,
+  useServerBandwidth,
   useServiceCollaborators,
   useServiceDisk,
   useServiceEvents,
