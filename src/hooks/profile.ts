@@ -19,7 +19,7 @@ const NEW_PAID_SERVICE_ALLOWED = gql`
 `
 
 export const useNewPaidServiceAllowed = () => {
-  const [{ id }] = useAuth()
+  const [{ user }] = useAuth()
 
   const { data, loading } = useQuery<
     {
@@ -28,7 +28,7 @@ export const useNewPaidServiceAllowed = () => {
     IQueryNewPaidServiceAllowedArgs
   >(NEW_PAID_SERVICE_ALLOWED, {
     variables: {
-      userId: String(id)
+      userId: String(user)
     }
   })
 
@@ -110,7 +110,7 @@ const TEAMS = gql`
 `
 
 export const useProfile = () => {
-  const [{ email, id }] = useAuth()
+  const [{ email, user: userId }] = useAuth()
 
   const user = useQuery<
     {
@@ -130,7 +130,7 @@ export const useProfile = () => {
     IQueryTeamsForUserArgs
   >(TEAMS, {
     variables: {
-      userId: String(id)
+      userId: String(userId)
     }
   })
 

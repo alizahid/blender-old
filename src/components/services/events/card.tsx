@@ -68,13 +68,13 @@ interface Props {
 }
 
 export const Card: FunctionComponent<Props> = ({ event }) => {
-  const [{ id }] = useAuth()
+  const [{ user }] = useAuth()
 
   return (
     <View style={styles.main}>
       <Image source={getIcon(event)} style={styles.icon} />
       <View style={styles.content}>
-        <Text style={styles.message}>{getMessage(event, id)}</Text>
+        <Text style={styles.message}>{getMessage(event, user)}</Text>
         <Text style={styles.time}>{moment(event.timestamp).format('LLL')}</Text>
         {getMessage(event) === 'Unknown event' && (
           <Text

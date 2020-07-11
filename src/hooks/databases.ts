@@ -28,7 +28,7 @@ const DATABASES = gql`
 `
 
 export const useDatabases = () => {
-  const [{ id }] = useAuth()
+  const [{ user }] = useAuth()
 
   const { data, loading, refetch } = useQuery<
     {
@@ -37,7 +37,7 @@ export const useDatabases = () => {
     IQueryDatabasesForOwnerArgs
   >(DATABASES, {
     variables: {
-      ownerId: String(id)
+      ownerId: String(user)
     }
   })
 
@@ -160,7 +160,7 @@ const CREATE_DATABASE = gql`
 `
 
 export const useCreateDatabase = () => {
-  const [{ id }] = useAuth()
+  const [{ user }] = useAuth()
 
   const [mutate, { loading }] = useMutation<
     {
@@ -176,7 +176,7 @@ export const useCreateDatabase = () => {
       const options = {
         query: DATABASES,
         variables: {
-          ownerId: id
+          ownerId: user
         }
       }
 
@@ -222,7 +222,7 @@ const DELETE_DATABASE = gql`
 `
 
 export const useDeleteDatabase = () => {
-  const [{ id: ownerId }] = useAuth()
+  const [{ user: ownerId }] = useAuth()
 
   const [mutate, { loading }] = useMutation<{
     deleteDatabase: boolean

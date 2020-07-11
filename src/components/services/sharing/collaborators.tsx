@@ -25,7 +25,7 @@ export const Collaborators: FunctionComponent<Props> = ({
   pending,
   removing
 }) => {
-  const [{ id }] = useAuth()
+  const [{ user }] = useAuth()
 
   return (
     <View style={styles.main}>
@@ -33,7 +33,7 @@ export const Collaborators: FunctionComponent<Props> = ({
       <View style={styles.collaborator}>
         <Avatar email={owner.email} size="small" />
         <Text style={styles.email}>{owner.email}</Text>
-        {id === owner.id && (
+        {user === owner.id && (
           <>
             <View style={[styles.status, styles.owner]}>
               <Text style={[styles.statusLabel, styles.ownerLabel]}>Owner</Text>

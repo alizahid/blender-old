@@ -23,7 +23,7 @@ interface Props {
 export const CreateDatabase: FunctionComponent<Props> = ({
   navigation: { replace, setOptions }
 }) => {
-  const [{ id }] = useAuth()
+  const [{ user }] = useAuth()
 
   const { allowed, loading } = useNewPaidServiceAllowed()
   const { loading: fetching, regions } = useAllRegions()
@@ -64,7 +64,7 @@ export const CreateDatabase: FunctionComponent<Props> = ({
                         databaseName: data.databaseName,
                         databaseUser: data.databaseUser,
                         name: String(data.name),
-                        ownerId: String(id),
+                        ownerId: String(user),
                         plan: plan.name,
                         region: data.region,
                         type: IDatabaseType.Postgresql,

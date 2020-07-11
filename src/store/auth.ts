@@ -4,10 +4,11 @@ import { createHook, createStore, StoreActionApi } from 'react-sweet-state'
 import { client } from '../graphql'
 
 type State = {
+  email?: string
   loading: boolean
   loggedIn: boolean
-  email?: string
-  id?: string
+  team?: string
+  user?: string
 }
 type StoreApi = StoreActionApi<State>
 type Actions = typeof actions
@@ -18,18 +19,31 @@ const initialState: State = {
 }
 
 const actions = {
-  init: () => async ({ setState }: StoreApi) => {
-    const [[, token], [, email], [, id]] = await AsyncStorage.multiGet([
-      '@token',
-      '@email',
-      '@id'
-    ])
+  changeTeam: (team?: string) => async ({ setState }: StoreApi) => {
+    if (team) {
+      await AsyncStorage.setItem('@team', team)
+    } else {
+      await AsyncStorage.removeItem('@team')
+    }
 
-    if (token && email && id) {
+    setState({
+      team
+    })
+  },
+  init: () => async ({ setState }: StoreApi) => {
+    const [
+      [, token],
+      [, email],
+      [, user],
+      [, team]
+    ] = await AsyncStorage.multiGet(['@token', '@email', '@user', '@team'])
+
+    if (token && email && user) {
       setState({
         email,
-        id,
-        loggedIn: true
+        loggedIn: true,
+        team: team || undefined,
+        user
       })
     }
 
@@ -37,23 +51,23 @@ const actions = {
       loading: false
     })
   },
-  login: (token: string, id: string, email: string) => async ({
+  login: (token: string, user: string, email: string) => async ({
     setState
   }: StoreApi) => {
     await AsyncStorage.multiSet([
       ['@token', token],
       ['@email', email],
-      ['@id', id]
+      ['@user', user]
     ])
 
     setState({
       email,
-      id,
-      loggedIn: true
+      loggedIn: true,
+      user
     })
   },
   logout: () => async ({ setState }: StoreApi) => {
-    await AsyncStorage.multiRemove(['@token', '@email', '@id'])
+    await AsyncStorage.multiRemove(['@token', '@email', '@user', '@team'])
 
     await client.clearStore()
 

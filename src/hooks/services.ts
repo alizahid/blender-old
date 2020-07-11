@@ -94,7 +94,7 @@ const SERVICES = gql`
 `
 
 export const useServices = () => {
-  const [{ id }] = useAuth()
+  const [{ user }] = useAuth()
 
   const { data, loading, refetch } = useQuery<
     {
@@ -103,7 +103,7 @@ export const useServices = () => {
     IQueryServicesForOwnerArgs
   >(SERVICES, {
     variables: {
-      ownerId: String(id)
+      ownerId: String(user)
     }
   })
 
