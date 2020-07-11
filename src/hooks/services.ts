@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
 import update from 'immutability-helper'
-import { cloneDeep, omit } from 'lodash'
+import { cloneDeep, omit, pick } from 'lodash'
 import { useCallback } from 'react'
 
 import { client } from '../graphql'
@@ -19,6 +19,7 @@ import {
   IMutationRestoreDiskSnapshotArgs,
   IMutationRevokeAllPermissionsArgs,
   IMutationSaveEnvVarsArgs,
+  IMutationSaveRedirectRulesArgs,
   IQueryBuildsForCronJobArgs,
   IQueryEnvGroupsForServiceArgs,
   IQueryEnvVarsForServiceArgs,
@@ -29,6 +30,8 @@ import {
   IQueryServiceMetricsArgs,
   IQueryServicesForOwnerArgs,
   IQueryUserArgs,
+  IRedirectRule,
+  IRedirectRuleInput,
   IServer,
   IService,
   IServiceEventsResult,
@@ -1600,5 +1603,211 @@ export const useServiceEnvGroups = (id: string) => {
     refetch,
     unlink,
     unlinking: removeMutation.loading
+  }
+}
+
+const REDIRECT_RULES = gql`
+  query redirectRules($serverId: String!) {
+    redirectRules(serverId: $serverId) {
+      ...redirectRuleFields
+      __typename
+    }
+  }
+
+  fragment redirectRuleFields on RedirectRule {
+    id
+    source
+    destination
+    enabled
+    httpStatus
+    serverId
+    __typename
+  }
+`
+
+const SAVE_REDIRECT_RULES = gql`
+  mutation saveRedirectRules(
+    $serverId: String!
+    $rules: [RedirectRuleInput!]!
+  ) {
+    saveRedirectRules(serverId: $serverId, rules: $rules) {
+      ...redirectRuleFields
+      __typename
+    }
+  }
+
+  fragment redirectRuleFields on RedirectRule {
+    id
+    source
+    destination
+    enabled
+    httpStatus
+    serverId
+    __typename
+  }
+`
+
+export const useServiceRedirects = (id: string) => {
+  const { data, loading, refetch } = useQuery<
+    {
+      redirectRules: IRedirectRule[]
+    },
+    IQueryRedirectRulesArgs
+  >(REDIRECT_RULES, {
+    variables: {
+      serverId: id
+    }
+  })
+
+  const [mutate, mutation] = useMutation<
+    {
+      saveRedirectRules: IRedirectRule[]
+    },
+    IMutationSaveRedirectRulesArgs
+  >(SAVE_REDIRECT_RULES, {
+    update(proxy, response) {
+      if (!response.data) {
+        return
+      }
+
+      const options = {
+        query: REDIRECT_RULES,
+        variables: {
+          serverId: id
+        }
+      }
+
+      const data = proxy.readQuery<
+        {
+          redirectRules: IRedirectRule[]
+        },
+        IQueryRedirectRulesArgs
+      >(options)
+
+      if (!data) {
+        return
+      }
+
+      proxy.writeQuery({
+        ...options,
+        data: update(data, {
+          redirectRules: {
+            $set: response.data.saveRedirectRules
+          }
+        })
+      })
+    }
+  })
+
+  const createRule = useCallback(
+    async (input: IRedirectRuleInput) => {
+      if (!data) {
+        return
+      }
+
+      await mutate({
+        variables: {
+          rules: cloneDeep([...data.redirectRules, input]).map((rule) =>
+            pick(rule, ['source', 'destination', 'httpStatus', 'enabled'])
+          ),
+          serverId: id
+        }
+      })
+    },
+    [data, id, mutate]
+  )
+
+  const updateRule = useCallback(
+    async (input: IRedirectRuleInput) => {
+      if (!data) {
+        return
+      }
+
+      await mutate({
+        variables: {
+          rules: cloneDeep([
+            ...data.redirectRules.filter(({ id }) => id !== input.id),
+            input
+          ]).map((rule) =>
+            pick(rule, ['source', 'destination', 'httpStatus', 'enabled'])
+          ),
+          serverId: id
+        }
+      })
+    },
+    [data, id, mutate]
+  )
+
+  const removeRule = useCallback(
+    async (ruleId: string) => {
+      if (!data) {
+        return
+      }
+
+      const yes = await dialog.confirm({
+        message: 'Are you sure you want to delete this rule?',
+        title: 'Delete rule'
+      })
+
+      if (!yes) {
+        return
+      }
+
+      return mutate({
+        variables: {
+          rules: cloneDeep(
+            data.redirectRules.filter((rule) => rule.id !== ruleId)
+          ).map((rule) =>
+            pick(rule, ['source', 'destination', 'httpStatus', 'enabled'])
+          ),
+          serverId: id
+        }
+      })
+    },
+    [data, id, mutate]
+  )
+
+  const moveRule = useCallback(
+    (ruleId: string, direction: 'up' | 'down') => {
+      if (!data) {
+        return
+      }
+
+      const rules = cloneDeep(data.redirectRules)
+
+      const index = rules.findIndex(({ id }) => id === ruleId)
+
+      const rule = rules.splice(index, 1)[0]
+
+      if (direction === 'down') {
+        rules.splice(index + 1, 0, rule)
+      } else {
+        rules.splice(index - 1, 0, rule)
+      }
+
+      return mutate({
+        optimisticResponse: {
+          saveRedirectRules: rules
+        },
+        variables: {
+          rules: rules.map((rule) =>
+            pick(rule, ['source', 'destination', 'httpStatus', 'enabled'])
+          ),
+          serverId: id
+        }
+      })
+    },
+    [data, id, mutate]
+  )
+
+  return {
+    createRule,
+    loading,
+    moveRule,
+    refetch,
+    removeRule,
+    rules: data?.redirectRules ?? [],
+    updateRule,
+    updating: mutation.loading
   }
 }

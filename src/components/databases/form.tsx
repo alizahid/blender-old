@@ -68,7 +68,7 @@ export const Form: FunctionComponent<Props> = ({
             label: description,
             value: id
           }))}
-          onPress={({ label, value }) =>
+          onSelect={({ label, value }) =>
             setRegion({
               description: label,
               id: value

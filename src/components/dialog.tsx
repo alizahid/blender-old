@@ -1,19 +1,16 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import {
   KeyboardType,
-  Modal,
   StyleProp,
   StyleSheet,
   Text,
   TextStyle,
-  View,
-  ViewStyle
+  View
 } from 'react-native'
-import { useSafeArea } from 'react-native-safe-area-context'
 
 import { mitter } from '../lib'
 import { colors, layout, typography } from '../styles'
-import { KeyboardView } from './keyboard-view'
+import { Overlay } from './overlay'
 import { TextBox } from './text-box'
 import { Touchable } from './touchable'
 
@@ -287,34 +284,6 @@ const KeyValueDialog: FunctionComponent<KeyValueDialogProps> = ({
   )
 }
 
-interface OverlayProps {
-  style?: StyleProp<ViewStyle>
-}
-
-export const Overlay: FunctionComponent<OverlayProps> = ({
-  children,
-  style
-}) => {
-  const { bottom, top } = useSafeArea()
-
-  return (
-    <Modal animationType="fade" transparent visible>
-      <KeyboardView>
-        <View
-          style={[
-            styles.modal,
-            {
-              paddingBottom: bottom,
-              paddingTop: top
-            }
-          ]}>
-          <View style={[styles.main, style]}>{children}</View>
-        </View>
-      </KeyboardView>
-    </Modal>
-  )
-}
-
 const styles = StyleSheet.create({
   button: {
     flex: 1
@@ -336,12 +305,6 @@ const styles = StyleSheet.create({
     color: colors.primary,
     margin: layout.margin
   },
-  main: {
-    backgroundColor: colors.background,
-    borderRadius: layout.radius,
-    margin: layout.margin * 2,
-    overflow: 'hidden'
-  },
   message: {
     ...typography.regular,
     alignSelf: 'center',
@@ -350,11 +313,6 @@ const styles = StyleSheet.create({
     margin: layout.margin,
     marginBottom: 0,
     textAlign: 'center'
-  },
-  modal: {
-    backgroundColor: colors.modal,
-    flex: 1,
-    justifyContent: 'center'
   },
   title: {
     ...typography.subtitle,

@@ -51,7 +51,8 @@
           "useServiceMetrics",
           "useServerBandwidth",
           "useServiceEnv",
-          "useServiceEnvGroups"
+          "useServiceEnvGroups",
+          "useServiceRedirects"
         ]
       }
     ],

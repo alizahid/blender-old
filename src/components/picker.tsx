@@ -30,14 +30,14 @@ interface Props {
   placeholder: string
   selected?: Data
   style?: StyleProp<ViewStyle>
-  title: string
+  title?: string
 
-  onPress: (data: Data) => void
+  onSelect: (data: Data) => void
 }
 
 export const Picker: FunctionComponent<Props> = ({
   data,
-  onPress,
+  onSelect,
   placeholder,
   selected,
   style,
@@ -50,7 +50,7 @@ export const Picker: FunctionComponent<Props> = ({
   return (
     <>
       <View style={style}>
-        <Text style={styles.title}>{title}</Text>
+        {!!title && <Text style={styles.title}>{title}</Text>}
         <Touchable onPress={() => setVisible(true)} style={styles.input}>
           <Text style={[styles.label, !selected && styles.placeholder]}>
             {selected?.label ?? placeholder}
@@ -69,7 +69,7 @@ export const Picker: FunctionComponent<Props> = ({
           ]}>
           <View style={styles.content}>
             <View style={styles.header}>
-              <Text style={styles.headerLabel}>{title}</Text>
+              <Text style={styles.headerLabel}>{title || placeholder}</Text>
               <Touchable onPress={() => setVisible(false)}>
                 <Image
                   source={img_ui_light_close}
@@ -84,7 +84,7 @@ export const Picker: FunctionComponent<Props> = ({
               renderItem={({ item }) => (
                 <Touchable
                   onPress={() => {
-                    onPress(item)
+                    onSelect(item)
 
                     setVisible(false)
                   }}
@@ -136,8 +136,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: layout.textBox,
     justifyContent: 'center',
-    marginTop: layout.padding,
-    paddingHorizontal: layout.margin
+    paddingHorizontal: layout.margin * (3 / 4)
   },
   item: {
     flexDirection: 'row',
@@ -159,6 +158,7 @@ const styles = StyleSheet.create({
   title: {
     ...typography.small,
     ...typography.medium,
-    color: colors.foreground
+    color: colors.foreground,
+    marginBottom: layout.padding
   }
 })
