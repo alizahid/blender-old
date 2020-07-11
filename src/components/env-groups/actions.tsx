@@ -10,7 +10,7 @@ import { Touchable } from '../touchable'
 interface Props {
   removing: boolean
 
-  onEdit: () => void
+  onEdit?: () => void
   onRemove: () => void
 }
 
@@ -20,9 +20,11 @@ export const Actions: FunctionComponent<Props> = ({
   removing
 }) => (
   <View style={styles.main}>
-    <Touchable onPress={() => onEdit()} style={styles.action}>
-      <Image source={img_ui_dark_edit} style={styles.icon} />
-    </Touchable>
+    {onEdit && (
+      <Touchable onPress={() => onEdit()} style={styles.action}>
+        <Image source={img_ui_dark_edit} style={styles.icon} />
+      </Touchable>
+    )}
     {removing ? (
       <Spinner style={styles.spinner} />
     ) : (

@@ -12,7 +12,7 @@ import {
   img_services_sharing
 } from '../assets'
 import { TopTabBar } from '../components'
-import { Bandwidth, Events, Sharing } from '../scenes/services'
+import { Bandwidth, Environment, Events, Sharing } from '../scenes/services'
 import { ServicesParamList } from './services'
 
 export type StaticSiteParamList = {
@@ -65,7 +65,7 @@ export const StaticSiteNavigator: FunctionComponent<Props> = ({
       }}
     />
     <Screen
-      component={Events}
+      component={Environment}
       initialParams={{
         id
       }}

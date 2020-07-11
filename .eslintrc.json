@@ -49,7 +49,9 @@
           "useAddCollaborator",
           "useRemoveCollaborator",
           "useServiceMetrics",
-          "useServerBandwidth"
+          "useServerBandwidth",
+          "useServiceEnv",
+          "useServiceEnvGroups"
         ]
       }
     ],

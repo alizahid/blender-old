@@ -1,17 +1,27 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
+import update from 'immutability-helper'
+import { cloneDeep, omit } from 'lodash'
 import { useCallback } from 'react'
 
 import { client } from '../graphql'
 import {
   IBuild,
   IDiskMetricsArgs,
+  IEnvGroup,
+  IEnvVar,
+  IEnvVarInput,
   ILogEntry,
+  IMutationAddEnvGroupToServiceArgs,
   IMutationGrantPermissionsArgs,
   IMutationInviteAndShareArgs,
+  IMutationRemoveEnvGroupFromServiceArgs,
   IMutationRestoreDiskSnapshotArgs,
   IMutationRevokeAllPermissionsArgs,
+  IMutationSaveEnvVarsArgs,
   IQueryBuildsForCronJobArgs,
+  IQueryEnvGroupsForServiceArgs,
+  IQueryEnvVarsForServiceArgs,
   IQueryRedirectRulesArgs,
   IQueryServerArgs,
   IQueryServiceEventsArgs,
@@ -1016,5 +1026,579 @@ export const useServerBandwidth = (id: string) => {
     bandwidth: data?.server.bandwidthMB,
     loading,
     refetch
+  }
+}
+
+const ENV_VARS_FOR_SERVICE = gql`
+  query envVarsForService($serviceId: String!, $isFile: Boolean!) {
+    envVarsForService(serviceId: $serviceId, isFile: $isFile) {
+      ...envVarFields
+      __typename
+    }
+  }
+
+  fragment envVarFields on EnvVar {
+    id
+    isFile
+    key
+    value
+    __typename
+  }
+`
+
+const SAVE_ENV_VARS = gql`
+  mutation saveEnvVars($serviceId: String!, $envVarInputs: [EnvVarInput!]!) {
+    saveEnvVars(serviceId: $serviceId, envVarInputs: $envVarInputs) {
+      ...envVarFields
+      __typename
+    }
+  }
+
+  fragment envVarFields on EnvVar {
+    id
+    isFile
+    key
+    value
+    __typename
+  }
+`
+
+const SAVE_SECRET_FILES = gql`
+  mutation saveSecretFiles(
+    $serviceId: String!
+    $envVarInputs: [EnvVarInput!]!
+  ) {
+    saveSecretFiles(serviceId: $serviceId, fileInputs: $envVarInputs) {
+      ...envVarFields
+      __typename
+    }
+  }
+
+  fragment envVarFields on EnvVar {
+    id
+    isFile
+    key
+    value
+    __typename
+  }
+`
+
+export const useServiceEnv = (id: string, isFile: boolean) => {
+  const { data, loading, refetch } = useQuery<
+    {
+      envVarsForService: IEnvVar[]
+    },
+    IQueryEnvVarsForServiceArgs
+  >(ENV_VARS_FOR_SERVICE, {
+    variables: {
+      isFile,
+      serviceId: id
+    }
+  })
+
+  const [saveEnvVars, saveEnvVarsMutation] = useMutation<
+    {
+      saveEnvVars: IEnvVar[]
+    },
+    IMutationSaveEnvVarsArgs
+  >(SAVE_ENV_VARS)
+
+  const [saveSecretFiles, saveSecretFilesMutation] = useMutation<
+    {
+      saveSecretFiles: IEnvVar[]
+    },
+    IMutationSaveEnvVarsArgs
+  >(SAVE_SECRET_FILES)
+
+  const createEnvVar = useCallback(
+    (input: IEnvVarInput) => {
+      if (!data) {
+        return
+      }
+
+      return saveEnvVars({
+        update(proxy, response) {
+          if (!response.data) {
+            return
+          }
+
+          const options = {
+            query: ENV_VARS_FOR_SERVICE,
+            variables: {
+              isFile,
+              serviceId: id
+            }
+          }
+
+          const data = proxy.readQuery<
+            {
+              envVarsForService: IEnvVar[]
+            },
+            IQueryEnvVarsForServiceArgs
+          >(options)
+
+          if (!data) {
+            return
+          }
+
+          proxy.writeQuery({
+            ...options,
+            data: update(data, {
+              envVarsForService: {
+                $set: response.data.saveEnvVars
+              }
+            })
+          })
+        },
+        variables: {
+          envVarInputs: cloneDeep([
+            ...data.envVarsForService.filter(
+              (envVar) => envVar.isFile === isFile
+            ),
+            input
+          ]).map((envVar) => omit(envVar, '__typename')),
+          serviceId: id
+        }
+      })
+    },
+    [data, id, isFile, saveEnvVars]
+  )
+
+  const updateEnvVar = useCallback(
+    (input: IEnvVarInput) => {
+      if (!data) {
+        return
+      }
+
+      return saveEnvVars({
+        variables: {
+          envVarInputs: cloneDeep([
+            ...data.envVarsForService.filter(
+              (envVar) => envVar.id !== input.id && envVar.isFile === isFile
+            ),
+            input
+          ]).map((envVar) => omit(envVar, '__typename')),
+          serviceId: id
+        }
+      })
+    },
+    [data, id, isFile, saveEnvVars]
+  )
+
+  const removeEnvVar = useCallback(
+    async (envVarId: string) => {
+      if (!data) {
+        return
+      }
+
+      const yes = await dialog.confirm({
+        message: 'Are you sure you want to delete this env var?',
+        title: 'Delete env var'
+      })
+
+      if (!yes) {
+        return
+      }
+
+      return saveEnvVars({
+        update(proxy) {
+          const options = {
+            query: ENV_VARS_FOR_SERVICE,
+            variables: {
+              isFile,
+              serviceId: id
+            }
+          }
+
+          const data = proxy.readQuery<
+            {
+              envVarsForService: IEnvVar[]
+            },
+            IQueryEnvVarsForServiceArgs
+          >(options)
+
+          if (!data) {
+            return
+          }
+
+          const index = data.envVarsForService.findIndex(
+            ({ id }) => id === envVarId
+          )
+
+          proxy.writeQuery({
+            ...options,
+            data: update(data, {
+              envVarsForService: {
+                $splice: [[index, 1]]
+              }
+            })
+          })
+        },
+        variables: {
+          envVarInputs: cloneDeep(
+            data.envVarsForService.filter(
+              (envVar) => envVar.id !== envVarId && envVar.isFile === isFile
+            )
+          ).map((envVar) => omit(envVar, '__typename')),
+          serviceId: id
+        }
+      })
+    },
+    [data, id, isFile, saveEnvVars]
+  )
+
+  const createSecretFile = useCallback(
+    (input: IEnvVarInput) => {
+      if (!data) {
+        return
+      }
+
+      return saveSecretFiles({
+        update(proxy, response) {
+          if (!response.data) {
+            return
+          }
+
+          const options = {
+            query: ENV_VARS_FOR_SERVICE,
+            variables: {
+              isFile,
+              serviceId: id
+            }
+          }
+
+          const data = proxy.readQuery<
+            {
+              envVarsForService: IEnvVar[]
+            },
+            IQueryEnvVarsForServiceArgs
+          >(options)
+
+          if (!data) {
+            return
+          }
+
+          proxy.writeQuery({
+            ...options,
+            data: update(data, {
+              envVarsForService: {
+                $set: response.data.saveSecretFiles
+              }
+            })
+          })
+        },
+        variables: {
+          envVarInputs: cloneDeep([
+            ...data.envVarsForService.filter(
+              (envVar) => envVar.isFile === isFile
+            ),
+            input
+          ]).map((envVar) => omit(envVar, '__typename')),
+          serviceId: id
+        }
+      })
+    },
+    [data, id, isFile, saveSecretFiles]
+  )
+
+  const updateSecretFile = useCallback(
+    (input: IEnvVarInput) => {
+      if (!data) {
+        return
+      }
+
+      return saveSecretFiles({
+        variables: {
+          envVarInputs: cloneDeep([
+            ...data.envVarsForService.filter(
+              (envVar) => envVar.id !== input.id && envVar.isFile === isFile
+            ),
+            input
+          ]).map((envVar) => omit(envVar, '__typename')),
+          serviceId: id
+        }
+      })
+    },
+    [data, id, isFile, saveSecretFiles]
+  )
+
+  const removeSecretFile = useCallback(
+    async (envVarId: string) => {
+      if (!data) {
+        return
+      }
+
+      const yes = await dialog.confirm({
+        message: 'Are you sure you want to delete this secret file?',
+        title: 'Delete secret file'
+      })
+
+      if (!yes) {
+        return
+      }
+
+      return saveSecretFiles({
+        update(proxy) {
+          const options = {
+            query: ENV_VARS_FOR_SERVICE,
+            variables: {
+              isFile,
+              serviceId: id
+            }
+          }
+
+          const data = proxy.readQuery<
+            {
+              envVarsForService: IEnvVar[]
+            },
+            IQueryEnvVarsForServiceArgs
+          >(options)
+
+          if (!data) {
+            return
+          }
+
+          const index = data.envVarsForService.findIndex(
+            ({ id }) => id === envVarId
+          )
+
+          proxy.writeQuery({
+            ...options,
+            data: update(data, {
+              envVarsForService: {
+                $splice: [[index, 1]]
+              }
+            })
+          })
+        },
+        variables: {
+          envVarInputs: cloneDeep(
+            data.envVarsForService.filter(
+              (envVar) => envVar.id !== envVarId && envVar.isFile === isFile
+            )
+          ).map((envVar) => omit(envVar, '__typename')),
+          serviceId: id
+        }
+      })
+    },
+    [data, id, isFile, saveSecretFiles]
+  )
+
+  return {
+    createEnvVar,
+    createSecretFile,
+    envVars: data?.envVarsForService ?? [],
+    loading,
+    refetch,
+    removeEnvVar,
+    removeSecretFile,
+    updateEnvVar,
+    updateSecretFile,
+    updating: saveEnvVarsMutation.loading || saveSecretFilesMutation.loading
+  }
+}
+
+const ENV_GROUPS_FOR_SERVICE = gql`
+  query envGroupsForService($serviceId: String!) {
+    envGroupsForService(serviceId: $serviceId) {
+      ...envGroupFields
+      __typename
+    }
+  }
+
+  fragment envGroupFields on EnvGroup {
+    id
+    name
+    ownerId
+    createdAt
+    updatedAt
+    envVars {
+      ...envVarFields
+      __typename
+    }
+    __typename
+  }
+
+  fragment envVarFields on EnvVar {
+    id
+    isFile
+    key
+    value
+    __typename
+  }
+`
+
+const ADD_ENV_GROUP_TO_SERVICE = gql`
+  mutation addEnvGroupToService($serviceId: String!, $envGroupId: String!) {
+    addEnvGroupToService(serviceId: $serviceId, envGroupId: $envGroupId) {
+      ...envGroupFields
+      __typename
+    }
+  }
+
+  fragment envGroupFields on EnvGroup {
+    id
+    name
+    ownerId
+    createdAt
+    updatedAt
+    envVars {
+      ...envVarFields
+      __typename
+    }
+    __typename
+  }
+
+  fragment envVarFields on EnvVar {
+    id
+    isFile
+    key
+    value
+    __typename
+  }
+`
+
+const REMOVE_ENV_GROUP_FROM_SERVICE = gql`
+  mutation removeEnvGroupFromService(
+    $serviceId: String!
+    $envGroupId: String!
+  ) {
+    removeEnvGroupFromService(serviceId: $serviceId, envGroupId: $envGroupId)
+  }
+`
+
+export const useServiceEnvGroups = (id: string) => {
+  const { data, loading, refetch } = useQuery<
+    {
+      envGroupsForService: IEnvGroup[]
+    },
+    IQueryEnvGroupsForServiceArgs
+  >(ENV_GROUPS_FOR_SERVICE, {
+    variables: {
+      serviceId: id
+    }
+  })
+
+  const [add, addMutation] = useMutation<
+    {
+      addEnvGroupToService: IEnvGroup
+    },
+    IMutationAddEnvGroupToServiceArgs
+  >(ADD_ENV_GROUP_TO_SERVICE, {
+    awaitRefetchQueries: true,
+    refetchQueries() {
+      return [
+        {
+          query: ENV_GROUPS_FOR_SERVICE,
+          variables: {
+            serviceId: id
+          }
+        }
+      ]
+    }
+  })
+
+  const [remove, removeMutation] = useMutation<
+    {
+      removeEnvGroupFromService: boolean
+    },
+    IMutationRemoveEnvGroupFromServiceArgs
+  >(REMOVE_ENV_GROUP_FROM_SERVICE, {
+    awaitRefetchQueries: true,
+    refetchQueries() {
+      return [
+        {
+          query: ENV_GROUPS_FOR_SERVICE,
+          variables: {
+            serviceId: id
+          }
+        }
+      ]
+    }
+  })
+
+  const link = useCallback(
+    async (envGroup: IEnvGroup) => {
+      const yes = await dialog.confirm({
+        message: 'Are you sure you want to add this env group to this service?',
+        title: 'Link env group'
+      })
+
+      if (!yes) {
+        return
+      }
+
+      return add({
+        variables: {
+          envGroupId: envGroup.id,
+          serviceId: id
+        }
+      })
+    },
+    [add, id]
+  )
+
+  const unlink = useCallback(
+    async (envGroup: IEnvGroup) => {
+      const yes = await dialog.confirm({
+        message:
+          'Are you sure you want to remove this env group to this service?',
+        title: 'Unlink env group'
+      })
+
+      if (!yes) {
+        return
+      }
+
+      return remove({
+        update(proxy) {
+          const options = {
+            query: ENV_GROUPS_FOR_SERVICE,
+            variables: {
+              serviceId: id
+            }
+          }
+
+          const data = proxy.readQuery<
+            {
+              envGroupsForService: IEnvGroup[]
+            },
+            IQueryEnvGroupsForServiceArgs
+          >(options)
+
+          if (!data) {
+            return
+          }
+
+          const index = data.envGroupsForService.findIndex(
+            ({ id }) => id === envGroup.id
+          )
+
+          proxy.writeQuery({
+            ...options,
+            data: update(data, {
+              envGroupsForService: {
+                $splice: [[index, 1]]
+              }
+            })
+          })
+        },
+        variables: {
+          envGroupId: envGroup.id,
+          serviceId: id
+        }
+      })
+    },
+    [id, remove]
+  )
+
+  return {
+    envGroups: data?.envGroupsForService ?? [],
+    link,
+    linking: addMutation.loading,
+    loading,
+    refetch,
+    unlink,
+    unlinking: removeMutation.loading
   }
 }

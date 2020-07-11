@@ -10,6 +10,8 @@ export {
   useServerBandwidth,
   useServiceCollaborators,
   useServiceDisk,
+  useServiceEnv,
+  useServiceEnvGroups,
   useServiceEvents,
   useServiceLogs,
   useServiceMetrics,

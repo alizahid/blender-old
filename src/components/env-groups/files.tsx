@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
   message: {
     ...typography.small,
     color: colors.foregroundLight,
+    lineHeight: layout.lineHeight * typography.small.fontSize,
     marginTop: layout.padding
   },
   title: {

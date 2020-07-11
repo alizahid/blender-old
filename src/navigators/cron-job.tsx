@@ -11,7 +11,7 @@ import {
   img_services_sharing
 } from '../assets'
 import { TopTabBar } from '../components'
-import { Builds, Events, Logs, Sharing } from '../scenes/services'
+import { Builds, Environment, Events, Logs, Sharing } from '../scenes/services'
 import { ServicesParamList } from './services'
 
 export type CronJobParamList = {
@@ -81,7 +81,7 @@ export const CronJobNavigator: FunctionComponent<Props> = ({
       }}
     />
     <Screen
-      component={Events}
+      component={Environment}
       initialParams={{
         id
       }}

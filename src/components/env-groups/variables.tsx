@@ -38,7 +38,7 @@ export const EnvVariables: FunctionComponent<Props> = ({
       Use environment variables to store API keys and other configuration values
       and secrets. You can access them in your code like regular environment
       variables, for example with <Text style={styles.code}>os.getenv()</Text>{' '}
-      in Python or <Text style={styles.code}>process.env</Text> in Node.
+      in Python or <Text style={styles.code}>process.env</Text> in Node
     </Text>
     {orderBy(envVars, 'key', 'asc').map((envVar) => (
       <Swipeable
@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
   message: {
     ...typography.small,
     color: colors.foregroundLight,
+    lineHeight: layout.lineHeight * typography.small.fontSize,
     marginTop: layout.padding
   },
   title: {
