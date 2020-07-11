@@ -34,7 +34,7 @@ export const EnvGroups: FunctionComponent<Props> = ({
       <Text style={styles.title}>Env groups</Text>
       <Text style={styles.message}>
         Environment groups let you define a collection of environment variables
-        and secret files to share across multiple services
+        and secret files to share across multiple services.
       </Text>
       {linkedGroups.map((envGroup) => (
         <View key={envGroup.id} style={styles.item}>

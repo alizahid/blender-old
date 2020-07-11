@@ -18,7 +18,7 @@ export const Backups: FunctionComponent<Props> = ({ backups }) => (
     <Text style={styles.title}>Backups</Text>
     {backups.length === 0 && (
       <Text style={styles.empty}>
-        There are no backups available right now. Check back later
+        There are no backups available right now. Check back later.
       </Text>
     )}
     {backups.map(({ node }) => (

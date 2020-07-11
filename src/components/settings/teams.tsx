@@ -15,8 +15,9 @@ export const Teams: FunctionComponent<Props> = ({ teams }) => (
     <Text style={styles.title}>Teams</Text>
     <Text style={styles.message}>
       {teams.length === 0
-        ? "You're not a member of any teams."
+        ? "You're not a member of any teams"
         : 'Tap to switch teams'}
+      .
     </Text>
     {teams.map((team) => (
       <Touchable key={team.id} style={styles.item}>

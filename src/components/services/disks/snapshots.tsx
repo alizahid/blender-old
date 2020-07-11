@@ -24,7 +24,7 @@ export const Snapshots: FunctionComponent<Props> = ({
     <Text style={styles.title}>Snapshots</Text>
     {snapshots.length === 0 && (
       <Text style={styles.empty}>
-        There are no snapshots available right now. Check back later
+        There are no snapshots available right now. Check back later.
       </Text>
     )}
     {snapshots.map((snapshot) => (
