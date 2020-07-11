@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
   icon: {
     height: layout.icon,
     marginHorizontal: layout.padding,
-    opacity: 0.25,
+    opacity: 0.5,
     width: layout.icon
   },
   label: {
