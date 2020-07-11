@@ -14,6 +14,16 @@ interface Props {
 export const Invite: FunctionComponent<Props> = ({ loading, onAdd }) => {
   const [email, setEmail] = useState<string>()
 
+  const submit = async () => {
+    if (email) {
+      await onAdd(email)
+
+      setEmail(undefined)
+    }
+
+    Keyboard.dismiss()
+  }
+
   return (
     <View style={styles.main}>
       <Text style={styles.title}>Invite</Text>
@@ -27,22 +37,16 @@ export const Invite: FunctionComponent<Props> = ({ loading, onAdd }) => {
           autoCorrect={false}
           keyboardType="email-address"
           onChangeText={(email) => setEmail(email)}
+          onSubmitEditing={() => submit}
           placeholder="Email"
+          returnKeyType="go"
           style={styles.input}
           value={email}
         />
         <Button
           label="Invite"
           loading={loading}
-          onPress={async () => {
-            if (email) {
-              await onAdd(email)
-
-              setEmail(undefined)
-
-              Keyboard.dismiss()
-            }
-          }}
+          onPress={() => submit()}
           style={styles.button}
         />
       </View>

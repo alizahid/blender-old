@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import Image from 'react-native-fast-image'
 
 import { img_ui_dark_remove } from '../../assets'
@@ -33,6 +33,16 @@ export const Members: FunctionComponent<Props> = ({
   const [{ email: owner }] = useAuth()
 
   const [email, setEmail] = useState<string>()
+
+  const submit = async () => {
+    if (email) {
+      await onAdd(email)
+
+      setEmail(undefined)
+    }
+
+    Keyboard.dismiss()
+  }
 
   return (
     <View style={styles.main}>
@@ -78,20 +88,16 @@ export const Members: FunctionComponent<Props> = ({
           autoCorrect={false}
           keyboardType="email-address"
           onChangeText={(email) => setEmail(email)}
+          onSubmitEditing={() => submit()}
           placeholder="Email"
+          returnKeyType="go"
           style={styles.input}
           value={email}
         />
         <Button
           label="Invite"
           loading={adding}
-          onPress={async () => {
-            if (email) {
-              await onAdd(email)
-
-              setEmail(undefined)
-            }
-          }}
+          onPress={() => submit()}
           style={styles.button}
         />
       </View>

@@ -1,5 +1,5 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
+import { StyleSheet, Text, TextInput, View } from 'react-native'
 
 import { IRedirectRule, IRedirectRuleInput } from '../../../graphql/types'
 import { colors, layout, typography } from '../../../styles'
@@ -25,6 +25,8 @@ export const Form: FunctionComponent<Props> = ({
   const [destination, setDestination] = useState<string>()
   const [status, setStatus] = useState<string>()
 
+  const destinationRef = useRef<TextInput>(null)
+
   useEffect(() => {
     if (rule) {
       setSource(rule.source)
@@ -48,14 +50,22 @@ export const Form: FunctionComponent<Props> = ({
     <View style={styles.main}>
       <Text style={styles.title}>{`${rule ? 'Edit' : 'New'} rule`}</Text>
       <TextBox
+        autoCapitalize="none"
+        autoCorrect={false}
         onChangeText={(source) => setSource(source)}
+        onSubmitEditing={() => destinationRef.current?.focus()}
         placeholder="Source"
+        returnKeyType="next"
         style={styles.input}
         value={source}
       />
       <TextBox
+        autoCapitalize="none"
+        autoCorrect={false}
         onChangeText={(destination) => setDestination(destination)}
         placeholder="Destination"
+        ref={destinationRef}
+        returnKeyType="done"
         style={styles.input}
         value={destination}
       />

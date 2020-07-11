@@ -1,9 +1,10 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
 import {
   KeyboardType,
   StyleProp,
   StyleSheet,
   Text,
+  TextInput,
   TextStyle,
   View
 } from 'react-native'
@@ -165,16 +166,26 @@ const PromptDialog: FunctionComponent<PromptDialogProps> = ({
 }) => {
   const [value, setValue] = useState<string | undefined>(initialValue)
 
+  const submit = () => {
+    if (value) {
+      onSubmit(value)
+      onClose()
+    }
+  }
+
   return (
     <Overlay>
       <Text style={styles.title}>{title}</Text>
       <Text style={[styles.message, messageStyle]}>{message}</Text>
       <TextBox
+        autoFocus
         containerStyle={styles.input}
         keyboardType={keyboardType}
         multiline={multiline}
         onChangeText={(value) => setValue(value)}
+        onSubmitEditing={submit}
         placeholder={placeholder}
+        returnKeyType="go"
         style={[!multiline && styles.input, inputStyle]}
         value={value}
       />
@@ -187,14 +198,7 @@ const PromptDialog: FunctionComponent<PromptDialogProps> = ({
           style={styles.button}>
           <Text style={[styles.label, styles.yes]}>Cancel</Text>
         </Touchable>
-        <Touchable
-          onPress={() => {
-            if (value) {
-              onSubmit(value)
-              onClose()
-            }
-          }}
-          style={styles.button}>
+        <Touchable onPress={() => submit()} style={styles.button}>
           <Text style={styles.label}>Submit</Text>
         </Touchable>
       </View>
@@ -239,24 +243,34 @@ const KeyValueDialog: FunctionComponent<KeyValueDialogProps> = ({
   const [label, setLabel] = useState<string | undefined>(initialLabel)
   const [value, setValue] = useState<string | undefined>(initialValue)
 
+  const valueRef = useRef<TextInput>(null)
+
   return (
     <Overlay>
       <Text style={styles.title}>{title}</Text>
       <TextBox
+        autoCapitalize="none"
+        autoCorrect={false}
+        autoFocus
         containerStyle={styles.input}
         keyboardType={labelKeyboardType}
         multiline={labelMultiline}
         onChangeText={(label) => setLabel(label)}
+        onSubmitEditing={() => valueRef.current?.focus()}
         placeholder={labelPlaceholder}
+        returnKeyType="next"
         style={[!labelMultiline && styles.input, labelStyle]}
         value={label}
       />
       <TextBox
+        autoCapitalize="none"
+        autoCorrect={false}
         containerStyle={styles.input}
         keyboardType={valueKeyboardType}
         multiline={valueMultiline}
         onChangeText={(value) => setValue(value)}
         placeholder={valuePlaceholder}
+        ref={valueRef}
         style={[!valueMultiline && styles.input, valueStyle]}
         value={value}
       />

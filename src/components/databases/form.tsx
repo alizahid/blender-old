@@ -1,5 +1,5 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
+import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 
 import { IDatabaseInput, IPlanData, IRegion } from '../../graphql/types'
 import { colors, layout, typography } from '../../styles'
@@ -28,6 +28,9 @@ export const Form: FunctionComponent<Props> = ({
   const [user, setUser] = useState<string>()
   const [region, setRegion] = useState<IRegion>()
 
+  const databaseRef = useRef<TextInput>(null)
+  const userRef = useRef<TextInput>(null)
+
   useEffect(() => {
     onUpdate({
       databaseName: database,
@@ -43,23 +46,32 @@ export const Form: FunctionComponent<Props> = ({
         <Text style={styles.label}>Name</Text>
         <TextBox
           onChangeText={(name) => setName(name)}
+          onSubmitEditing={() => databaseRef.current?.focus()}
           placeholder="Render name for this database"
+          returnKeyType="next"
           style={styles.input}
           value={name}
         />
         <Text style={[styles.label, styles.item]}>Database</Text>
         <TextBox
           autoCapitalize="none"
+          autoCorrect={false}
           onChangeText={(database) => setDatabase(database)}
+          onSubmitEditing={() => userRef.current?.focus()}
           placeholder="PostgreSQL database name"
+          ref={databaseRef}
+          returnKeyType="next"
           style={styles.input}
           value={database}
         />
         <Text style={[styles.label, styles.item]}>User</Text>
         <TextBox
           autoCapitalize="none"
+          autoCorrect={false}
           onChangeText={(user) => setUser(user)}
           placeholder="PostgreSQL user name"
+          ref={userRef}
+          returnKeyType="done"
           style={styles.input}
           value={user}
         />

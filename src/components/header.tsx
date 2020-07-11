@@ -84,7 +84,7 @@ export const HeaderButton: FunctionComponent<HeaderButtonProps> = ({
   onPress,
   style
 }) => (
-  <Touchable onPress={onPress} style={[styles.action, style]}>
+  <Touchable onPress={() => onPress()} style={[styles.action, style]}>
     <Image source={icon} style={styles.icon} />
   </Touchable>
 )

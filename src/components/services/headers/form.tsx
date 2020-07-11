@@ -1,5 +1,5 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
+import { StyleSheet, Text, TextInput, View } from 'react-native'
 
 import { IHeader, IHeaderInput } from '../../../graphql/types'
 import { colors, layout, typography } from '../../../styles'
@@ -24,6 +24,9 @@ export const Form: FunctionComponent<Props> = ({
   const [name, setName] = useState<string>()
   const [value, setValue] = useState<string>()
 
+  const nameRef = useRef<TextInput>(null)
+  const valueRef = useRef<TextInput>(null)
+
   useEffect(() => {
     if (header) {
       setPath(header.path)
@@ -32,24 +35,58 @@ export const Form: FunctionComponent<Props> = ({
     }
   }, [header])
 
+  const submit = async () => {
+    if (path && name && value) {
+      await onSave({
+        enabled: true,
+        id: header?.id,
+        key: name,
+        path,
+        value
+      })
+
+      if (onCancel) {
+        onCancel()
+      } else {
+        setPath(undefined)
+        setName(undefined)
+        setValue(undefined)
+      }
+    }
+  }
+
   return (
     <View style={styles.main}>
       <Text style={styles.title}>{`${header ? 'Edit' : 'New'} header`}</Text>
       <TextBox
+        autoCapitalize="none"
+        autoCorrect={false}
         onChangeText={(path) => setPath(path)}
+        onSubmitEditing={() => nameRef.current?.focus()}
         placeholder="Path"
+        returnKeyType="next"
         style={styles.input}
         value={path}
       />
       <TextBox
+        autoCapitalize="none"
+        autoCorrect={false}
         onChangeText={(name) => setName(name)}
+        onSubmitEditing={() => valueRef.current?.focus()}
         placeholder="Name"
+        ref={nameRef}
+        returnKeyType="next"
         style={styles.input}
         value={name}
       />
       <TextBox
+        autoCapitalize="none"
+        autoCorrect={false}
         onChangeText={(value) => setValue(value)}
+        onSubmitEditing={() => submit()}
         placeholder="Value"
+        ref={valueRef}
+        returnKeyType="go"
         style={styles.input}
         value={value}
       />
@@ -57,25 +94,7 @@ export const Form: FunctionComponent<Props> = ({
         <Button
           label={header ? 'Save' : 'Create'}
           loading={loading}
-          onPress={async () => {
-            if (path && name && value) {
-              await onSave({
-                enabled: true,
-                id: header?.id,
-                key: name,
-                path,
-                value
-              })
-
-              if (onCancel) {
-                onCancel()
-              } else {
-                setPath(undefined)
-                setName(undefined)
-                setValue(undefined)
-              }
-            }
-          }}
+          onPress={() => submit()}
           style={styles.button}
         />
         {onCancel && (
