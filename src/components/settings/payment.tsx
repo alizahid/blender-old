@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
-import { IUser } from '../../graphql/types'
+import { IOwner, IUser } from '../../graphql/types'
 import { colors, layout, typography } from '../../styles'
 import { KeyValue } from '../key-value'
 
 interface Props {
-  user: IUser
+  user: IOwner | IUser
 }
 
 export const Payment: FunctionComponent<Props> = ({ user }) => (

@@ -9,6 +9,7 @@ import { useProfile } from '../hooks'
 import { SettingsParamList } from '../navigators/settings'
 import { useAuth } from '../store'
 import { colors, layout } from '../styles'
+import { Team } from './team'
 
 interface Props {
   navigation: StackNavigationProp<SettingsParamList, 'Settings'>
@@ -16,9 +17,13 @@ interface Props {
 }
 
 export const Settings: FunctionComponent<Props> = () => {
-  const [, { logout }] = useAuth()
+  const [{ team }, { logout }] = useAuth()
 
   const { loading, profile, refetch, teams } = useProfile()
+
+  if (team) {
+    return <Team />
+  }
 
   return (
     <ScrollView
@@ -28,11 +33,11 @@ export const Settings: FunctionComponent<Props> = () => {
         <>
           <Profile user={profile} />
           <Separator />
-          <Teams teams={teams} />
-          <Separator />
           <Payment user={profile} />
           <Separator />
           <TwoFactor user={profile} />
+          <Separator />
+          <Teams teams={teams} user={profile} />
           <Separator />
           <Button
             label="Sign out"

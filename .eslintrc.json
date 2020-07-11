@@ -53,7 +53,10 @@
           "useServiceEnv",
           "useServiceEnvGroups",
           "useServiceRedirects",
-          "useServiceHeaders"
+          "useServiceHeaders",
+          "useTeam",
+          "useBilling",
+          "useTeamMembers"
         ]
       }
     ],

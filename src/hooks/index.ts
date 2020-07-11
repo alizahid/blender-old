@@ -1,5 +1,12 @@
 export { useSignIn, useVerifyOtp } from './auth'
-export { useAllRegions, useNewPaidServiceAllowed, useProfile } from './profile'
+
+export {
+  useAllRegions,
+  useNewPaidServiceAllowed,
+  useProfile,
+  useTeam,
+  useTeamMembers
+} from './profile'
 
 export {
   useAddCollaborator,

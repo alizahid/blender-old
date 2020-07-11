@@ -52,7 +52,7 @@ const ENV_GROUPS = gql`
 `
 
 export const useEnvGroups = () => {
-  const [{ user }] = useAuth()
+  const [{ team, user }] = useAuth()
 
   const { data, loading, refetch } = useQuery<
     {
@@ -61,7 +61,7 @@ export const useEnvGroups = () => {
     IQueryEnvGroupsForOwnerArgs
   >(ENV_GROUPS, {
     variables: {
-      ownerId: String(user)
+      ownerId: String(team ?? user)
     }
   })
 
@@ -232,7 +232,7 @@ const ENV_GROUP_NAME_EXISTS = gql`
 `
 
 export const useCreateEnvGroup = () => {
-  const [{ user }] = useAuth()
+  const [{ team, user }] = useAuth()
 
   const [checking, setChecking] = useState(false)
 
@@ -250,7 +250,7 @@ export const useCreateEnvGroup = () => {
       const options = {
         query: ENV_GROUPS,
         variables: {
-          ownerId: user
+          ownerId: team ?? user
         }
       }
 
@@ -327,7 +327,7 @@ const DELETE_ENV_GROUP = gql`
 `
 
 export const useDeleteEnvGroup = () => {
-  const [{ user: ownerId }] = useAuth()
+  const [{ team, user }] = useAuth()
 
   const [mutate, { loading }] = useMutation<
     {
@@ -356,7 +356,7 @@ export const useDeleteEnvGroup = () => {
           const options = {
             query: ENV_GROUPS,
             variables: {
-              ownerId
+              ownerId: team ?? user
             }
           }
 
@@ -386,7 +386,7 @@ export const useDeleteEnvGroup = () => {
         }
       })
     },
-    [mutate, ownerId]
+    [mutate, team, user]
   )
 
   return {

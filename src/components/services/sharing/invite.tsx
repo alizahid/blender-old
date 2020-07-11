@@ -25,6 +25,7 @@ export const Invite: FunctionComponent<Props> = ({ loading, onAdd }) => {
         <TextBox
           autoCapitalize="none"
           autoCorrect={false}
+          keyboardType="email-address"
           onChangeText={(email) => setEmail(email)}
           placeholder="Email"
           style={styles.input}

@@ -43,6 +43,7 @@ import {
 } from '../graphql/types'
 import { dialog } from '../lib'
 import { useAuth } from '../store'
+import { FIND_USER } from './profile'
 
 const SERVICES = gql`
   query servicesForOwner($ownerId: String!) {
@@ -94,7 +95,7 @@ const SERVICES = gql`
 `
 
 export const useServices = () => {
-  const [{ user }] = useAuth()
+  const [{ team, user }] = useAuth()
 
   const { data, loading, refetch } = useQuery<
     {
@@ -103,7 +104,7 @@ export const useServices = () => {
     IQueryServicesForOwnerArgs
   >(SERVICES, {
     variables: {
-      ownerId: String(user)
+      ownerId: String(team ?? user)
     }
   })
 
@@ -780,16 +781,6 @@ export const useServiceCollaborators = (id: string) => {
   }
 }
 
-const USER = gql`
-  query user($email: String!) {
-    user(email: $email) {
-      id
-      email
-      __typename
-    }
-  }
-`
-
 const ADD_COLLABORATOR = gql`
   mutation grantPermissions($permissions: [PermissionInput!]!) {
     grantPermissions(permissions: $permissions) {
@@ -840,7 +831,7 @@ export const useAddCollaborator = () => {
         },
         IQueryUserArgs
       >({
-        query: USER,
+        query: FIND_USER,
         variables: {
           email
         }

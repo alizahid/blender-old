@@ -1,34 +1,57 @@
 import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import Image from 'react-native-fast-image'
 
-import { ITeam } from '../../graphql/types'
+import { img_ui_dark_checked } from '../../assets'
+import { ITeam, IUser } from '../../graphql/types'
+import { useAuth } from '../../store'
 import { colors, layout, typography } from '../../styles'
 import { Avatar } from '../avatar'
 import { Touchable } from '../touchable'
 
 interface Props {
   teams: ITeam[]
+  user: IUser
 }
 
-export const Teams: FunctionComponent<Props> = ({ teams }) => (
-  <View style={styles.main}>
-    <Text style={styles.title}>Teams</Text>
-    <Text style={styles.message}>
-      {teams.length === 0
-        ? "You're not a member of any teams"
-        : 'Tap to switch teams'}
-      .
-    </Text>
-    {teams.map((team) => (
-      <Touchable key={team.id} style={styles.item}>
-        <Avatar name={team.name} size="large" />
-        <Text style={styles.name}>{team.name}</Text>
+export const Teams: FunctionComponent<Props> = ({ teams, user }) => {
+  const [{ team: teamId }, { changeTeam }] = useAuth()
+
+  return (
+    <View style={styles.main}>
+      <Text style={styles.title}>Teams</Text>
+      <Text style={styles.message}>
+        {teams.length === 0
+          ? "You're not a member of any teams"
+          : 'Tap to switch teams'}
+        .
+      </Text>
+      <Touchable onPress={() => changeTeam(undefined)} style={styles.item}>
+        <Avatar name={user.name || user.name} size="large" />
+        <Text style={styles.name}>Personal</Text>
+        {!teamId && <Image source={img_ui_dark_checked} style={styles.icon} />}
       </Touchable>
-    ))}
-  </View>
-)
+      {teams.map((team) => (
+        <Touchable
+          key={team.id}
+          onPress={() => changeTeam(team.id)}
+          style={styles.item}>
+          <Avatar name={team.name} size="large" />
+          <Text style={styles.name}>{team.name}</Text>
+          {teamId === team.id && (
+            <Image source={img_ui_dark_checked} style={styles.icon} />
+          )}
+        </Touchable>
+      ))}
+    </View>
+  )
+}
 
 const styles = StyleSheet.create({
+  icon: {
+    height: layout.icon,
+    width: layout.icon
+  },
   item: {
     alignItems: 'center',
     flexDirection: 'row',
@@ -45,7 +68,8 @@ const styles = StyleSheet.create({
   name: {
     ...typography.regular,
     color: colors.foreground,
-    marginLeft: layout.padding
+    flex: 1,
+    marginHorizontal: layout.padding
   },
   title: {
     ...typography.subtitle,
