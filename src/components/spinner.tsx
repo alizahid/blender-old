@@ -10,20 +10,21 @@ import {
 import { colors } from '../styles'
 
 interface Props {
+  color?: string
   full?: boolean
   style?: StyleProp<ViewStyle>
 }
 
-export const Spinner: FunctionComponent<Props> = ({ full, style }) => {
+export const Spinner: FunctionComponent<Props> = ({ color, full, style }) => {
   if (full) {
     return (
       <View style={styles.main}>
-        <ActivityIndicator color={colors.primary} size="large" />
+        <ActivityIndicator color={color ?? colors.primary} size="large" />
       </View>
     )
   }
 
-  return <ActivityIndicator color={colors.primary} style={style} />
+  return <ActivityIndicator color={color ?? colors.primary} style={style} />
 }
 
 const styles = StyleSheet.create({

@@ -11,6 +11,8 @@ import {
   IEnvGroup,
   IEnvVar,
   IEnvVarInput,
+  IHeader,
+  IHeaderInput,
   ILogEntry,
   IMutationAddEnvGroupToServiceArgs,
   IMutationGrantPermissionsArgs,
@@ -19,10 +21,12 @@ import {
   IMutationRestoreDiskSnapshotArgs,
   IMutationRevokeAllPermissionsArgs,
   IMutationSaveEnvVarsArgs,
+  IMutationSaveHeadersArgs,
   IMutationSaveRedirectRulesArgs,
   IQueryBuildsForCronJobArgs,
   IQueryEnvGroupsForServiceArgs,
   IQueryEnvVarsForServiceArgs,
+  IQueryHeadersForServiceArgs,
   IQueryRedirectRulesArgs,
   IQueryServerArgs,
   IQueryServiceEventsArgs,
@@ -1808,6 +1812,178 @@ export const useServiceRedirects = (id: string) => {
     removeRule,
     rules: data?.redirectRules ?? [],
     updateRule,
+    updating: mutation.loading
+  }
+}
+
+const HEADERS = gql`
+  query headersForService($serviceId: String!) {
+    headersForService(serviceId: $serviceId) {
+      ...headerFields
+      __typename
+    }
+  }
+
+  fragment headerFields on Header {
+    id
+    key
+    path
+    serviceId
+    value
+    __typename
+  }
+`
+
+const SAVE_HEADERS = gql`
+  mutation saveHeaders($serviceId: String!, $headerInputs: [HeaderInput!]!) {
+    saveHeaders(serviceId: $serviceId, headerInputs: $headerInputs) {
+      ...headerFields
+      __typename
+    }
+  }
+
+  fragment headerFields on Header {
+    id
+    key
+    path
+    serviceId
+    value
+    __typename
+  }
+`
+
+export const useServiceHeaders = (id: string) => {
+  const { data, loading, refetch } = useQuery<
+    {
+      headersForService: IHeader[]
+    },
+    IQueryHeadersForServiceArgs
+  >(HEADERS, {
+    variables: {
+      serviceId: id
+    }
+  })
+
+  const [mutate, mutation] = useMutation<
+    {
+      saveHeaders: IHeader[]
+    },
+    IMutationSaveHeadersArgs
+  >(SAVE_HEADERS, {
+    update(proxy, response) {
+      if (!response.data) {
+        return
+      }
+
+      const options = {
+        query: HEADERS,
+        variables: {
+          serviceId: id
+        }
+      }
+
+      const data = proxy.readQuery<
+        {
+          headersForService: IHeader[]
+        },
+        IQueryHeadersForServiceArgs
+      >(options)
+
+      if (!data) {
+        return
+      }
+
+      proxy.writeQuery({
+        ...options,
+        data: update(data, {
+          headersForService: {
+            $set: response.data.saveHeaders
+          }
+        })
+      })
+    }
+  })
+
+  const createHeader = useCallback(
+    async (input: IHeaderInput) => {
+      if (!data) {
+        return
+      }
+
+      await mutate({
+        variables: {
+          headerInputs: cloneDeep([...data.headersForService, input]).map(
+            (header) => ({
+              ...pick(header, ['path', 'key', 'value']),
+              enabled: true
+            })
+          ),
+          serviceId: id
+        }
+      })
+    },
+    [data, id, mutate]
+  )
+
+  const updateHeader = useCallback(
+    async (input: IHeaderInput) => {
+      if (!data) {
+        return
+      }
+
+      await mutate({
+        variables: {
+          headerInputs: cloneDeep([
+            ...data.headersForService.filter(({ id }) => id !== input.id),
+            input
+          ]).map((header) => ({
+            ...pick(header, ['path', 'key', 'value']),
+            enabled: true
+          })),
+          serviceId: id
+        }
+      })
+    },
+    [data, id, mutate]
+  )
+
+  const removeHeader = useCallback(
+    async (headerId: string) => {
+      if (!data) {
+        return
+      }
+
+      const yes = await dialog.confirm({
+        message: 'Are you sure you want to delete this header?',
+        title: 'Delete header'
+      })
+
+      if (!yes) {
+        return
+      }
+
+      return mutate({
+        variables: {
+          headerInputs: cloneDeep(
+            data.headersForService.filter((header) => header.id !== headerId)
+          ).map((header) => ({
+            ...pick(header, ['path', 'key', 'value']),
+            enabled: true
+          })),
+          serviceId: id
+        }
+      })
+    },
+    [data, id, mutate]
+  )
+
+  return {
+    createHeader,
+    headers: data?.headersForService ?? [],
+    loading,
+    refetch,
+    removeHeader,
+    updateHeader,
     updating: mutation.loading
   }
 }

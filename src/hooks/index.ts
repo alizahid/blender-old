@@ -13,6 +13,7 @@ export {
   useServiceEnv,
   useServiceEnvGroups,
   useServiceEvents,
+  useServiceHeaders,
   useServiceLogs,
   useServiceMetrics,
   useServiceRedirects,

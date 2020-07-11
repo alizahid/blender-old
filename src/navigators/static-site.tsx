@@ -16,6 +16,7 @@ import {
   Bandwidth,
   Environment,
   Events,
+  Headers,
   Redirects,
   Sharing
 } from '../scenes/services'
@@ -93,7 +94,7 @@ export const StaticSiteNavigator: FunctionComponent<Props> = ({
       }}
     />
     <Screen
-      component={Events}
+      component={Headers}
       initialParams={{
         id
       }}

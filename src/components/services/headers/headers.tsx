@@ -2,61 +2,53 @@ import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import Image from 'react-native-fast-image'
 
-import {
-  img_ui_dark_edit,
-  img_ui_dark_move_down,
-  img_ui_dark_move_up,
-  img_ui_dark_remove
-} from '../../../assets'
-import { IRedirectRule } from '../../../graphql/types'
+import { img_ui_dark_edit, img_ui_dark_remove } from '../../../assets'
+import { IHeader } from '../../../graphql/types'
 import { colors, layout, typography } from '../../../styles'
 import { KeyValue } from '../../key-value'
 import { Spinner } from '../../spinner'
 import { Touchable } from '../../touchable'
 
 interface Props {
-  rules: IRedirectRule[]
+  headers: IHeader[]
   loading: boolean
 
-  onEdit: (rule: IRedirectRule) => void
-  onMoveDown: (id: string) => void
-  onMoveUp: (id: string) => void
+  onEdit: (header: IHeader) => void
   onRemove: (id: string) => void
 }
 
-export const Rules: FunctionComponent<Props> = ({
+export const Headers: FunctionComponent<Props> = ({
+  headers,
   loading,
   onEdit,
-  onMoveDown,
-  onMoveUp,
-  onRemove,
-  rules
+  onRemove
 }) => (
   <View style={styles.main}>
-    <Text style={styles.title}>Redirect and rewrite rules</Text>
+    <Text style={styles.title}>HTTP response headers</Text>
     <Text style={styles.message}>
-      Add redirect or rewrite rules to modify requests to your site without
-      writing code. You can use URL parameters to capture path segments, and
-      wildcards to redirect everything under a given path.
+      Use HTTP headers to inject response headers in static site responses. You
+      can also use wildcards like <Text style={styles.code}>/path/*</Text> to
+      add headers to responses for all matching request paths.
     </Text>
-    {rules.map((rule, index) => (
-      <View key={rule.id} style={styles.item}>
+    {headers.map((header) => (
+      <View key={header.id} style={styles.item}>
         <View style={styles.content}>
-          <KeyValue label="Source" value={rule.source} valueMono />
+          <KeyValue label="Path" value={header.path} valueMono />
           <KeyValue
-            label="Destination"
+            label="Name"
             style={styles.input}
-            value={rule.destination}
+            value={header.key}
             valueMono
           />
           <KeyValue
-            label="Action"
+            label="Value"
             style={styles.input}
-            value={rule.httpStatus === 200 ? 'Rewrite' : 'Redirect'}
+            value={header.value}
+            valueMono
           />
         </View>
         <View style={styles.footer}>
-          <Touchable onPress={() => onEdit(rule)} style={styles.button}>
+          <Touchable onPress={() => onEdit(header)} style={styles.button}>
             <Image source={img_ui_dark_edit} style={styles.icon} />
           </Touchable>
           {loading ? (
@@ -64,20 +56,10 @@ export const Rules: FunctionComponent<Props> = ({
               <Spinner color={colors.status.red} style={styles.spinner} />
             </View>
           ) : (
-            <Touchable onPress={() => onRemove(rule.id)} style={styles.button}>
-              <Image source={img_ui_dark_remove} style={styles.icon} />
-            </Touchable>
-          )}
-          {index > 0 && (
-            <Touchable onPress={() => onMoveUp(rule.id)} style={styles.button}>
-              <Image source={img_ui_dark_move_up} style={styles.icon} />
-            </Touchable>
-          )}
-          {index !== rules.length - 1 && (
             <Touchable
-              onPress={() => onMoveDown(rule.id)}
+              onPress={() => onRemove(header.id)}
               style={styles.button}>
-              <Image source={img_ui_dark_move_down} style={styles.icon} />
+              <Image source={img_ui_dark_remove} style={styles.icon} />
             </Touchable>
           )}
         </View>
@@ -90,6 +72,10 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     flex: 0.25
+  },
+  code: {
+    ...typography.codeSmall,
+    color: colors.primary
   },
   content: {
     padding: layout.margin
