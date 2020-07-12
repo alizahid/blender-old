@@ -1,4 +1,9 @@
-import { KeyboardType, StyleProp, TextStyle } from 'react-native'
+import {
+  KeyboardType,
+  StyleProp,
+  TextInputProps,
+  TextStyle
+} from 'react-native'
 
 import { mitter } from './mitter'
 
@@ -8,6 +13,8 @@ interface AlertProps {
 }
 
 interface PromptProps extends AlertProps {
+  autoCapitalize?: TextInputProps['autoCapitalize']
+  autoCorrect?: TextInputProps['autoCorrect']
   initialValue?: string
   inputStyle?: StyleProp<TextStyle>
   keyboardType?: KeyboardType

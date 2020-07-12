@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TextInputProps,
   TextStyle,
   View
 } from 'react-native'
@@ -137,6 +138,8 @@ const ConfirmDialog: FunctionComponent<ConfirmDialogProps> = ({
 )
 
 interface PromptDialogProps {
+  autoCapitalize: TextInputProps['autoCapitalize']
+  autoCorrect: TextInputProps['autoCorrect']
   initialValue?: string
   inputStyle?: StyleProp<TextStyle>
   keyboardType?: KeyboardType
@@ -152,6 +155,8 @@ interface PromptDialogProps {
 }
 
 const PromptDialog: FunctionComponent<PromptDialogProps> = ({
+  autoCapitalize,
+  autoCorrect,
   initialValue,
   inputStyle,
   keyboardType,
@@ -178,6 +183,8 @@ const PromptDialog: FunctionComponent<PromptDialogProps> = ({
       <Text style={styles.title}>{title}</Text>
       <Text style={[styles.message, messageStyle]}>{message}</Text>
       <TextBox
+        autoCapitalize={autoCapitalize}
+        autoCorrect={autoCorrect}
         autoFocus
         containerStyle={styles.input}
         keyboardType={keyboardType}

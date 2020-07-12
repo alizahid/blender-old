@@ -72,7 +72,10 @@ export const Server: FunctionComponent<Props> = ({
                 icon: img_ui_dark_edit,
                 onPress: async () => {
                   const instances = await dialog.prompt({
+                    autoCapitalize: 'none',
+                    autoCorrect: false,
                     initialValue: String(server.extraInstances + 1),
+                    keyboardType: 'number-pad',
                     message: 'Update the instance count for your server',
                     placeholder: '1',
                     title: 'Update instance count'
@@ -106,6 +109,8 @@ export const Server: FunctionComponent<Props> = ({
                     icon: img_ui_dark_edit,
                     onPress: async () => {
                       const path = await dialog.prompt({
+                        autoCapitalize: 'none',
+                        autoCorrect: false,
                         initialValue: String(server.dockerfilePath),
                         message: 'Update the Dockerfile path for your server',
                         placeholder: 'yarn start',
@@ -132,6 +137,8 @@ export const Server: FunctionComponent<Props> = ({
                     icon: img_ui_dark_edit,
                     onPress: async () => {
                       const path = await dialog.prompt({
+                        autoCapitalize: 'none',
+                        autoCorrect: false,
                         initialValue: String(server.baseDir),
                         message:
                           'Update the Docker build context directory for your server',
@@ -159,6 +166,8 @@ export const Server: FunctionComponent<Props> = ({
                     icon: img_ui_dark_edit,
                     onPress: async () => {
                       const command = await dialog.prompt({
+                        autoCapitalize: 'none',
+                        autoCorrect: false,
                         initialValue: String(server.dockerCommand),
                         message: 'Update the Docker command for your server',
                         placeholder: 'yarn',
@@ -188,6 +197,8 @@ export const Server: FunctionComponent<Props> = ({
                     icon: img_ui_dark_edit,
                     onPress: async () => {
                       const command = await dialog.prompt({
+                        autoCapitalize: 'none',
+                        autoCorrect: false,
                         initialValue: server.buildCommand,
                         message: 'Update the build command for your server',
                         placeholder: 'yarn start',
@@ -214,6 +225,8 @@ export const Server: FunctionComponent<Props> = ({
                     icon: img_ui_dark_edit,
                     onPress: async () => {
                       const path = await dialog.prompt({
+                        autoCapitalize: 'none',
+                        autoCorrect: false,
                         initialValue: server.startCommand,
                         message: 'Update the start command for your server',
                         placeholder: 'yarn',
@@ -242,6 +255,8 @@ export const Server: FunctionComponent<Props> = ({
                 icon: img_ui_dark_edit,
                 onPress: async () => {
                   const path = await dialog.prompt({
+                    autoCapitalize: 'none',
+                    autoCorrect: false,
                     initialValue: server.healthCheckPath,
                     message: 'Update the health check path for your server',
                     placeholder: '/healthz',

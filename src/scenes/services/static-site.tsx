@@ -61,6 +61,8 @@ export const StaticSite: FunctionComponent<Props> = ({
                 icon: img_ui_dark_edit,
                 onPress: async () => {
                   const command = await dialog.prompt({
+                    autoCapitalize: 'none',
+                    autoCorrect: false,
                     initialValue: server.buildCommand,
                     message: 'Update the build command for your static site',
                     placeholder: 'yarn start',
@@ -87,6 +89,8 @@ export const StaticSite: FunctionComponent<Props> = ({
                 icon: img_ui_dark_edit,
                 onPress: async () => {
                   const path = await dialog.prompt({
+                    autoCapitalize: 'none',
+                    autoCorrect: false,
                     initialValue: server.staticPublishPath,
                     message:
                       'Update the publish directory path for your static site',

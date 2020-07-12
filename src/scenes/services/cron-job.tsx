@@ -57,6 +57,8 @@ export const CronJob: FunctionComponent<Props> = ({
                 icon: img_ui_dark_edit,
                 onPress: async () => {
                   const schedule = await dialog.prompt({
+                    autoCapitalize: 'none',
+                    autoCorrect: false,
                     initialValue: cronJob.schedule,
                     message: 'Update the schedule for your cron job',
                     placeholder: '*/5 * * * *',
@@ -84,6 +86,8 @@ export const CronJob: FunctionComponent<Props> = ({
                 icon: img_ui_dark_edit,
                 onPress: async () => {
                   const command = await dialog.prompt({
+                    autoCapitalize: 'none',
+                    autoCorrect: false,
                     initialValue: cronJob.command,
                     message: 'Update the command for your cron job',
                     placeholder: 'yarn start',
@@ -110,6 +114,8 @@ export const CronJob: FunctionComponent<Props> = ({
                 icon: img_ui_dark_edit,
                 onPress: async () => {
                   const command = await dialog.prompt({
+                    autoCapitalize: 'none',
+                    autoCorrect: false,
                     initialValue: cronJob.buildCommand,
                     message: 'Update the build command for your cron job',
                     placeholder: 'yarn',
