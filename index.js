@@ -8,7 +8,8 @@ import { Blender } from './src'
 import { sentry } from './src/lib'
 
 sentry.init({
-  dsn: SENTRY_DSN
+  dsn: SENTRY_DSN,
+  enabled: !__DEV__
 })
 
 AppRegistry.registerComponent(name, () => Blender)
