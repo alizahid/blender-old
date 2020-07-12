@@ -43,6 +43,7 @@ import {
   ISuspenderAdded,
   ISuspenderRemoved
 } from '../../../graphql/types'
+import { sentry } from '../../../lib'
 import { useAuth } from '../../../store'
 import { colors, layout, typography } from '../../../styles'
 
@@ -269,7 +270,7 @@ const getMessage = (event: Event, userId?: string): string => {
       }`
 
     default:
-      // TODO: report to Sentry
+      sentry.captureMessage(`Unknown service event found: ${event.__typename}`)
 
       return 'Unknown event'
   }
@@ -277,7 +278,7 @@ const getMessage = (event: Event, userId?: string): string => {
 
 const getReason = (reason?: IFailureReason | null): string | null => {
   if (reason?.evicted) {
-    // TODO: ask Adrian
+    return 'Quota exceeded'
   }
 
   if (reason?.nonZeroExit) {

@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage'
 import { createHook, createStore, StoreActionApi } from 'react-sweet-state'
 
 import { client } from '../graphql'
+import { sentry } from '../lib'
 
 type State = {
   email?: string
@@ -39,6 +40,11 @@ const actions = {
     ] = await AsyncStorage.multiGet(['@token', '@email', '@user', '@team'])
 
     if (token && email && user) {
+      sentry.setUser({
+        email,
+        id: user
+      })
+
       setState({
         email,
         loggedIn: true,
@@ -54,6 +60,11 @@ const actions = {
   login: (token: string, user: string, email: string) => async ({
     setState
   }: StoreApi) => {
+    sentry.setUser({
+      email,
+      id: user
+    })
+
     await AsyncStorage.multiSet([
       ['@token', token],
       ['@email', email],
@@ -67,6 +78,8 @@ const actions = {
     })
   },
   logout: () => async ({ setState }: StoreApi) => {
+    sentry.setUser(null)
+
     await AsyncStorage.multiRemove(['@token', '@email', '@user', '@team'])
 
     await client.clearStore()
