@@ -20,6 +20,7 @@ import {
   Events,
   Logs,
   Metrics,
+  Server,
   Sharing
 } from '../scenes/services'
 import { ServicesParamList } from './services'
@@ -140,7 +141,7 @@ export const ServerNavigator: FunctionComponent<Props> = ({
         }}
       />
       <Screen
-        component={Events}
+        component={Server}
         initialParams={{
           id
         }}

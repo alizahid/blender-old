@@ -11,6 +11,7 @@ import Image, { Source } from 'react-native-fast-image'
 
 import { img_ui_dark_invisible, img_ui_dark_visible } from '../assets'
 import { colors, layout, typography } from '../styles'
+import { Spinner } from './spinner'
 import { Touchable } from './touchable'
 
 interface Action {
@@ -21,9 +22,11 @@ interface Action {
 
 interface Props {
   actions?: Action[]
+  description?: string
   hidden?: boolean
   label: string
   labelMono?: boolean
+  loading?: boolean
   style?: StyleProp<ViewStyle>
   value: string
   valueMono?: boolean
@@ -31,9 +34,11 @@ interface Props {
 
 export const KeyValue: FunctionComponent<Props> = ({
   actions = [],
+  description,
   hidden,
   label,
   labelMono,
+  loading,
   style,
   value,
   valueMono
@@ -53,6 +58,7 @@ export const KeyValue: FunctionComponent<Props> = ({
           ]}>
           {hidden ? (visible ? value : '●●●●●') : value}
         </Text>
+        {!!description && <Text style={styles.description}>{description}</Text>}
       </View>
       {hidden && (
         <Touchable
@@ -68,24 +74,34 @@ export const KeyValue: FunctionComponent<Props> = ({
           />
         </Touchable>
       )}
-      {actions.map((action, index) => (
-        <Touchable
-          key={index}
-          onPress={() => action.onPress()}
-          style={styles.action}>
-          <Image source={action.icon} style={styles.icon} />
-        </Touchable>
-      ))}
+      {loading ? (
+        <Spinner style={styles.spinner} />
+      ) : (
+        actions.map((action, index) => (
+          <Touchable
+            key={index}
+            onPress={() => action.onPress()}
+            style={styles.action}>
+            <Image source={action.icon} style={styles.icon} />
+          </Touchable>
+        ))
+      )}
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   action: {
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginLeft: layout.padding
   },
   content: {
     flex: 1
+  },
+  description: {
+    ...typography.small,
+    color: colors.foregroundLight,
+    marginTop: layout.padding
   },
   icon: {
     height: layout.icon,
@@ -107,6 +123,9 @@ const styles = StyleSheet.create({
   },
   spaced: {
     letterSpacing: 2
+  },
+  spinner: {
+    marginHorizontal: layout.padding
   },
   value: {
     ...typography.regular,

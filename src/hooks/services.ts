@@ -7,6 +7,9 @@ import { useCallback } from 'react'
 import { client } from '../graphql'
 import {
   IBuild,
+  ICertificate,
+  ICronJob,
+  ICustomDomain,
   IDiskMetricsArgs,
   IEnvGroup,
   IEnvVar,
@@ -15,15 +18,33 @@ import {
   IHeaderInput,
   ILogEntry,
   IMutationAddEnvGroupToServiceArgs,
+  IMutationDeleteCronJobArgs,
+  IMutationDeleteServerArgs,
   IMutationGrantPermissionsArgs,
   IMutationInviteAndShareArgs,
   IMutationRemoveEnvGroupFromServiceArgs,
   IMutationRestoreDiskSnapshotArgs,
+  IMutationResumeService1Args,
   IMutationRevokeAllPermissionsArgs,
   IMutationSaveEnvVarsArgs,
   IMutationSaveHeadersArgs,
   IMutationSaveRedirectRulesArgs,
+  IMutationSuspendService1Args,
+  IMutationUpdateCronJobBuildCommandArgs,
+  IMutationUpdateCronJobCommandArgs,
+  IMutationUpdateCronJobScheduleArgs,
+  IMutationUpdateServerBaseDirArgs,
+  IMutationUpdateServerBuildCommandArgs,
+  IMutationUpdateServerDockerCommandArgs,
+  IMutationUpdateServerDockerfilePathArgs,
+  IMutationUpdateServerHealthCheckPathArgs,
+  IMutationUpdateServerInstanceCountArgs,
+  IMutationUpdateServerStartCommandArgs,
+  IMutationUpdateServerStaticPublishPathArgs,
   IQueryBuildsForCronJobArgs,
+  IQueryCertificateArgs,
+  IQueryCronJobArgs,
+  IQueryCustomDomainsArgs,
   IQueryEnvGroupsForServiceArgs,
   IQueryEnvVarsForServiceArgs,
   IQueryHeadersForServiceArgs,
@@ -195,6 +216,7 @@ const SERVER = gql`
     updatedAt
     region {
       id
+      description
       __typename
     }
     state
@@ -250,7 +272,7 @@ const SERVER = gql`
 `
 
 export const useServer = (id: string) => {
-  const { data, loading } = useQuery<
+  const { data, loading, refetch } = useQuery<
     {
       server: IServer
     },
@@ -263,6 +285,7 @@ export const useServer = (id: string) => {
 
   return {
     loading,
+    refetch,
     server: data?.server
   }
 }
@@ -512,6 +535,123 @@ const EVENTS = gql`
     __typename
   }
 `
+
+const CRON_JOB = gql`
+  query cronJob($id: String!) {
+    cronJob(id: $id) {
+      ...cronJobFields
+      build {
+        ...buildFields
+        __typename
+      }
+      __typename
+    }
+  }
+
+  fragment cronJobFields on CronJob {
+    ...serviceFields
+    command
+    lastSuccessfulRunAt
+    schedule
+    __typename
+  }
+
+  fragment serviceFields on Service {
+    id
+    type
+    env {
+      ...envFields
+      __typename
+    }
+    repo {
+      ...repoFields
+      __typename
+    }
+    user {
+      id
+      email
+      __typename
+    }
+    owner {
+      id
+      __typename
+    }
+    name
+    slug
+    sourceBranch
+    buildCommand
+    autoDeploy
+    notifyOnFail
+    userFacingType
+    userFacingTypeSlug
+    baseDir
+    dockerCommand
+    dockerfilePath
+    createdAt
+    updatedAt
+    region {
+      id
+      description
+      __typename
+    }
+    state
+    suspenders
+    __typename
+  }
+
+  fragment envFields on Env {
+    id
+    name
+    language
+    isStatic
+    sampleBuildCommand
+    sampleStartCommand
+    __typename
+  }
+
+  fragment repoFields on Repo {
+    id
+    provider
+    providerId
+    name
+    ownerName
+    webURL
+    isPrivate
+    __typename
+  }
+
+  fragment buildFields on Build {
+    id
+    status
+    commitId
+    commitShortId
+    commitMessage
+    commitURL
+    commitCreatedAt
+    createdAt
+    updatedAt
+    __typename
+  }
+`
+
+export const useCronJob = (id: string) => {
+  const { data, loading, refetch } = useQuery<
+    {
+      cronJob: ICronJob
+    },
+    IQueryCronJobArgs
+  >(CRON_JOB, {
+    variables: {
+      id
+    }
+  })
+
+  return {
+    cronJob: data?.cronJob,
+    loading,
+    refetch
+  }
+}
 
 export const useServiceEvents = (id: string) => {
   const { data, loading, refetch } = useQuery<
@@ -1976,5 +2116,1862 @@ export const useServiceHeaders = (id: string) => {
     removeHeader,
     updateHeader,
     updating: mutation.loading
+  }
+}
+
+const CUSTOM_DOMAINS = gql`
+  query customDomains($serverId: String!) {
+    customDomains(serverId: $serverId) {
+      ...customDomainFields
+      __typename
+    }
+  }
+
+  fragment customDomainFields on CustomDomain {
+    id
+    name
+    verified
+    publicSuffix
+    redirectForName
+    isApex
+    server {
+      ...serverFields
+      __typename
+    }
+    __typename
+  }
+
+  fragment serverFields on Server {
+    ...serviceFields
+    canBill
+    deletedAt
+    deploy {
+      ...deployFields
+      __typename
+    }
+    deployKey
+    extraInstances
+    healthCheckPath
+    isPrivate
+    isWorker
+    openPorts
+    parentServer {
+      ...serviceFields
+      __typename
+    }
+    plan {
+      name
+      price
+      __typename
+    }
+    prPreviewsEnabled
+    pullRequestId
+    startCommand
+    staticPublishPath
+    suspenders
+    url
+    disk {
+      ...diskFields
+      __typename
+    }
+    __typename
+  }
+
+  fragment serviceFields on Service {
+    id
+    type
+    env {
+      ...envFields
+      __typename
+    }
+    repo {
+      ...repoFields
+      __typename
+    }
+    user {
+      id
+      email
+      __typename
+    }
+    owner {
+      id
+      __typename
+    }
+    name
+    slug
+    sourceBranch
+    buildCommand
+    autoDeploy
+    notifyOnFail
+    userFacingType
+    userFacingTypeSlug
+    baseDir
+    dockerCommand
+    dockerfilePath
+    createdAt
+    updatedAt
+    region {
+      id
+      description
+      __typename
+    }
+    state
+    suspenders
+    __typename
+  }
+
+  fragment envFields on Env {
+    id
+    name
+    language
+    isStatic
+    sampleBuildCommand
+    sampleStartCommand
+    __typename
+  }
+
+  fragment repoFields on Repo {
+    id
+    provider
+    providerId
+    name
+    ownerName
+    webURL
+    isPrivate
+    __typename
+  }
+
+  fragment deployFields on Deploy {
+    id
+    status
+    buildId
+    commitId
+    commitShortId
+    commitMessage
+    commitURL
+    commitCreatedAt
+    finishedAt
+    finishedAtUnixNano
+    createdAt
+    updatedAt
+    rollbackSupportStatus
+    __typename
+  }
+
+  fragment diskFields on Disk {
+    id
+    name
+    mountPath
+    sizeGB
+    __typename
+  }
+`
+
+export const useServiceDomains = (id: string) => {
+  const { data, loading, refetch } = useQuery<
+    {
+      customDomains: ICustomDomain[]
+    },
+    IQueryCustomDomainsArgs
+  >(CUSTOM_DOMAINS, {
+    variables: {
+      serverId: id
+    }
+  })
+
+  return {
+    domains: data?.customDomains ?? [],
+    loading,
+    refetch
+  }
+}
+
+const CERTIFICATE = gql`
+  query certificate($domain: String!, $serverId: String!) {
+    certificate(domain: $domain, serverId: $serverId) {
+      id
+      domain
+      issued
+      __typename
+    }
+  }
+`
+
+export const useServiceCertificate = (id: string, domain: string) => {
+  const { data, loading, refetch } = useQuery<
+    {
+      certificate: ICertificate
+    },
+    IQueryCertificateArgs
+  >(CERTIFICATE, {
+    variables: {
+      domain,
+      serverId: id
+    }
+  })
+
+  return {
+    certificate: data?.certificate,
+    loading,
+    refetch
+  }
+}
+
+const RESUME_SERVICE = gql`
+  mutation resumeService($id: String!) {
+    resumeService1(id: $id) {
+      ...serviceFields
+      ... on CronJob {
+        build {
+          ...buildFields
+          __typename
+        }
+        __typename
+      }
+      ... on Server {
+        deploy {
+          ...deployFields
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+  }
+
+  fragment serviceFields on Service {
+    id
+    type
+    env {
+      ...envFields
+      __typename
+    }
+    repo {
+      ...repoFields
+      __typename
+    }
+    user {
+      id
+      email
+      __typename
+    }
+    owner {
+      id
+      __typename
+    }
+    name
+    slug
+    sourceBranch
+    buildCommand
+    autoDeploy
+    notifyOnFail
+    userFacingType
+    userFacingTypeSlug
+    baseDir
+    dockerCommand
+    dockerfilePath
+    createdAt
+    updatedAt
+    region {
+      id
+      description
+      __typename
+    }
+    state
+    suspenders
+    __typename
+  }
+
+  fragment envFields on Env {
+    id
+    name
+    language
+    isStatic
+    sampleBuildCommand
+    sampleStartCommand
+    __typename
+  }
+
+  fragment repoFields on Repo {
+    id
+    provider
+    providerId
+    name
+    ownerName
+    webURL
+    isPrivate
+    __typename
+  }
+
+  fragment buildFields on Build {
+    id
+    status
+    commitId
+    commitShortId
+    commitMessage
+    commitURL
+    commitCreatedAt
+    createdAt
+    updatedAt
+    __typename
+  }
+
+  fragment deployFields on Deploy {
+    id
+    status
+    buildId
+    commitId
+    commitShortId
+    commitMessage
+    commitURL
+    commitCreatedAt
+    finishedAt
+    finishedAtUnixNano
+    createdAt
+    updatedAt
+    rollbackSupportStatus
+    __typename
+  }
+`
+
+const SUSPEND_SERVICE = gql`
+  mutation suspendService($id: String!) {
+    suspendService1(id: $id) {
+      ...serviceFields
+      __typename
+    }
+  }
+
+  fragment serviceFields on Service {
+    id
+    type
+    env {
+      ...envFields
+      __typename
+    }
+    repo {
+      ...repoFields
+      __typename
+    }
+    user {
+      id
+      email
+      __typename
+    }
+    owner {
+      id
+      __typename
+    }
+    name
+    slug
+    sourceBranch
+    buildCommand
+    autoDeploy
+    notifyOnFail
+    userFacingType
+    userFacingTypeSlug
+    baseDir
+    dockerCommand
+    dockerfilePath
+    createdAt
+    updatedAt
+    region {
+      id
+      description
+      __typename
+    }
+    state
+    suspenders
+    __typename
+  }
+
+  fragment envFields on Env {
+    id
+    name
+    language
+    isStatic
+    sampleBuildCommand
+    sampleStartCommand
+    __typename
+  }
+
+  fragment repoFields on Repo {
+    id
+    provider
+    providerId
+    name
+    ownerName
+    webURL
+    isPrivate
+    __typename
+  }
+`
+
+export const useServiceSuspension = () => {
+  const [resumeService, resumeMutation] = useMutation<
+    {
+      resumeService1: IService
+    },
+    IMutationResumeService1Args
+  >(RESUME_SERVICE)
+
+  const [suspendService, suspendMutation] = useMutation<
+    {
+      suspendService1: IService
+    },
+    IMutationSuspendService1Args
+  >(SUSPEND_SERVICE)
+
+  const resume = useCallback(
+    (id: string) =>
+      resumeService({
+        variables: {
+          id
+        }
+      }),
+    [resumeService]
+  )
+
+  const suspend = useCallback(
+    async (id: string) => {
+      const yes = await dialog.confirm({
+        message: 'Are you sure you want to suspend this service?',
+        title: 'Suspend service'
+      })
+
+      if (!yes) {
+        return
+      }
+
+      return suspendService({
+        variables: {
+          id
+        }
+      })
+    },
+    [suspendService]
+  )
+
+  return {
+    resume,
+    resuming: resumeMutation.loading,
+    suspend,
+    suspending: suspendMutation.loading
+  }
+}
+
+const DELETE_CRON_JOB = gql`
+  mutation deleteCronJob($id: String!) {
+    deleteCronJob(id: $id)
+  }
+`
+
+export const useDeleteCronJob = () => {
+  const [{ team, user }] = useAuth()
+
+  const [mutate, { loading }] = useMutation<
+    {
+      deleteCronJob: boolean
+    },
+    IMutationDeleteCronJobArgs
+  >(DELETE_CRON_JOB)
+
+  const remove = useCallback(
+    async (id: string) => {
+      const yes = await dialog.confirm({
+        message: 'Are you sure you want to delete this service?',
+        title: 'Delete service'
+      })
+
+      if (!yes) {
+        return
+      }
+
+      return mutate({
+        update(proxy) {
+          const options = {
+            query: SERVICES,
+            variables: {
+              ownerId: String(team ?? user)
+            }
+          }
+
+          const data = proxy.readQuery<
+            {
+              servicesForOwner: IService[]
+            },
+            IQueryServicesForOwnerArgs
+          >(options)
+
+          if (!data) {
+            return
+          }
+
+          const index = data.servicesForOwner.findIndex(
+            (service) => service.id === id
+          )
+
+          proxy.writeQuery({
+            ...options,
+            data: update(data, {
+              servicesForOwner: {
+                $splice: [[index, 1]]
+              }
+            })
+          })
+        },
+        variables: {
+          id
+        }
+      })
+    },
+    [mutate, team, user]
+  )
+
+  return {
+    remove,
+    removing: loading
+  }
+}
+
+const DELETE_SERVER = gql`
+  mutation deleteServer($id: String!) {
+    deleteServer(id: $id)
+  }
+`
+
+export const useDeleteServer = () => {
+  const [{ team, user }] = useAuth()
+
+  const [mutate, { loading }] = useMutation<
+    {
+      deleteServer: boolean
+    },
+    IMutationDeleteServerArgs
+  >(DELETE_SERVER)
+
+  const remove = useCallback(
+    async (id: string) => {
+      const yes = await dialog.confirm({
+        message: 'Are you sure you want to delete this service?',
+        title: 'Delete service'
+      })
+
+      if (!yes) {
+        return
+      }
+
+      return mutate({
+        update(proxy) {
+          const options = {
+            query: SERVICES,
+            variables: {
+              ownerId: String(team ?? user)
+            }
+          }
+
+          const data = proxy.readQuery<
+            {
+              servicesForOwner: IService[]
+            },
+            IQueryServicesForOwnerArgs
+          >(options)
+
+          if (!data) {
+            return
+          }
+
+          const index = data.servicesForOwner.findIndex(
+            (service) => service.id === id
+          )
+
+          proxy.writeQuery({
+            ...options,
+            data: update(data, {
+              servicesForOwner: {
+                $splice: [[index, 1]]
+              }
+            })
+          })
+        },
+        variables: {
+          id
+        }
+      })
+    },
+    [mutate, team, user]
+  )
+
+  return {
+    remove,
+    removing: loading
+  }
+}
+
+const UPDATE_CRON_JOB_SCHEDULE = gql`
+  mutation updateCronJobSchedule($id: String!, $schedule: String!) {
+    updateCronJobSchedule(id: $id, schedule: $schedule) {
+      ...cronJobFields
+      __typename
+    }
+  }
+
+  fragment cronJobFields on CronJob {
+    ...serviceFields
+    command
+    lastSuccessfulRunAt
+    schedule
+    __typename
+  }
+
+  fragment serviceFields on Service {
+    id
+    type
+    env {
+      ...envFields
+      __typename
+    }
+    repo {
+      ...repoFields
+      __typename
+    }
+    user {
+      id
+      email
+      __typename
+    }
+    owner {
+      id
+      __typename
+    }
+    name
+    slug
+    sourceBranch
+    buildCommand
+    autoDeploy
+    notifyOnFail
+    userFacingType
+    userFacingTypeSlug
+    baseDir
+    dockerCommand
+    dockerfilePath
+    createdAt
+    updatedAt
+    region {
+      id
+      description
+      __typename
+    }
+    state
+    suspenders
+    __typename
+  }
+
+  fragment envFields on Env {
+    id
+    name
+    language
+    isStatic
+    sampleBuildCommand
+    sampleStartCommand
+    __typename
+  }
+
+  fragment repoFields on Repo {
+    id
+    provider
+    providerId
+    name
+    ownerName
+    webURL
+    isPrivate
+    __typename
+  }
+`
+
+const UPDATE_CRON_JOB_COMMAND = gql`
+  mutation updateCronJobCommand($id: String!, $command: String!) {
+    updateCronJobCommand(id: $id, command: $command) {
+      ...cronJobFields
+      __typename
+    }
+  }
+
+  fragment cronJobFields on CronJob {
+    ...serviceFields
+    command
+    lastSuccessfulRunAt
+    schedule
+    __typename
+  }
+
+  fragment serviceFields on Service {
+    id
+    type
+    env {
+      ...envFields
+      __typename
+    }
+    repo {
+      ...repoFields
+      __typename
+    }
+    user {
+      id
+      email
+      __typename
+    }
+    owner {
+      id
+      __typename
+    }
+    name
+    slug
+    sourceBranch
+    buildCommand
+    autoDeploy
+    notifyOnFail
+    userFacingType
+    userFacingTypeSlug
+    baseDir
+    dockerCommand
+    dockerfilePath
+    createdAt
+    updatedAt
+    region {
+      id
+      description
+      __typename
+    }
+    state
+    suspenders
+    __typename
+  }
+
+  fragment envFields on Env {
+    id
+    name
+    language
+    isStatic
+    sampleBuildCommand
+    sampleStartCommand
+    __typename
+  }
+
+  fragment repoFields on Repo {
+    id
+    provider
+    providerId
+    name
+    ownerName
+    webURL
+    isPrivate
+    __typename
+  }
+`
+
+const UPDATE_CRON_JOB_BUILD_COMMAND = gql`
+  mutation updateCronJobBuildCommand($id: String!, $buildCommand: String!) {
+    updateCronJobBuildCommand(id: $id, buildCommand: $buildCommand) {
+      ...cronJobFields
+      build {
+        ...buildFields
+        __typename
+      }
+      __typename
+    }
+  }
+
+  fragment cronJobFields on CronJob {
+    ...serviceFields
+    command
+    lastSuccessfulRunAt
+    schedule
+    __typename
+  }
+
+  fragment serviceFields on Service {
+    id
+    type
+    env {
+      ...envFields
+      __typename
+    }
+    repo {
+      ...repoFields
+      __typename
+    }
+    user {
+      id
+      email
+      __typename
+    }
+    owner {
+      id
+      __typename
+    }
+    name
+    slug
+    sourceBranch
+    buildCommand
+    autoDeploy
+    notifyOnFail
+    userFacingType
+    userFacingTypeSlug
+    baseDir
+    dockerCommand
+    dockerfilePath
+    createdAt
+    updatedAt
+    region {
+      id
+      description
+      __typename
+    }
+    state
+    suspenders
+    __typename
+  }
+
+  fragment envFields on Env {
+    id
+    name
+    language
+    isStatic
+    sampleBuildCommand
+    sampleStartCommand
+    __typename
+  }
+
+  fragment repoFields on Repo {
+    id
+    provider
+    providerId
+    name
+    ownerName
+    webURL
+    isPrivate
+    __typename
+  }
+
+  fragment buildFields on Build {
+    id
+    status
+    commitId
+    commitShortId
+    commitMessage
+    commitURL
+    commitCreatedAt
+    createdAt
+    updatedAt
+    __typename
+  }
+`
+
+export const useUpdateCronJob = () => {
+  const [updateCronJobSchedule, updateScheduleMutation] = useMutation<
+    {
+      updateCronJobSchedule: ICronJob
+    },
+    IMutationUpdateCronJobScheduleArgs
+  >(UPDATE_CRON_JOB_SCHEDULE)
+
+  const [updateCronJobCommand, updateCommandMutation] = useMutation<
+    {
+      updateCronJobCommand: ICronJob
+    },
+    IMutationUpdateCronJobCommandArgs
+  >(UPDATE_CRON_JOB_COMMAND)
+
+  const [updateCronJobBuildCommand, updateBuildCommandMutation] = useMutation<
+    {
+      updateCronJobBuildCommand: ICronJob
+    },
+    IMutationUpdateCronJobBuildCommandArgs
+  >(UPDATE_CRON_JOB_BUILD_COMMAND)
+
+  const updateSchedule = useCallback(
+    (id: string, schedule: string) =>
+      updateCronJobSchedule({
+        variables: {
+          id,
+          schedule
+        }
+      }),
+    [updateCronJobSchedule]
+  )
+
+  const updateCommand = useCallback(
+    (id: string, command: string) =>
+      updateCronJobCommand({
+        variables: {
+          command,
+          id
+        }
+      }),
+    [updateCronJobCommand]
+  )
+
+  const updateBuildCommand = useCallback(
+    (id: string, buildCommand: string) =>
+      updateCronJobBuildCommand({
+        variables: {
+          buildCommand,
+          id
+        }
+      }),
+    [updateCronJobBuildCommand]
+  )
+
+  return {
+    updateBuildCommand,
+    updateCommand,
+    updateSchedule,
+    updatingBuildCommand: updateBuildCommandMutation.loading,
+    updatingCommand: updateCommandMutation.loading,
+    updatingSchedule: updateScheduleMutation.loading
+  }
+}
+
+const UPDATE_SERVER_BUILD_COMMAND = gql`
+  mutation updateServerBuildCommand($id: String!, $buildCommand: String!) {
+    updateServerBuildCommand(id: $id, buildCommand: $buildCommand) {
+      ...serverFields
+      __typename
+    }
+  }
+
+  fragment serverFields on Server {
+    ...serviceFields
+    canBill
+    deletedAt
+    deploy {
+      ...deployFields
+      __typename
+    }
+    deployKey
+    extraInstances
+    healthCheckPath
+    isPrivate
+    isWorker
+    openPorts
+    parentServer {
+      ...serviceFields
+      __typename
+    }
+    plan {
+      name
+      price
+      __typename
+    }
+    prPreviewsEnabled
+    pullRequestId
+    startCommand
+    staticPublishPath
+    suspenders
+    url
+    disk {
+      ...diskFields
+      __typename
+    }
+    __typename
+  }
+
+  fragment serviceFields on Service {
+    id
+    type
+    env {
+      ...envFields
+      __typename
+    }
+    repo {
+      ...repoFields
+      __typename
+    }
+    user {
+      id
+      email
+      __typename
+    }
+    owner {
+      id
+      __typename
+    }
+    name
+    slug
+    sourceBranch
+    buildCommand
+    autoDeploy
+    notifyOnFail
+    userFacingType
+    userFacingTypeSlug
+    baseDir
+    dockerCommand
+    dockerfilePath
+    createdAt
+    updatedAt
+    region {
+      id
+      description
+      __typename
+    }
+    state
+    suspenders
+    __typename
+  }
+
+  fragment envFields on Env {
+    id
+    name
+    language
+    isStatic
+    sampleBuildCommand
+    sampleStartCommand
+    __typename
+  }
+
+  fragment repoFields on Repo {
+    id
+    provider
+    providerId
+    name
+    ownerName
+    webURL
+    isPrivate
+    __typename
+  }
+
+  fragment deployFields on Deploy {
+    id
+    status
+    buildId
+    commitId
+    commitShortId
+    commitMessage
+    commitURL
+    commitCreatedAt
+    finishedAt
+    finishedAtUnixNano
+    createdAt
+    updatedAt
+    rollbackSupportStatus
+    __typename
+  }
+
+  fragment diskFields on Disk {
+    id
+    name
+    mountPath
+    sizeGB
+    __typename
+  }
+`
+
+const UPDATE_SERVER_PUBLISH_DIRECTORY = gql`
+  mutation updateServerStaticPublishPath(
+    $id: String!
+    $staticPublishPath: String!
+  ) {
+    updateServerStaticPublishPath(
+      id: $id
+      staticPublishPath: $staticPublishPath
+    ) {
+      ...serverFields
+      __typename
+    }
+  }
+
+  fragment serverFields on Server {
+    ...serviceFields
+    canBill
+    deletedAt
+    deploy {
+      ...deployFields
+      __typename
+    }
+    deployKey
+    extraInstances
+    healthCheckPath
+    isPrivate
+    isWorker
+    openPorts
+    parentServer {
+      ...serviceFields
+      __typename
+    }
+    plan {
+      name
+      price
+      __typename
+    }
+    prPreviewsEnabled
+    pullRequestId
+    startCommand
+    staticPublishPath
+    suspenders
+    url
+    disk {
+      ...diskFields
+      __typename
+    }
+    __typename
+  }
+
+  fragment serviceFields on Service {
+    id
+    type
+    env {
+      ...envFields
+      __typename
+    }
+    repo {
+      ...repoFields
+      __typename
+    }
+    user {
+      id
+      email
+      __typename
+    }
+    owner {
+      id
+      __typename
+    }
+    name
+    slug
+    sourceBranch
+    buildCommand
+    autoDeploy
+    notifyOnFail
+    userFacingType
+    userFacingTypeSlug
+    baseDir
+    dockerCommand
+    dockerfilePath
+    createdAt
+    updatedAt
+    region {
+      id
+      description
+      __typename
+    }
+    state
+    suspenders
+    __typename
+  }
+
+  fragment envFields on Env {
+    id
+    name
+    language
+    isStatic
+    sampleBuildCommand
+    sampleStartCommand
+    __typename
+  }
+
+  fragment repoFields on Repo {
+    id
+    provider
+    providerId
+    name
+    ownerName
+    webURL
+    isPrivate
+    __typename
+  }
+
+  fragment deployFields on Deploy {
+    id
+    status
+    buildId
+    commitId
+    commitShortId
+    commitMessage
+    commitURL
+    commitCreatedAt
+    finishedAt
+    finishedAtUnixNano
+    createdAt
+    updatedAt
+    rollbackSupportStatus
+    __typename
+  }
+
+  fragment diskFields on Disk {
+    id
+    name
+    mountPath
+    sizeGB
+    __typename
+  }
+`
+
+const UPDATE_SERVER_START_COMMAND = gql`
+  mutation updateServerStartCommand($id: String!, $startCommand: String!) {
+    updateServerStartCommand(id: $id, startCommand: $startCommand) {
+      ...serverFields
+      __typename
+    }
+  }
+
+  fragment serverFields on Server {
+    ...serviceFields
+    canBill
+    deletedAt
+    deploy {
+      ...deployFields
+      __typename
+    }
+    deployKey
+    extraInstances
+    healthCheckPath
+    isPrivate
+    isWorker
+    openPorts
+    parentServer {
+      ...serviceFields
+      __typename
+    }
+    plan {
+      name
+      price
+      __typename
+    }
+    prPreviewsEnabled
+    pullRequestId
+    startCommand
+    staticPublishPath
+    suspenders
+    url
+    disk {
+      ...diskFields
+      __typename
+    }
+    __typename
+  }
+
+  fragment serviceFields on Service {
+    id
+    type
+    env {
+      ...envFields
+      __typename
+    }
+    repo {
+      ...repoFields
+      __typename
+    }
+    user {
+      id
+      email
+      __typename
+    }
+    owner {
+      id
+      __typename
+    }
+    name
+    slug
+    sourceBranch
+    buildCommand
+    autoDeploy
+    notifyOnFail
+    userFacingType
+    userFacingTypeSlug
+    baseDir
+    dockerCommand
+    dockerfilePath
+    createdAt
+    updatedAt
+    region {
+      id
+      description
+      __typename
+    }
+    state
+    suspenders
+    __typename
+  }
+
+  fragment envFields on Env {
+    id
+    name
+    language
+    isStatic
+    sampleBuildCommand
+    sampleStartCommand
+    __typename
+  }
+
+  fragment repoFields on Repo {
+    id
+    provider
+    providerId
+    name
+    ownerName
+    webURL
+    isPrivate
+    __typename
+  }
+
+  fragment deployFields on Deploy {
+    id
+    status
+    buildId
+    commitId
+    commitShortId
+    commitMessage
+    commitURL
+    commitCreatedAt
+    finishedAt
+    finishedAtUnixNano
+    createdAt
+    updatedAt
+    rollbackSupportStatus
+    __typename
+  }
+
+  fragment diskFields on Disk {
+    id
+    name
+    mountPath
+    sizeGB
+    __typename
+  }
+`
+
+const UPDATE_SERVER_DOCKERFILE_PATH = gql`
+  mutation updateServerDockerfilePath($id: String!, $dockerfilePath: String!) {
+    updateServerDockerfilePath(id: $id, dockerfilePath: $dockerfilePath) {
+      id
+      dockerfilePath
+      deploy {
+        ...deployFields
+        __typename
+      }
+      __typename
+    }
+  }
+
+  fragment deployFields on Deploy {
+    id
+    status
+    buildId
+    commitId
+    commitShortId
+    commitMessage
+    commitURL
+    commitCreatedAt
+    finishedAt
+    finishedAtUnixNano
+    createdAt
+    updatedAt
+    rollbackSupportStatus
+    __typename
+  }
+`
+
+const UPDATE_SERVER_BASE_DIR = gql`
+  mutation updateServerBaseDir($id: String!, $baseDir: String!) {
+    updateServerBaseDir(id: $id, baseDir: $baseDir) {
+      id
+      baseDir
+      deploy {
+        ...deployFields
+        __typename
+      }
+      __typename
+    }
+  }
+
+  fragment deployFields on Deploy {
+    id
+    status
+    buildId
+    commitId
+    commitShortId
+    commitMessage
+    commitURL
+    commitCreatedAt
+    finishedAt
+    finishedAtUnixNano
+    createdAt
+    updatedAt
+    rollbackSupportStatus
+    __typename
+  }
+`
+
+const UPDATE_SERVER_DOCKER_COMMAND = gql`
+  mutation updateServerDockerCommand($id: String!, $dockerCommand: String!) {
+    updateServerDockerCommand(id: $id, dockerCommand: $dockerCommand) {
+      id
+      dockerCommand
+      deploy {
+        ...deployFields
+        __typename
+      }
+      __typename
+    }
+  }
+
+  fragment deployFields on Deploy {
+    id
+    status
+    buildId
+    commitId
+    commitShortId
+    commitMessage
+    commitURL
+    commitCreatedAt
+    finishedAt
+    finishedAtUnixNano
+    createdAt
+    updatedAt
+    rollbackSupportStatus
+    __typename
+  }
+`
+
+const UPDATE_SERVER_INSTANCE_COUNT = gql`
+  mutation updateServerInstanceCount($id: String!, $count: Int!) {
+    updateServerInstanceCount(id: $id, count: $count) {
+      ...serverFields
+      __typename
+    }
+  }
+
+  fragment serverFields on Server {
+    ...serviceFields
+    canBill
+    deletedAt
+    deploy {
+      ...deployFields
+      __typename
+    }
+    deployKey
+    extraInstances
+    healthCheckPath
+    isPrivate
+    isWorker
+    openPorts
+    parentServer {
+      ...serviceFields
+      __typename
+    }
+    plan {
+      name
+      price
+      __typename
+    }
+    prPreviewsEnabled
+    pullRequestId
+    startCommand
+    staticPublishPath
+    suspenders
+    url
+    disk {
+      ...diskFields
+      __typename
+    }
+    __typename
+  }
+
+  fragment serviceFields on Service {
+    id
+    type
+    env {
+      ...envFields
+      __typename
+    }
+    repo {
+      ...repoFields
+      __typename
+    }
+    user {
+      id
+      email
+      __typename
+    }
+    owner {
+      id
+      __typename
+    }
+    name
+    slug
+    sourceBranch
+    buildCommand
+    autoDeploy
+    notifyOnFail
+    userFacingType
+    userFacingTypeSlug
+    baseDir
+    dockerCommand
+    dockerfilePath
+    createdAt
+    updatedAt
+    region {
+      id
+      description
+      __typename
+    }
+    state
+    suspenders
+    __typename
+  }
+
+  fragment envFields on Env {
+    id
+    name
+    language
+    isStatic
+    sampleBuildCommand
+    sampleStartCommand
+    __typename
+  }
+
+  fragment repoFields on Repo {
+    id
+    provider
+    providerId
+    name
+    ownerName
+    webURL
+    isPrivate
+    __typename
+  }
+
+  fragment deployFields on Deploy {
+    id
+    status
+    buildId
+    commitId
+    commitShortId
+    commitMessage
+    commitURL
+    commitCreatedAt
+    finishedAt
+    finishedAtUnixNano
+    createdAt
+    updatedAt
+    rollbackSupportStatus
+    __typename
+  }
+
+  fragment diskFields on Disk {
+    id
+    name
+    mountPath
+    sizeGB
+    __typename
+  }
+`
+
+const UPDATE_SERVER_HEALTH_CHECK_PATH = gql`
+  mutation updateServerHealthCheckPath($id: String!, $healthCheckPath: String) {
+    updateServerHealthCheckPath(id: $id, healthCheckPath: $healthCheckPath) {
+      ...serverFields
+      __typename
+    }
+  }
+
+  fragment serverFields on Server {
+    ...serviceFields
+    canBill
+    deletedAt
+    deploy {
+      ...deployFields
+      __typename
+    }
+    deployKey
+    extraInstances
+    healthCheckPath
+    isPrivate
+    isWorker
+    openPorts
+    parentServer {
+      ...serviceFields
+      __typename
+    }
+    plan {
+      name
+      price
+      __typename
+    }
+    prPreviewsEnabled
+    pullRequestId
+    startCommand
+    staticPublishPath
+    suspenders
+    url
+    disk {
+      ...diskFields
+      __typename
+    }
+    __typename
+  }
+
+  fragment serviceFields on Service {
+    id
+    type
+    env {
+      ...envFields
+      __typename
+    }
+    repo {
+      ...repoFields
+      __typename
+    }
+    user {
+      id
+      email
+      __typename
+    }
+    owner {
+      id
+      __typename
+    }
+    name
+    slug
+    sourceBranch
+    buildCommand
+    autoDeploy
+    notifyOnFail
+    userFacingType
+    userFacingTypeSlug
+    baseDir
+    dockerCommand
+    dockerfilePath
+    createdAt
+    updatedAt
+    region {
+      id
+      description
+      __typename
+    }
+    state
+    suspenders
+    __typename
+  }
+
+  fragment envFields on Env {
+    id
+    name
+    language
+    isStatic
+    sampleBuildCommand
+    sampleStartCommand
+    __typename
+  }
+
+  fragment repoFields on Repo {
+    id
+    provider
+    providerId
+    name
+    ownerName
+    webURL
+    isPrivate
+    __typename
+  }
+
+  fragment deployFields on Deploy {
+    id
+    status
+    buildId
+    commitId
+    commitShortId
+    commitMessage
+    commitURL
+    commitCreatedAt
+    finishedAt
+    finishedAtUnixNano
+    createdAt
+    updatedAt
+    rollbackSupportStatus
+    __typename
+  }
+
+  fragment diskFields on Disk {
+    id
+    name
+    mountPath
+    sizeGB
+    __typename
+  }
+`
+
+export const useUpdateServer = () => {
+  const [updateServerDockerCommand, updateDockerCommandMutation] = useMutation<
+    {
+      updateServerDockerCommand: IServer
+    },
+    IMutationUpdateServerDockerCommandArgs
+  >(UPDATE_SERVER_DOCKER_COMMAND)
+
+  const [
+    updateServerDockerfilePath,
+    updateDockerfilePathMutation
+  ] = useMutation<
+    {
+      updateServerDockerfilePath: IServer
+    },
+    IMutationUpdateServerDockerfilePathArgs
+  >(UPDATE_SERVER_DOCKERFILE_PATH)
+
+  const [updateServerBaseDir, updateBaseDirMutation] = useMutation<
+    {
+      updateServerBaseDir: IServer
+    },
+    IMutationUpdateServerBaseDirArgs
+  >(UPDATE_SERVER_BASE_DIR)
+
+  const [
+    updateServerPublishDirectory,
+    updatePublishDirectoryMutation
+  ] = useMutation<
+    {
+      updateServerPublishDirectory: IServer
+    },
+    IMutationUpdateServerStaticPublishPathArgs
+  >(UPDATE_SERVER_PUBLISH_DIRECTORY)
+
+  const [updateServerStartCommand, updateStartCommandMutation] = useMutation<
+    {
+      updateServerStartCommand: IServer
+    },
+    IMutationUpdateServerStartCommandArgs
+  >(UPDATE_SERVER_START_COMMAND)
+
+  const [updateServerBuildCommand, updateBuildCommandMutation] = useMutation<
+    {
+      updateServerBuildCommand: IServer
+    },
+    IMutationUpdateServerBuildCommandArgs
+  >(UPDATE_SERVER_BUILD_COMMAND)
+
+  const [updateServerInstanceCount, updateInstanceCountMutation] = useMutation<
+    {
+      updateServerInstanceCount: IServer
+    },
+    IMutationUpdateServerInstanceCountArgs
+  >(UPDATE_SERVER_INSTANCE_COUNT)
+
+  const [
+    updateServerHealthCheckPath,
+    updateHealthCheckPathMutation
+  ] = useMutation<
+    {
+      updateServerHealthCheckPath: IServer
+    },
+    IMutationUpdateServerHealthCheckPathArgs
+  >(UPDATE_SERVER_HEALTH_CHECK_PATH)
+
+  const updateDockerCommand = useCallback(
+    (id: string, dockerCommand: string) =>
+      updateServerDockerCommand({
+        variables: {
+          dockerCommand,
+          id
+        }
+      }),
+    [updateServerDockerCommand]
+  )
+
+  const updateDockerfilePath = useCallback(
+    (id: string, dockerfilePath: string) =>
+      updateServerDockerfilePath({
+        variables: {
+          dockerfilePath,
+          id
+        }
+      }),
+    [updateServerDockerfilePath]
+  )
+
+  const updateBaseDir = useCallback(
+    (id: string, baseDir: string) =>
+      updateServerBaseDir({
+        variables: {
+          baseDir,
+          id
+        }
+      }),
+    [updateServerBaseDir]
+  )
+
+  const updatePublishDirectory = useCallback(
+    (id: string, staticPublishPath: string) =>
+      updateServerPublishDirectory({
+        variables: {
+          id,
+          staticPublishPath
+        }
+      }),
+    [updateServerPublishDirectory]
+  )
+
+  const updateStartCommand = useCallback(
+    (id: string, startCommand: string) =>
+      updateServerStartCommand({
+        variables: {
+          id,
+          startCommand
+        }
+      }),
+    [updateServerStartCommand]
+  )
+
+  const updateBuildCommand = useCallback(
+    (id: string, buildCommand: string) =>
+      updateServerBuildCommand({
+        variables: {
+          buildCommand,
+          id
+        }
+      }),
+    [updateServerBuildCommand]
+  )
+
+  const updateInstanceCount = useCallback(
+    (id: string, count: number) =>
+      updateServerInstanceCount({
+        variables: {
+          count,
+          id
+        }
+      }),
+    [updateServerInstanceCount]
+  )
+
+  const updateHealthCheckPath = useCallback(
+    (id: string, healthCheckPath: string) =>
+      updateServerHealthCheckPath({
+        variables: {
+          healthCheckPath,
+          id
+        }
+      }),
+    [updateServerHealthCheckPath]
+  )
+
+  return {
+    updateBaseDir,
+    updateBuildCommand,
+    updateDockerCommand,
+    updateDockerfilePath,
+    updateHealthCheckPath,
+    updateInstanceCount,
+    updatePublishDirectory,
+    updateStartCommand,
+    updatingBaseDir: updateBaseDirMutation.loading,
+    updatingBuildCommand: updateBuildCommandMutation.loading,
+    updatingDockerCommand: updateDockerCommandMutation.loading,
+    updatingDockerfilePath: updateDockerfilePathMutation.loading,
+    updatingHealthCheckPath: updateHealthCheckPathMutation.loading,
+    updatingInstanceCount: updateInstanceCountMutation.loading,
+    updatingPublishDirectory: updatePublishDirectoryMutation.loading,
+    updatingStartCommand: updateStartCommandMutation.loading
   }
 }

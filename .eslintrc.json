@@ -56,7 +56,15 @@
           "useServiceHeaders",
           "useTeam",
           "useBilling",
-          "useTeamMembers"
+          "useTeamMembers",
+          "useCronJob",
+          "useServiceCertificate",
+          "useServiceDomains",
+          "useServiceSuspension",
+          "useDeleteCronJob",
+          "useDeleteServer",
+          "useUpdateCronJob",
+          "useUpdateServer"
         ]
       }
     ],

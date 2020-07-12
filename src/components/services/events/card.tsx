@@ -18,6 +18,7 @@ import {
   img_events_deployment_failed,
   img_events_deployment_started,
   img_events_deployment_succeeded,
+  img_events_info,
   img_events_server_available,
   img_events_server_failed,
   img_events_service_resumed,
@@ -155,6 +156,9 @@ const getIcon = (event: Event): Source => {
         ? img_events_deployment_cancelled
         : img_events_deployment_started
 
+    case 'ExtraInstancesChanged':
+      return img_events_info
+
     case 'ServerAvailable':
       return img_events_server_available
 
@@ -232,6 +236,11 @@ const getMessage = (event: Event, userId?: string): string => {
 
     case 'DiskEvent':
       return 'Disk added'
+
+    case 'ExtraInstancesChanged':
+      return `Instances changed from ${event.fromInstances + 1} to ${
+        event.toInstances + 1
+      }`
 
     case 'ServerAvailable':
       return 'Server back up'

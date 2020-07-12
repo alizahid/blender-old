@@ -11,12 +11,17 @@ export {
 export {
   useAddCollaborator,
   useBuildsForCronJob,
+  useCronJob,
+  useDeleteCronJob,
+  useDeleteServer,
   useRemoveCollaborator,
   useRestoreDiskSnapshot,
   useServer,
   useServerBandwidth,
+  useServiceCertificate,
   useServiceCollaborators,
   useServiceDisk,
+  useServiceDomains,
   useServiceEnv,
   useServiceEnvGroups,
   useServiceEvents,
@@ -24,7 +29,8 @@ export {
   useServiceLogs,
   useServiceMetrics,
   useServiceRedirects,
-  useServices
+  useServices,
+  useServiceSuspension
 } from './services'
 
 export {
