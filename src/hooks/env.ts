@@ -288,7 +288,7 @@ export const useCreateEnvGroup = () => {
         query: ENV_GROUP_NAME_EXISTS,
         variables: {
           name,
-          ownerId: String(user)
+          ownerId: String(team ?? user)
         }
       })
 
@@ -307,11 +307,11 @@ export const useCreateEnvGroup = () => {
         variables: {
           envVarInputs: [],
           name,
-          ownerId: String(user)
+          ownerId: String(team ?? user)
         }
       })
     },
-    [user, mutate]
+    [mutate, team, user]
   )
 
   return {
