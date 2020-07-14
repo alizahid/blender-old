@@ -978,7 +978,7 @@ export const useAddCollaborator = () => {
       })
 
       if (user) {
-        mutate({
+        await mutate({
           awaitRefetchQueries: true,
           refetchQueries() {
             return [
@@ -1000,9 +1000,11 @@ export const useAddCollaborator = () => {
             ]
           }
         })
+
+        return
       }
 
-      invite({
+      await invite({
         awaitRefetchQueries: true,
         refetchQueries() {
           return [
