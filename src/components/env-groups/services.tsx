@@ -26,7 +26,8 @@ const styles = StyleSheet.create({
   message: {
     ...typography.small,
     color: colors.foregroundLight,
-    marginTop: layout.padding
+    margin: layout.margin,
+    marginTop: -layout.padding
   },
   service: {
     borderTopColor: colors.backgroundDark,
