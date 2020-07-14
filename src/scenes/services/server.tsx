@@ -312,8 +312,12 @@ export const Server: FunctionComponent<Props> = ({
             style={styles.item}
             value={server.prPreviewsEnabled ? 'Enabled' : 'Disabled'}
           />
-          <Separator />
-          <Domains domains={domains} server={server} />
+          {!!server.url && (
+            <>
+              <Separator />
+              <Domains domains={domains} server={server} />
+            </>
+          )}
           <Separator />
           <View style={styles.footer}>
             <Button
