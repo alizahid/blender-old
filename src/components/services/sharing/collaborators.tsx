@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 import Image from 'react-native-fast-image'
 
 import { img_ui_dark_remove } from '../../../assets'
@@ -7,7 +7,6 @@ import { IPendingPermission, IPermission, IUser } from '../../../graphql/types'
 import { useAuth } from '../../../store'
 import { colors, layout, typography } from '../../../styles'
 import { Avatar } from '../../avatar'
-import { Touchable } from '../../touchable'
 
 interface Props {
   collaborators: IPermission[]
@@ -49,11 +48,11 @@ export const Collaborators: FunctionComponent<Props> = ({
           <Avatar email={owner.email} size="small" />
           <Text style={styles.email}>{collaborator.subject.email}</Text>
           {!removing && (
-            <Touchable
+            <Pressable
               onPress={() => onRemove(collaborator.subject.id)}
               style={styles.remove}>
               <Image source={img_ui_dark_remove} style={styles.icon} />
-            </Touchable>
+            </Pressable>
           )}
         </View>
       ))}
@@ -65,11 +64,11 @@ export const Collaborators: FunctionComponent<Props> = ({
             <Text style={styles.statusLabel}>Pending</Text>
           </View>
           {!removing && (
-            <Touchable
+            <Pressable
               onPress={() => onRemove(collaborator.email)}
               style={styles.remove}>
               <Image source={img_ui_dark_remove} style={styles.icon} />
-            </Touchable>
+            </Pressable>
           )}
         </View>
       ))}

@@ -1,11 +1,10 @@
 import React, { FunctionComponent } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 import Image from 'react-native-fast-image'
 
 import { img_type_postgresql } from '../../assets'
 import { IDatabase } from '../../graphql/types'
 import { colors, layout, typography } from '../../styles'
-import { Touchable } from '../touchable'
 import { Status } from './status'
 
 interface Props {
@@ -15,13 +14,13 @@ interface Props {
 }
 
 export const Card: FunctionComponent<Props> = ({ database, onPress }) => (
-  <Touchable onPress={() => onPress(database.id)} style={styles.main}>
+  <Pressable onPress={() => onPress(database.id)} style={styles.main}>
     <View style={styles.content}>
       <Text style={styles.name}>{database.name}</Text>
       <Status status={database.status} style={styles.status} />
     </View>
     <Image source={img_type_postgresql} style={styles.icon} />
-  </Touchable>
+  </Pressable>
 )
 
 const styles = StyleSheet.create({

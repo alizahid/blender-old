@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import {
   ActivityIndicator,
+  Pressable,
   StyleProp,
   StyleSheet,
   Text,
@@ -9,7 +10,6 @@ import {
 } from 'react-native'
 
 import { colors, layout, typography } from '../styles'
-import { Touchable } from './touchable'
 
 interface Props {
   label: string
@@ -29,7 +29,7 @@ export const Button: FunctionComponent<Props> = ({
   style,
   styleLabel
 }) => (
-  <Touchable
+  <Pressable
     disabled={loading}
     onPress={onPress}
     style={[styles.main, small && styles.small, style]}>
@@ -39,7 +39,7 @@ export const Button: FunctionComponent<Props> = ({
       </Text>
     )}
     {loading && <ActivityIndicator color={colors.background} size="small" />}
-  </Touchable>
+  </Pressable>
 )
 
 const styles = StyleSheet.create({

@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 import Image from 'react-native-fast-image'
 
 import { img_ui_dark_checked } from '../../assets'
@@ -7,7 +7,6 @@ import { ITeam, IUser } from '../../graphql/types'
 import { useAuth } from '../../store'
 import { colors, layout, typography } from '../../styles'
 import { Avatar } from '../avatar'
-import { Touchable } from '../touchable'
 
 interface Props {
   teams: ITeam[]
@@ -26,13 +25,13 @@ export const Teams: FunctionComponent<Props> = ({ teams, user }) => {
           : 'Tap to switch teams'}
         .
       </Text>
-      <Touchable onPress={() => changeTeam(undefined)} style={styles.item}>
+      <Pressable onPress={() => changeTeam(undefined)} style={styles.item}>
         <Avatar name={user.name || user.name} size="large" />
         <Text style={styles.name}>Personal</Text>
         {!teamId && <Image source={img_ui_dark_checked} style={styles.icon} />}
-      </Touchable>
+      </Pressable>
       {teams.map((team) => (
-        <Touchable
+        <Pressable
           key={team.id}
           onPress={() => changeTeam(team.id)}
           style={styles.item}>
@@ -41,7 +40,7 @@ export const Teams: FunctionComponent<Props> = ({ teams, user }) => {
           {teamId === team.id && (
             <Image source={img_ui_dark_checked} style={styles.icon} />
           )}
-        </Touchable>
+        </Pressable>
       ))}
     </View>
   )

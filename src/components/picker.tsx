@@ -2,6 +2,7 @@ import React, { FunctionComponent, useState } from 'react'
 import {
   FlatList,
   Modal,
+  Pressable,
   StyleProp,
   StyleSheet,
   Text,
@@ -18,7 +19,6 @@ import {
 } from '../assets'
 import { colors, layout, typography } from '../styles'
 import { Separator } from './separator'
-import { Touchable } from './touchable'
 
 interface Data {
   label: string
@@ -51,12 +51,12 @@ export const Picker: FunctionComponent<Props> = ({
     <>
       <View style={style}>
         {!!title && <Text style={styles.title}>{title}</Text>}
-        <Touchable onPress={() => setVisible(true)} style={styles.input}>
+        <Pressable onPress={() => setVisible(true)} style={styles.input}>
           <Text style={[styles.label, !selected && styles.placeholder]}>
             {selected?.label ?? placeholder}
           </Text>
           <Image source={img_ui_dark_expand} style={styles.icon} />
-        </Touchable>
+        </Pressable>
       </View>
       <Modal animationType="fade" transparent visible={visible}>
         <View
@@ -70,12 +70,12 @@ export const Picker: FunctionComponent<Props> = ({
           <View style={styles.content}>
             <View style={styles.header}>
               <Text style={styles.headerLabel}>{title || placeholder}</Text>
-              <Touchable onPress={() => setVisible(false)}>
+              <Pressable onPress={() => setVisible(false)}>
                 <Image
                   source={img_ui_light_close}
                   style={[styles.icon, styles.close]}
                 />
-              </Touchable>
+              </Pressable>
             </View>
             <FlatList
               ItemSeparatorComponent={Separator}
@@ -83,7 +83,7 @@ export const Picker: FunctionComponent<Props> = ({
               keyExtractor={(item) => item.value}
               keyboardShouldPersistTaps="always"
               renderItem={({ item }) => (
-                <Touchable
+                <Pressable
                   onPress={() => {
                     onSelect(item)
 
@@ -94,7 +94,7 @@ export const Picker: FunctionComponent<Props> = ({
                   {selected?.value === item.value && (
                     <Image source={img_ui_dark_check} style={styles.icon} />
                   )}
-                </Touchable>
+                </Pressable>
               )}
             />
           </View>

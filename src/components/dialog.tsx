@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
 import {
   KeyboardType,
+  Pressable,
   StyleProp,
   StyleSheet,
   Text,
@@ -14,7 +15,6 @@ import { mitter } from '../lib'
 import { colors, layout, typography } from '../styles'
 import { Overlay } from './overlay'
 import { TextBox } from './text-box'
-import { Touchable } from './touchable'
 
 export interface DialogProps {
   props:
@@ -90,9 +90,9 @@ const AlertDialog: FunctionComponent<AlertDialogProps> = ({
     <Text style={styles.title}>{title}</Text>
     <Text style={styles.message}>{message}</Text>
     <View style={styles.footer}>
-      <Touchable onPress={() => onClose()} style={styles.button}>
+      <Pressable onPress={() => onClose()} style={styles.button}>
         <Text style={styles.label}>Okay</Text>
-      </Touchable>
+      </Pressable>
     </View>
   </Overlay>
 )
@@ -117,22 +117,22 @@ const ConfirmDialog: FunctionComponent<ConfirmDialogProps> = ({
     <Text style={styles.title}>{title}</Text>
     <Text style={styles.message}>{message}</Text>
     <View style={styles.footer}>
-      <Touchable
+      <Pressable
         onPress={() => {
           onNo()
           onClose()
         }}
         style={styles.button}>
         <Text style={styles.label}>No</Text>
-      </Touchable>
-      <Touchable
+      </Pressable>
+      <Pressable
         onPress={() => {
           onYes()
           onClose()
         }}
         style={styles.button}>
         <Text style={[styles.label, styles.yes]}>Yes</Text>
-      </Touchable>
+      </Pressable>
     </View>
   </Overlay>
 )
@@ -197,17 +197,17 @@ const PromptDialog: FunctionComponent<PromptDialogProps> = ({
         value={value}
       />
       <View style={styles.footer}>
-        <Touchable
+        <Pressable
           onPress={() => {
             onCancel()
             onClose()
           }}
           style={styles.button}>
           <Text style={[styles.label, styles.yes]}>Cancel</Text>
-        </Touchable>
-        <Touchable onPress={() => submit()} style={styles.button}>
+        </Pressable>
+        <Pressable onPress={() => submit()} style={styles.button}>
           <Text style={styles.label}>Submit</Text>
-        </Touchable>
+        </Pressable>
       </View>
     </Overlay>
   )
@@ -282,15 +282,15 @@ const KeyValueDialog: FunctionComponent<KeyValueDialogProps> = ({
         value={value}
       />
       <View style={styles.footer}>
-        <Touchable
+        <Pressable
           onPress={() => {
             onCancel()
             onClose()
           }}
           style={styles.button}>
           <Text style={[styles.label, styles.yes]}>Cancel</Text>
-        </Touchable>
-        <Touchable
+        </Pressable>
+        <Pressable
           onPress={() => {
             if (label && value) {
               onSubmit(label, value)
@@ -299,7 +299,7 @@ const KeyValueDialog: FunctionComponent<KeyValueDialogProps> = ({
           }}
           style={styles.button}>
           <Text style={styles.label}>Submit</Text>
-        </Touchable>
+        </Pressable>
       </View>
     </Overlay>
   )

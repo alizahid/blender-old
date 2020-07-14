@@ -1,7 +1,14 @@
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs'
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
-import { FlatList, Keyboard, StyleSheet, Text, View } from 'react-native'
+import {
+  FlatList,
+  Keyboard,
+  Pressable,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native'
 import Image, { Source } from 'react-native-fast-image'
 import { useSafeArea } from 'react-native-safe-area-context'
 
@@ -16,7 +23,6 @@ import {
   img_nav_settings_active
 } from '../assets'
 import { colors, layout, typography } from '../styles'
-import { Touchable } from './touchable'
 
 const icons: Record<string, Source> = {
   Databases: img_nav_databases,
@@ -63,7 +69,7 @@ export const BottomTabBar: FunctionComponent<BottomTabBarProps> = ({
         }
       ]}>
       {routes.map((route, active) => (
-        <Touchable
+        <Pressable
           key={active}
           onPress={() => {
             const event = emit({
@@ -83,7 +89,7 @@ export const BottomTabBar: FunctionComponent<BottomTabBarProps> = ({
             }
             style={[stylesBottom.icon, index === active && stylesBottom.active]}
           />
-        </Touchable>
+        </Pressable>
       ))}
     </View>
   )
@@ -133,7 +139,7 @@ export const TopTabBar: FunctionComponent<MaterialTopTabBarProps> = ({
         initialNumToRender={routes.length}
         ref={list}
         renderItem={({ index: active, item }) => (
-          <Touchable
+          <Pressable
             onPress={() => {
               const event = emit({
                 canPreventDefault: true,
@@ -159,7 +165,7 @@ export const TopTabBar: FunctionComponent<MaterialTopTabBarProps> = ({
               style={[stylesTop.label, index === active && stylesTop.active]}>
               {descriptors[item.key].options.title}
             </Text>
-          </Touchable>
+          </Pressable>
         )}
         showsHorizontalScrollIndicator={false}
       />

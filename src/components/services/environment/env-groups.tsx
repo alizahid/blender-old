@@ -1,13 +1,12 @@
 import { useNavigation } from '@react-navigation/native'
 import pluralize from 'pluralize'
 import React, { FunctionComponent } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 import Image from 'react-native-fast-image'
 
 import { img_ui_dark_link, img_ui_dark_unlink } from '../../../assets'
 import { IEnvGroup } from '../../../graphql/types'
 import { colors, layout, typography } from '../../../styles'
-import { Touchable } from '../../touchable'
 
 interface Props {
   envGroups: IEnvGroup[]
@@ -34,7 +33,7 @@ export const EnvGroups: FunctionComponent<Props> = ({
       <Text style={styles.title}>Env groups</Text>
       {linkedGroups.map((envGroup) => (
         <View key={envGroup.id} style={styles.item}>
-          <Touchable
+          <Pressable
             onPress={() =>
               navigate('EnvGroups', {
                 initial: false,
@@ -51,11 +50,11 @@ export const EnvGroups: FunctionComponent<Props> = ({
                 {pluralize('var', envGroup.envVars.length, true)}
               </Text>
             </View>
-          </Touchable>
+          </Pressable>
           {!unlinking && (
-            <Touchable onPress={() => onUnlink(envGroup)} style={styles.button}>
+            <Pressable onPress={() => onUnlink(envGroup)} style={styles.button}>
               <Image source={img_ui_dark_unlink} style={styles.icon} />
-            </Touchable>
+            </Pressable>
           )}
         </View>
       ))}
@@ -63,7 +62,7 @@ export const EnvGroups: FunctionComponent<Props> = ({
         .filter(({ id }) => !linkedGroups.map(({ id }) => id).includes(id))
         .map((envGroup) => (
           <View key={envGroup.id} style={styles.item}>
-            <Touchable
+            <Pressable
               onPress={() =>
                 navigate('EnvGroups', {
                   initial: false,
@@ -80,11 +79,11 @@ export const EnvGroups: FunctionComponent<Props> = ({
                   {pluralize('var', envGroup.envVars.length, true)}
                 </Text>
               </View>
-            </Touchable>
+            </Pressable>
             {!linking && (
-              <Touchable onPress={() => onLink(envGroup)} style={styles.button}>
+              <Pressable onPress={() => onLink(envGroup)} style={styles.button}>
                 <Image source={img_ui_dark_link} style={styles.icon} />
-              </Touchable>
+              </Pressable>
             )}
           </View>
         ))}

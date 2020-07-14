@@ -1,13 +1,19 @@
 import { useNavigation } from '@react-navigation/native'
 import moment from 'moment'
 import React, { FunctionComponent } from 'react'
-import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import {
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle
+} from 'react-native'
 import Image from 'react-native-fast-image'
 
 import { img_type_github, img_type_gitlab } from '../../assets'
 import { IService } from '../../graphql/types'
 import { colors, layout, typography } from '../../styles'
-import { Touchable } from '../touchable'
 
 interface Props {
   service: IService
@@ -18,7 +24,7 @@ export const Card: FunctionComponent<Props> = ({ service, style }) => {
   const { navigate } = useNavigation()
 
   return (
-    <Touchable
+    <Pressable
       onPress={() => {
         const route =
           service.type === 'cron'
@@ -76,7 +82,7 @@ export const Card: FunctionComponent<Props> = ({ service, style }) => {
           Updated {moment(service.updatedAt).fromNow()}
         </Text>
       </View>
-    </Touchable>
+    </Pressable>
   )
 }
 

@@ -1,11 +1,10 @@
 import moment from 'moment'
 import pluralize from 'pluralize'
 import React, { FunctionComponent } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 
 import { IEnvGroup } from '../../graphql/types'
 import { colors, layout, typography } from '../../styles'
-import { Touchable } from '../touchable'
 
 interface Props {
   envGroup: IEnvGroup
@@ -14,7 +13,7 @@ interface Props {
 }
 
 export const Card: FunctionComponent<Props> = ({ envGroup, onPress }) => (
-  <Touchable onPress={() => onPress(envGroup.id)} style={styles.main}>
+  <Pressable onPress={() => onPress(envGroup.id)} style={styles.main}>
     <View style={styles.content}>
       <Text style={styles.name}>{envGroup.name}</Text>
       <Text style={styles.time}>
@@ -26,7 +25,7 @@ export const Card: FunctionComponent<Props> = ({ envGroup, onPress }) => (
         {pluralize('var', envGroup.envVars.length, true)}
       </Text>
     </View>
-  </Touchable>
+  </Pressable>
 )
 
 const styles = StyleSheet.create({

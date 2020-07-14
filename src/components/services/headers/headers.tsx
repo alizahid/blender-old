@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 import Image from 'react-native-fast-image'
 
 import {
@@ -11,7 +11,6 @@ import { IHeader } from '../../../graphql/types'
 import { colors, layout, typography } from '../../../styles'
 import { KeyValue } from '../../key-value'
 import { Spinner } from '../../spinner'
-import { Touchable } from '../../touchable'
 
 interface Props {
   headers: IHeader[]
@@ -32,9 +31,9 @@ export const Headers: FunctionComponent<Props> = ({
   <View style={styles.main}>
     <View style={styles.header}>
       <Text style={styles.title}>HTTP response headers</Text>
-      <Touchable onPress={() => onCreate()}>
+      <Pressable onPress={() => onCreate()}>
         <Image source={img_ui_dark_add} style={styles.create} />
-      </Touchable>
+      </Pressable>
     </View>
     {headers.length === 0 && <Text style={styles.message}>No headers.</Text>}
     {headers.map((header) => (
@@ -55,19 +54,19 @@ export const Headers: FunctionComponent<Props> = ({
           />
         </View>
         <View style={styles.footer}>
-          <Touchable onPress={() => onEdit(header)} style={styles.button}>
+          <Pressable onPress={() => onEdit(header)} style={styles.button}>
             <Image source={img_ui_dark_edit} style={styles.icon} />
-          </Touchable>
+          </Pressable>
           {loading ? (
             <View style={styles.button}>
               <Spinner color={colors.status.red} style={styles.spinner} />
             </View>
           ) : (
-            <Touchable
+            <Pressable
               onPress={() => onRemove(header.id)}
               style={styles.button}>
               <Image source={img_ui_dark_remove} style={styles.icon} />
-            </Touchable>
+            </Pressable>
           )}
         </View>
       </View>

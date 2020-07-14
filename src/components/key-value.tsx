@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useState } from 'react'
 import {
   LayoutAnimation,
+  Pressable,
   StyleProp,
   StyleSheet,
   Text,
@@ -12,7 +13,6 @@ import Image, { Source } from 'react-native-fast-image'
 import { img_ui_dark_invisible, img_ui_dark_visible } from '../assets'
 import { colors, layout, typography } from '../styles'
 import { Spinner } from './spinner'
-import { Touchable } from './touchable'
 
 interface Action {
   icon: Source
@@ -61,7 +61,7 @@ export const KeyValue: FunctionComponent<Props> = ({
         {!!description && <Text style={styles.description}>{description}</Text>}
       </View>
       {hidden && (
-        <Touchable
+        <Pressable
           onPress={() => {
             LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
 
@@ -72,18 +72,18 @@ export const KeyValue: FunctionComponent<Props> = ({
             source={visible ? img_ui_dark_visible : img_ui_dark_invisible}
             style={styles.icon}
           />
-        </Touchable>
+        </Pressable>
       )}
       {loading ? (
         <Spinner style={styles.spinner} />
       ) : (
         actions.map((action, index) => (
-          <Touchable
+          <Pressable
             key={index}
             onPress={() => action.onPress()}
             style={styles.action}>
             <Image source={action.icon} style={styles.icon} />
-          </Touchable>
+          </Pressable>
         ))
       )}
     </View>

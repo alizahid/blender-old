@@ -1,6 +1,6 @@
 import { orderBy } from 'lodash'
 import React, { FunctionComponent } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 import Image from 'react-native-fast-image'
 import Swipeable from 'react-native-gesture-handler/Swipeable'
 
@@ -8,7 +8,6 @@ import { img_ui_dark_add } from '../../assets'
 import { IEnvVar } from '../../graphql/types'
 import { colors, layout, typography } from '../../styles'
 import { KeyValue } from '../key-value'
-import { Touchable } from '../touchable'
 import { Actions } from './actions'
 
 interface Props {
@@ -30,9 +29,9 @@ export const SecretFiles: FunctionComponent<Props> = ({
   <View style={styles.main}>
     <View style={styles.header}>
       <Text style={styles.title}>Secret Files</Text>
-      <Touchable onPress={() => onCreate()}>
+      <Pressable onPress={() => onCreate()}>
         <Image source={img_ui_dark_add} style={styles.icon} />
-      </Touchable>
+      </Pressable>
     </View>
     {envVars.length === 0 && (
       <Text style={styles.message}>No secret files.</Text>

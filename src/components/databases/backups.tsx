@@ -1,13 +1,12 @@
 import moment from 'moment'
 import React, { FunctionComponent } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 import Image from 'react-native-fast-image'
 
 import { img_ui_dark_copy } from '../../assets'
 import { IBackupEdge } from '../../graphql/types'
 import { clipboard } from '../../lib'
 import { colors, layout, typography } from '../../styles'
-import { Touchable } from '../touchable'
 
 interface Props {
   backups: IBackupEdge[]
@@ -24,18 +23,18 @@ export const Backups: FunctionComponent<Props> = ({ backups }) => (
     {backups.map(({ node }) => (
       <View key={node.id} style={styles.item}>
         <Text style={styles.time}>{moment(node.createdAt).format('LLL')}</Text>
-        <Touchable
+        <Pressable
           onPress={() => clipboard.set(node.sqlUrl as string)}
           style={styles.copy}>
           <Image source={img_ui_dark_copy} style={styles.icon} />
           <Text style={styles.label}>sql</Text>
-        </Touchable>
-        <Touchable
+        </Pressable>
+        <Pressable
           onPress={() => clipboard.set(node.baseUrl as string)}
           style={styles.copy}>
           <Image source={img_ui_dark_copy} style={styles.icon} />
           <Text style={styles.label}>tar</Text>
-        </Touchable>
+        </Pressable>
       </View>
     ))}
   </View>

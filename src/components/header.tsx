@@ -1,13 +1,19 @@
 import { StackHeaderProps } from '@react-navigation/stack'
 import React, { FunctionComponent, ReactChild } from 'react'
-import { Animated, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import {
+  Animated,
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle
+} from 'react-native'
 import Image, { Source } from 'react-native-fast-image'
 import { useSafeArea } from 'react-native-safe-area-context'
 
 import { img_ui_dark_back } from '../assets'
 import { colors, layout, typography } from '../styles'
 import { Spinner } from './spinner'
-import { Touchable } from './touchable'
 
 interface Props {
   loading?: boolean
@@ -84,9 +90,9 @@ export const HeaderButton: FunctionComponent<HeaderButtonProps> = ({
   onPress,
   style
 }) => (
-  <Touchable onPress={() => onPress()} style={[styles.action, style]}>
+  <Pressable onPress={() => onPress()} style={[styles.action, style]}>
     <Image source={icon} style={styles.icon} />
-  </Touchable>
+  </Pressable>
 )
 
 const styles = StyleSheet.create({

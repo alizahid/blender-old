@@ -1,13 +1,12 @@
 import { orderBy } from 'lodash'
 import React, { FunctionComponent } from 'react'
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native'
 
 import { IPlanData } from '../../graphql/types'
 import { useDatabasePlans } from '../../hooks'
 import { colors, layout, typography } from '../../styles'
 import { Separator } from '../separator'
 import { Spinner } from '../spinner'
-import { Touchable } from '../touchable'
 
 interface Props {
   onChange: (plan: IPlanData) => void
@@ -25,9 +24,9 @@ export const DatabasePlans: FunctionComponent<Props> = ({ onChange }) => {
       ItemSeparatorComponent={Separator}
       data={orderBy(plans, 'price', 'asc')}
       renderItem={({ item }) => (
-        <Touchable onPress={() => onChange(item)}>
+        <Pressable onPress={() => onChange(item)}>
           <DatabasePlan plan={item} />
-        </Touchable>
+        </Pressable>
       )}
     />
   )

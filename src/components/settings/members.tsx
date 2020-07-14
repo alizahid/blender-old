@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react'
-import { Keyboard, StyleSheet, Text, View } from 'react-native'
+import { Keyboard, Pressable, StyleSheet, Text, View } from 'react-native'
 import Image from 'react-native-fast-image'
 
 import { img_ui_dark_remove } from '../../assets'
@@ -10,7 +10,6 @@ import { Avatar } from '../avatar'
 import { Button } from '../button'
 import { Spinner } from '../spinner'
 import { TextBox } from '../text-box'
-import { Touchable } from '../touchable'
 
 interface Props {
   adding: boolean
@@ -63,7 +62,7 @@ export const Members: FunctionComponent<Props> = ({
           ) : removing ? (
             <Spinner style={styles.spinner} />
           ) : (
-            <Touchable
+            <Pressable
               onPress={() => {
                 if (user.__typename === 'PendingUser') {
                   onRevoke(user.email)
@@ -73,7 +72,7 @@ export const Members: FunctionComponent<Props> = ({
               }}
               style={styles.remove}>
               <Image source={img_ui_dark_remove} style={styles.icon} />
-            </Touchable>
+            </Pressable>
           )}
         </View>
       ))}

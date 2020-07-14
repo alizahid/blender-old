@@ -1,12 +1,11 @@
 import moment from 'moment'
 import React, { FunctionComponent } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 import Image from 'react-native-fast-image'
 
 import { img_ui_dark_restore } from '../../../assets'
 import { IDiskSnapshot } from '../../../graphql/types'
 import { colors, layout, typography } from '../../../styles'
-import { Touchable } from '../../touchable'
 
 interface Props {
   loading: boolean
@@ -33,9 +32,9 @@ export const Snapshots: FunctionComponent<Props> = ({
           {moment(snapshot.createdAt).format('LLL')}
         </Text>
         {!loading && (
-          <Touchable onPress={() => onItemPress(snapshot.snapshotKey)}>
+          <Pressable onPress={() => onItemPress(snapshot.snapshotKey)}>
             <Image source={img_ui_dark_restore} style={styles.icon} />
-          </Touchable>
+          </Pressable>
         )}
       </View>
     ))}

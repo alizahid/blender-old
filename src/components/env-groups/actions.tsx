@@ -1,11 +1,10 @@
 import React, { FunctionComponent } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { Pressable, StyleSheet, View } from 'react-native'
 import Image from 'react-native-fast-image'
 
 import { img_ui_dark_edit, img_ui_dark_remove } from '../../assets'
 import { layout } from '../../styles'
 import { Spinner } from '../spinner'
-import { Touchable } from '../touchable'
 
 interface Props {
   removing: boolean
@@ -21,16 +20,16 @@ export const Actions: FunctionComponent<Props> = ({
 }) => (
   <View style={styles.main}>
     {onEdit && (
-      <Touchable onPress={() => onEdit()} style={styles.action}>
+      <Pressable onPress={() => onEdit()} style={styles.action}>
         <Image source={img_ui_dark_edit} style={styles.icon} />
-      </Touchable>
+      </Pressable>
     )}
     {removing ? (
       <Spinner style={styles.spinner} />
     ) : (
-      <Touchable onPress={() => onRemove()} style={styles.action}>
+      <Pressable onPress={() => onRemove()} style={styles.action}>
         <Image source={img_ui_dark_remove} style={styles.icon} />
-      </Touchable>
+      </Pressable>
     )}
   </View>
 )
