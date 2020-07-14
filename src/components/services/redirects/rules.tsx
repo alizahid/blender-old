@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import Image from 'react-native-fast-image'
 
 import {
+  img_ui_dark_add,
   img_ui_dark_edit,
   img_ui_dark_move_down,
   img_ui_dark_move_up,
@@ -18,6 +19,7 @@ interface Props {
   rules: IRedirectRule[]
   loading: boolean
 
+  onCreate: () => void
   onEdit: (rule: IRedirectRule) => void
   onMoveDown: (id: string) => void
   onMoveUp: (id: string) => void
@@ -26,6 +28,7 @@ interface Props {
 
 export const Rules: FunctionComponent<Props> = ({
   loading,
+  onCreate,
   onEdit,
   onMoveDown,
   onMoveUp,
@@ -33,7 +36,13 @@ export const Rules: FunctionComponent<Props> = ({
   rules
 }) => (
   <View style={styles.main}>
-    <Text style={styles.title}>Redirect and rewrite rules</Text>
+    <View style={styles.header}>
+      <Text style={styles.title}>Redirect and rewrite rules</Text>
+      <Touchable onPress={() => onCreate()}>
+        <Image source={img_ui_dark_add} style={styles.create} />
+      </Touchable>
+    </View>
+    {rules.length === 0 && <Text style={styles.message}>No rules.</Text>}
     {rules.map((rule, index) => (
       <View key={rule.id} style={styles.item}>
         <View style={styles.content}>
@@ -89,8 +98,16 @@ const styles = StyleSheet.create({
   content: {
     padding: layout.margin
   },
+  create: {
+    height: layout.icon,
+    width: layout.icon
+  },
   footer: {
     backgroundColor: colors.border,
+    flexDirection: 'row'
+  },
+  header: {
+    alignItems: 'center',
     flexDirection: 'row'
   },
   icon: {
@@ -111,11 +128,17 @@ const styles = StyleSheet.create({
   main: {
     padding: layout.margin
   },
+  message: {
+    ...typography.small,
+    color: colors.foregroundLight,
+    marginTop: layout.padding
+  },
   spinner: {
     margin: layout.margin
   },
   title: {
     ...typography.subtitle,
-    color: colors.foreground
+    color: colors.foreground,
+    flex: 1
   }
 })

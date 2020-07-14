@@ -34,6 +34,9 @@ export const EnvVariables: FunctionComponent<Props> = ({
         <Image source={img_ui_dark_add} style={styles.icon} />
       </Touchable>
     </View>
+    {envVars.length === 0 && (
+      <Text style={styles.message}>No env variables.</Text>
+    )}
     {orderBy(envVars, 'key', 'asc').map((envVar) => (
       <Swipeable
         containerStyle={styles.item}
@@ -76,6 +79,11 @@ const styles = StyleSheet.create({
   },
   main: {
     padding: layout.margin
+  },
+  message: {
+    ...typography.small,
+    color: colors.foregroundLight,
+    marginTop: layout.padding
   },
   title: {
     ...typography.subtitle,

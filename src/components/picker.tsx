@@ -81,6 +81,7 @@ export const Picker: FunctionComponent<Props> = ({
               ItemSeparatorComponent={Separator}
               data={data}
               keyExtractor={(item) => item.value}
+              keyboardShouldPersistTaps="always"
               renderItem={({ item }) => (
                 <Touchable
                   onPress={() => {

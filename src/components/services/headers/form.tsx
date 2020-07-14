@@ -91,12 +91,6 @@ export const Form: FunctionComponent<Props> = ({
         value={value}
       />
       <View style={styles.footer}>
-        <Button
-          label={header ? 'Save' : 'Create'}
-          loading={loading}
-          onPress={() => submit()}
-          style={styles.button}
-        />
         {onCancel && (
           <Button
             label="Cancel"
@@ -104,6 +98,12 @@ export const Form: FunctionComponent<Props> = ({
             style={[styles.button, styles.cancel]}
           />
         )}
+        <Button
+          label={header ? 'Save' : 'Create'}
+          loading={loading}
+          onPress={() => submit()}
+          style={styles.button}
+        />
       </View>
     </View>
   )
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   },
   cancel: {
     backgroundColor: colors.status.orange,
-    marginLeft: layout.margin
+    marginRight: layout.margin
   },
   footer: {
     flexDirection: 'row',

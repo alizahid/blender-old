@@ -3,7 +3,7 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import React, { FunctionComponent, useState } from 'react'
 import { ScrollView } from 'react-native'
 
-import { Overlay, Refresher, Separator } from '../../components'
+import { Overlay, Refresher } from '../../components'
 import { Form, Headers as List } from '../../components/services/headers'
 import { IHeader } from '../../graphql/types'
 import { useServiceHeaders } from '../../hooks'
@@ -29,7 +29,7 @@ export const Headers: FunctionComponent<Props> = ({
     updating
   } = useServiceHeaders(id)
 
-  const [editing, setEditing] = useState<IHeader>()
+  const [editing, setEditing] = useState<IHeader | true>()
 
   return (
     <>
@@ -39,19 +39,24 @@ export const Headers: FunctionComponent<Props> = ({
         <List
           headers={headers}
           loading={updating}
+          onCreate={() => setEditing(true)}
           onEdit={(header) => setEditing(header)}
           onRemove={(id) => removeHeader(id)}
         />
-        <Separator />
-        <Form loading={updating} onSave={(header) => createHeader(header)} />
       </ScrollView>
       {editing && (
         <Overlay>
           <Form
-            header={editing}
+            header={editing === true ? undefined : editing}
             loading={updating}
             onCancel={() => setEditing(undefined)}
-            onSave={(header) => updateHeader(header)}
+            onSave={(header) => {
+              if (editing === true) {
+                return createHeader(header)
+              } else {
+                return updateHeader(header)
+              }
+            }}
           />
         </Overlay>
       )}

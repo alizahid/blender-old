@@ -13,6 +13,9 @@ interface Props {
 export const LinkedServices: FunctionComponent<Props> = ({ services }) => (
   <View>
     <Text style={styles.title}>Linked services</Text>
+    {services.length === 0 && (
+      <Text style={styles.message}>No linked services.</Text>
+    )}
     {orderBy(services, 'updatedAt', 'desc').map((service) => (
       <Service key={service.id} service={service} style={styles.service} />
     ))}
@@ -20,6 +23,11 @@ export const LinkedServices: FunctionComponent<Props> = ({ services }) => (
 )
 
 const styles = StyleSheet.create({
+  message: {
+    ...typography.small,
+    color: colors.foregroundLight,
+    marginTop: layout.padding
+  },
   service: {
     borderTopColor: colors.backgroundDark,
     borderTopWidth: layout.border

@@ -2,7 +2,11 @@ import React, { FunctionComponent } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import Image from 'react-native-fast-image'
 
-import { img_ui_dark_edit, img_ui_dark_remove } from '../../../assets'
+import {
+  img_ui_dark_add,
+  img_ui_dark_edit,
+  img_ui_dark_remove
+} from '../../../assets'
 import { IHeader } from '../../../graphql/types'
 import { colors, layout, typography } from '../../../styles'
 import { KeyValue } from '../../key-value'
@@ -13,6 +17,7 @@ interface Props {
   headers: IHeader[]
   loading: boolean
 
+  onCreate: () => void
   onEdit: (header: IHeader) => void
   onRemove: (id: string) => void
 }
@@ -20,11 +25,18 @@ interface Props {
 export const Headers: FunctionComponent<Props> = ({
   headers,
   loading,
+  onCreate,
   onEdit,
   onRemove
 }) => (
   <View style={styles.main}>
-    <Text style={styles.title}>HTTP response headers</Text>
+    <View style={styles.header}>
+      <Text style={styles.title}>HTTP response headers</Text>
+      <Touchable onPress={() => onCreate()}>
+        <Image source={img_ui_dark_add} style={styles.create} />
+      </Touchable>
+    </View>
+    {headers.length === 0 && <Text style={styles.message}>No headers.</Text>}
     {headers.map((header) => (
       <View key={header.id} style={styles.item}>
         <View style={styles.content}>
@@ -71,8 +83,16 @@ const styles = StyleSheet.create({
   content: {
     padding: layout.margin
   },
+  create: {
+    height: layout.icon,
+    width: layout.icon
+  },
   footer: {
     backgroundColor: colors.border,
+    flexDirection: 'row'
+  },
+  header: {
+    alignItems: 'center',
     flexDirection: 'row'
   },
   icon: {
@@ -93,11 +113,17 @@ const styles = StyleSheet.create({
   main: {
     padding: layout.margin
   },
+  message: {
+    ...typography.small,
+    color: colors.foregroundLight,
+    marginTop: layout.padding
+  },
   spinner: {
     margin: layout.margin
   },
   title: {
     ...typography.subtitle,
-    color: colors.foreground
+    color: colors.foreground,
+    flex: 1
   }
 })
