@@ -5,8 +5,13 @@ import { ScrollView, StyleSheet, View } from 'react-native'
 
 import { img_ui_dark_edit } from '../../assets'
 import { Button, KeyValue, Refresher, Separator } from '../../components'
+import { Domains } from '../../components/services/settings'
 import { useDeleteServer, useServiceSuspension } from '../../hooks'
-import { useServer, useUpdateServer } from '../../hooks/services'
+import {
+  useServer,
+  useServiceDomains,
+  useUpdateServer
+} from '../../hooks/services'
 import { dialog } from '../../lib'
 import { ServerParamList } from '../../navigators/server'
 import { colors, layout } from '../../styles'
@@ -23,6 +28,12 @@ export const Server: FunctionComponent<Props> = ({
   }
 }) => {
   const { loading, refetch, server } = useServer(id)
+
+  const {
+    domains,
+    loading: loadingDomains,
+    refetch: refetchDomains
+  } = useServiceDomains(id)
 
   const { resume, resuming, suspend, suspending } = useServiceSuspension()
   const { remove, removing } = useDeleteServer()
@@ -51,7 +62,15 @@ export const Server: FunctionComponent<Props> = ({
     <ScrollView
       contentContainerStyle={styles.content}
       keyboardShouldPersistTaps="always"
-      refreshControl={<Refresher onRefresh={refetch} refreshing={loading} />}>
+      refreshControl={
+        <Refresher
+          onRefresh={() => {
+            refetch()
+            refetchDomains()
+          }}
+          refreshing={loading || loadingDomains}
+        />
+      }>
       {server && (
         <>
           <KeyValue
@@ -293,6 +312,8 @@ export const Server: FunctionComponent<Props> = ({
             style={styles.item}
             value={server.prPreviewsEnabled ? 'Enabled' : 'Disabled'}
           />
+          <Separator />
+          <Domains domains={domains} server={server} />
           <Separator />
           <View style={styles.footer}>
             <Button
