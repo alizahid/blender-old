@@ -32,10 +32,6 @@ export const EnvGroups: FunctionComponent<Props> = ({
   return (
     <View style={styles.main}>
       <Text style={styles.title}>Env groups</Text>
-      <Text style={styles.message}>
-        Environment groups let you define a collection of environment variables
-        and secret files to share across multiple services.
-      </Text>
       {linkedGroups.map((envGroup) => (
         <View key={envGroup.id} style={styles.item}>
           <Touchable
@@ -121,12 +117,6 @@ const styles = StyleSheet.create({
   },
   main: {
     padding: layout.margin
-  },
-  message: {
-    ...typography.small,
-    color: colors.foregroundLight,
-    lineHeight: layout.lineHeight * typography.small.fontSize,
-    marginTop: layout.padding
   },
   name: {
     ...typography.regular,

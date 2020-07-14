@@ -34,12 +34,6 @@ export const EnvVariables: FunctionComponent<Props> = ({
         <Image source={img_ui_dark_add} style={styles.icon} />
       </Touchable>
     </View>
-    <Text style={styles.message}>
-      Use environment variables to store API keys and other configuration values
-      and secrets. You can access them in your code like regular environment
-      variables, for example with <Text style={styles.code}>os.getenv()</Text>{' '}
-      in Python or <Text style={styles.code}>process.env</Text> in Node.
-    </Text>
     {orderBy(envVars, 'key', 'asc').map((envVar) => (
       <Swipeable
         containerStyle={styles.item}
@@ -65,10 +59,6 @@ export const EnvVariables: FunctionComponent<Props> = ({
 )
 
 const styles = StyleSheet.create({
-  code: {
-    ...typography.codeSmall,
-    color: colors.primary
-  },
   data: {
     backgroundColor: colors.background,
     marginRight: -layout.padding
@@ -86,12 +76,6 @@ const styles = StyleSheet.create({
   },
   main: {
     padding: layout.margin
-  },
-  message: {
-    ...typography.small,
-    color: colors.foregroundLight,
-    lineHeight: layout.lineHeight * typography.small.fontSize,
-    marginTop: layout.padding
   },
   title: {
     ...typography.subtitle,

@@ -25,11 +25,6 @@ export const Headers: FunctionComponent<Props> = ({
 }) => (
   <View style={styles.main}>
     <Text style={styles.title}>HTTP response headers</Text>
-    <Text style={styles.message}>
-      Use HTTP headers to inject response headers in static site responses. You
-      can also use wildcards like <Text style={styles.code}>/path/*</Text> to
-      add headers to responses for all matching request paths.
-    </Text>
     {headers.map((header) => (
       <View key={header.id} style={styles.item}>
         <View style={styles.content}>
@@ -73,10 +68,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 0.25
   },
-  code: {
-    ...typography.codeSmall,
-    color: colors.primary
-  },
   content: {
     padding: layout.margin
   },
@@ -101,12 +92,6 @@ const styles = StyleSheet.create({
   },
   main: {
     padding: layout.margin
-  },
-  message: {
-    ...typography.small,
-    color: colors.foregroundLight,
-    lineHeight: layout.lineHeight * typography.small.fontSize,
-    marginTop: layout.padding
   },
   spinner: {
     margin: layout.margin

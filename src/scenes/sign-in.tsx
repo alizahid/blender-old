@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useRef, useState } from 'react'
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { StyleSheet, TextInput, View } from 'react-native'
 import { useSafeArea } from 'react-native-safe-area-context'
 
 import { Button, TextBox } from '../components'
 import { useSignIn } from '../hooks'
-import { colors, layout, typography } from '../styles'
+import { layout } from '../styles'
 
 export const SignIn: FunctionComponent = () => {
   const { bottom } = useSafeArea()
@@ -30,10 +30,6 @@ export const SignIn: FunctionComponent = () => {
           marginBottom: bottom
         }
       ]}>
-      <Text style={styles.message}>
-        Sign in with your Render account. This app does not store any data. We
-        don't even have servers. We communicate directly with the Render API.
-      </Text>
       <TextBox
         autoCapitalize="none"
         autoCorrect={false}
@@ -72,10 +68,5 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     padding: layout.margin
-  },
-  message: {
-    ...typography.small,
-    color: colors.foregroundLight,
-    lineHeight: layout.lineHeight * typography.small.fontSize
   }
 })

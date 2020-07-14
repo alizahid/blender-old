@@ -8,36 +8,36 @@
 
 /* Begin PBXBuildFile section */
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		1E90076D1DB44F508A3D8A43 /* IBMPlexMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0D23A401833344BE960913C9 /* IBMPlexMono-Regular.ttf */; };
-		94BA2ECE5DB6470B92B3D389 /* Inter-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 14395D98CA7642C790372F4F /* Inter-SemiBold.otf */; };
-		A5F6BB31EA33438A8E4A3836 /* Inter-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 029AA4C093C149DBBE2748DC /* Inter-Regular.otf */; };
-		DDBE93A1C2AEE4CBC8F715F0 /* libPods-Blender.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8696E772A37B8A97D1654542 /* libPods-Blender.a */; };
-		DED3CCB95BA4499A9C8AE14C /* IBMPlexMono-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E590F7E3B91B40E793C5385B /* IBMPlexMono-Medium.ttf */; };
-		F55793B43E4046CDBFDDF826 /* Inter-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = B2FF311381454FB080CB9624 /* Inter-Medium.otf */; };
+		1A5DA4D6E3694D43BD3D068C /* Inter-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 145029C2C5444C5EB944CC69 /* Inter-SemiBold.otf */; };
+		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		8522E341EA6423AE20A65088 /* libPods-Blender.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74E7B60F419CD1EEEAC6D2B1 /* libPods-Blender.a */; };
+		9851179703C24AFC9A93003B /* Inter-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0C053F82A553486BA903191F /* Inter-Regular.otf */; };
+		9C93254F45274DB288EECAF5 /* Inter-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 03245B4A4D014497AD5B97FD /* Inter-Medium.otf */; };
+		CE3CEDBDD3314C23A3AC49A1 /* IBMPlexMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3554420D44079166CC56 /* IBMPlexMono-Regular.ttf */; };
+		CEE5E8722F414DC6AE158BB9 /* IBMPlexMono-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 769C55DD2B4E401DA4C9C7A0 /* IBMPlexMono-Medium.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* BlenderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlenderTests.m; sourceTree = "<group>"; };
-		029AA4C093C149DBBE2748DC /* Inter-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Regular.otf"; path = "../src/assets/fonts/Inter-Regular.otf"; sourceTree = "<group>"; };
-		0D23A401833344BE960913C9 /* IBMPlexMono-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexMono-Regular.ttf"; path = "../src/assets/fonts/IBMPlexMono-Regular.ttf"; sourceTree = "<group>"; };
+		03245B4A4D014497AD5B97FD /* Inter-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Medium.otf"; path = "../src/assets/fonts/Inter-Medium.otf"; sourceTree = "<group>"; };
+		0325FCE012B37ACD1BA46448 /* Pods-Blender.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blender.release.xcconfig"; path = "Target Support Files/Pods-Blender/Pods-Blender.release.xcconfig"; sourceTree = "<group>"; };
+		0C053F82A553486BA903191F /* Inter-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Regular.otf"; path = "../src/assets/fonts/Inter-Regular.otf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Blender.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blender.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Blender/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Blender/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Blender/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Blender/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Blender/main.m; sourceTree = "<group>"; };
-		14395D98CA7642C790372F4F /* Inter-SemiBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-SemiBold.otf"; path = "../src/assets/fonts/Inter-SemiBold.otf"; sourceTree = "<group>"; };
-		8696E772A37B8A97D1654542 /* libPods-Blender.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Blender.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		873953F1EA47C56B536CEE73 /* Pods-Blender.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blender.release.xcconfig"; path = "Target Support Files/Pods-Blender/Pods-Blender.release.xcconfig"; sourceTree = "<group>"; };
-		B2FF311381454FB080CB9624 /* Inter-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Medium.otf"; path = "../src/assets/fonts/Inter-Medium.otf"; sourceTree = "<group>"; };
-		DB4CA4B9E04F7603AAC5447E /* Pods-Blender.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blender.debug.xcconfig"; path = "Target Support Files/Pods-Blender/Pods-Blender.debug.xcconfig"; sourceTree = "<group>"; };
-		E590F7E3B91B40E793C5385B /* IBMPlexMono-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexMono-Medium.ttf"; path = "../src/assets/fonts/IBMPlexMono-Medium.ttf"; sourceTree = "<group>"; };
+		145029C2C5444C5EB944CC69 /* Inter-SemiBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-SemiBold.otf"; path = "../src/assets/fonts/Inter-SemiBold.otf"; sourceTree = "<group>"; };
+		5B3B3554420D44079166CC56 /* IBMPlexMono-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexMono-Regular.ttf"; path = "../src/assets/fonts/IBMPlexMono-Regular.ttf"; sourceTree = "<group>"; };
+		74E7B60F419CD1EEEAC6D2B1 /* libPods-Blender.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Blender.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		769C55DD2B4E401DA4C9C7A0 /* IBMPlexMono-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexMono-Medium.ttf"; path = "../src/assets/fonts/IBMPlexMono-Medium.ttf"; sourceTree = "<group>"; };
+		7CAF8ED963FA73CA7CD9EBD5 /* Pods-Blender.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blender.debug.xcconfig"; path = "Target Support Files/Pods-Blender/Pods-Blender.debug.xcconfig"; sourceTree = "<group>"; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Blender/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -47,7 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDBE93A1C2AEE4CBC8F715F0 /* libPods-Blender.a in Frameworks */,
+				8522E341EA6423AE20A65088 /* libPods-Blender.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,22 +79,10 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
+				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = Blender;
-			sourceTree = "<group>";
-		};
-		234CB34F609241BCB652053C /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				B2FF311381454FB080CB9624 /* Inter-Medium.otf */,
-				029AA4C093C149DBBE2748DC /* Inter-Regular.otf */,
-				14395D98CA7642C790372F4F /* Inter-SemiBold.otf */,
-				E590F7E3B91B40E793C5385B /* IBMPlexMono-Medium.ttf */,
-				0D23A401833344BE960913C9 /* IBMPlexMono-Regular.ttf */,
-			);
-			name = Resources;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -102,9 +90,21 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				8696E772A37B8A97D1654542 /* libPods-Blender.a */,
+				74E7B60F419CD1EEEAC6D2B1 /* libPods-Blender.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7A1C5EB68C754ED1A581BD74 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				769C55DD2B4E401DA4C9C7A0 /* IBMPlexMono-Medium.ttf */,
+				5B3B3554420D44079166CC56 /* IBMPlexMono-Regular.ttf */,
+				03245B4A4D014497AD5B97FD /* Inter-Medium.otf */,
+				0C053F82A553486BA903191F /* Inter-Regular.otf */,
+				145029C2C5444C5EB944CC69 /* Inter-SemiBold.otf */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -122,8 +122,8 @@
 				00E356EF1AD99517003FC87E /* BlenderTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				918D7150B4AAF8FDF27A6A0F /* Pods */,
-				234CB34F609241BCB652053C /* Resources */,
+				EE7EE4561C50EAE8E38852D8 /* Pods */,
+				7A1C5EB68C754ED1A581BD74 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -138,11 +138,11 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		918D7150B4AAF8FDF27A6A0F /* Pods */ = {
+		EE7EE4561C50EAE8E38852D8 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				DB4CA4B9E04F7603AAC5447E /* Pods-Blender.debug.xcconfig */,
-				873953F1EA47C56B536CEE73 /* Pods-Blender.release.xcconfig */,
+				7CAF8ED963FA73CA7CD9EBD5 /* Pods-Blender.debug.xcconfig */,
+				0325FCE012B37ACD1BA46448 /* Pods-Blender.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -154,13 +154,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Blender" */;
 			buildPhases = (
-				5157E7A4951AF2AFD537CB30 /* [CP] Check Pods Manifest.lock */,
+				D6EFF3F7F27A84C989C6B6C6 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				36FE2EC1B1B541349039CDE8 /* Upload Debug Symbols to Sentry */,
+				C6AD15D1E71454813380A296 /* [CP] Copy Pods Resources */,
+				27DC299A3903444F9EB9866D /* Upload Debug Symbols to Sentry */,
 			);
 			buildRules = (
 			);
@@ -180,7 +181,6 @@
 				LastUpgradeCheck = 1130;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = N77AF777MZ;
 						LastSwiftMigration = 1120;
 					};
 				};
@@ -208,13 +208,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				F55793B43E4046CDBFDDF826 /* Inter-Medium.otf in Resources */,
-				A5F6BB31EA33438A8E4A3836 /* Inter-Regular.otf in Resources */,
-				94BA2ECE5DB6470B92B3D389 /* Inter-SemiBold.otf in Resources */,
-				DED3CCB95BA4499A9C8AE14C /* IBMPlexMono-Medium.ttf in Resources */,
-				1E90076D1DB44F508A3D8A43 /* IBMPlexMono-Regular.ttf in Resources */,
+				CEE5E8722F414DC6AE158BB9 /* IBMPlexMono-Medium.ttf in Resources */,
+				CE3CEDBDD3314C23A3AC49A1 /* IBMPlexMono-Regular.ttf in Resources */,
+				9C93254F45274DB288EECAF5 /* Inter-Medium.otf in Resources */,
+				9851179703C24AFC9A93003B /* Inter-Regular.otf in Resources */,
+				1A5DA4D6E3694D43BD3D068C /* Inter-SemiBold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,7 +235,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport EXTRA_PACKAGER_ARGS=\"--sourcemap-output $DERIVED_FILE_DIR/main.jsbundle.map\"\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		36FE2EC1B1B541349039CDE8 /* Upload Debug Symbols to Sentry */ = {
+		27DC299A3903444F9EB9866D /* Upload Debug Symbols to Sentry */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -249,7 +249,25 @@
 			shellPath = /bin/sh;
 			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n../node_modules/@sentry/cli/bin/sentry-cli upload-dsym";
 		};
-		5157E7A4951AF2AFD537CB30 /* [CP] Check Pods Manifest.lock */ = {
+		C6AD15D1E71454813380A296 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Blender/Pods-Blender-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Blender/Pods-Blender-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D6EFF3F7F27A84C989C6B6C6 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -304,34 +322,18 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXVariantGroup section */
-		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				13B07FB21A68108700A75B9A /* Base */,
-			);
-			name = LaunchScreen.xib;
-			path = Blender;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DB4CA4B9E04F7603AAC5447E /* Pods-Blender.debug.xcconfig */;
+			baseConfigurationReference = 7CAF8ED963FA73CA7CD9EBD5 /* Pods-Blender.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = N77AF777MZ;
 				ENABLE_BITCODE = NO;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"FB_SONARKIT_ENABLED=1",
-				);
 				INFOPLIST_FILE = Blender/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -347,14 +349,14 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 873953F1EA47C56B536CEE73 /* Pods-Blender.release.xcconfig */;
+			baseConfigurationReference = 0325FCE012B37ACD1BA46448 /* Pods-Blender.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = N77AF777MZ;
 				INFOPLIST_FILE = Blender/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -414,7 +416,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
@@ -467,7 +469,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",

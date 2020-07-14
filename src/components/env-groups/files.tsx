@@ -34,17 +34,6 @@ export const SecretFiles: FunctionComponent<Props> = ({
         <Image source={img_ui_dark_add} style={styles.icon} />
       </Touchable>
     </View>
-    <Text style={styles.message}>
-      You can store secret files (like <Text style={styles.code}>.env</Text> or{' '}
-      <Text style={styles.code}>.npmrc</Text> files and private keys) in Render.
-      These files can be accessed during builds and in your code just like
-      regular files.
-    </Text>
-    <Text style={styles.message}>
-      All secret files you create are available to read at the root of your repo
-      (or Docker context). They are also available to load by absolute path at{' '}
-      <Text style={styles.code}>{'/etc/secrets/<filename>'}</Text>.
-    </Text>
     {orderBy(envVars, 'key', 'asc').map((envVar) => (
       <Swipeable
         containerStyle={styles.item}
@@ -70,10 +59,6 @@ export const SecretFiles: FunctionComponent<Props> = ({
 )
 
 const styles = StyleSheet.create({
-  code: {
-    ...typography.codeSmall,
-    color: colors.primary
-  },
   data: {
     backgroundColor: colors.background,
     marginRight: -layout.padding
@@ -91,12 +76,6 @@ const styles = StyleSheet.create({
   },
   main: {
     padding: layout.margin
-  },
-  message: {
-    ...typography.small,
-    color: colors.foregroundLight,
-    lineHeight: layout.lineHeight * typography.small.fontSize,
-    marginTop: layout.padding
   },
   title: {
     ...typography.subtitle,

@@ -5,7 +5,7 @@ export const colors = {
   foreground: '#000',
   foregroundLight: '#666',
   modal: 'rgba(220, 220, 220, 0.75)',
-  primary: '#0091ff',
+  primary: '#46e3b7',
   status: {
     blue: '#007aff',
     green: '#4cd964',

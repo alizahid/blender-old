@@ -53,9 +53,9 @@ const styles = StyleSheet.create({
     margin: layout.margin
   },
   logo: {
-    height: layout.icon * 4,
+    height: 201 / 3,
     marginBottom: layout.margin,
-    width: layout.icon * 4
+    width: 300 / 3
   },
   main: {
     flex: 1

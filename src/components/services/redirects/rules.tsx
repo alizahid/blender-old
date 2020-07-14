@@ -34,11 +34,6 @@ export const Rules: FunctionComponent<Props> = ({
 }) => (
   <View style={styles.main}>
     <Text style={styles.title}>Redirect and rewrite rules</Text>
-    <Text style={styles.message}>
-      Add redirect or rewrite rules to modify requests to your site without
-      writing code. You can use URL parameters to capture path segments, and
-      wildcards to redirect everything under a given path.
-    </Text>
     {rules.map((rule, index) => (
       <View key={rule.id} style={styles.item}>
         <View style={styles.content}>
@@ -115,12 +110,6 @@ const styles = StyleSheet.create({
   },
   main: {
     padding: layout.margin
-  },
-  message: {
-    ...typography.small,
-    color: colors.foregroundLight,
-    lineHeight: layout.lineHeight * typography.small.fontSize,
-    marginTop: layout.padding
   },
   spinner: {
     margin: layout.margin
