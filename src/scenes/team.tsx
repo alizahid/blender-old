@@ -55,14 +55,14 @@ export const Team: FunctionComponent = () => {
           <Separator />
           <Teams teams={teams} user={profile} />
           <Separator />
-          <Button
-            label="Sign out"
-            onPress={() => logout()}
-            small
-            style={styles.signOut}
-          />
         </>
       )}
+      <Button
+        label="Sign out"
+        onPress={() => logout()}
+        small
+        style={styles.signOut}
+      />
     </ScrollView>
   )
 }
